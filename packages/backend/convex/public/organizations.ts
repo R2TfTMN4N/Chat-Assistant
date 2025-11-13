@@ -2,8 +2,11 @@ import { v } from "convex/values";
 import { action, mutation } from "../_generated/server";
 import { createClerkClient } from "@clerk/backend";
 
+if (!process.env.CLERK_SECRET_KEY) {
+  throw new Error("CLERK_SECRET_KEY environment variable is missing.");
+}
 const clerkClient = createClerkClient({
-  secretKey: process.env.CLERK_SECRET_KEY || "",
+  secretKey: process.env.CLERK_SECRET_KEY,
 });
 
 export const validate = action({
