@@ -1,4 +1,6 @@
 "use client";
+
+import { useThreadMessages, toUIMessages } from "@convex-dev/agent/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   contactSessionIdAtomFamily,
@@ -27,6 +29,18 @@ export const WidgetChatScreen = () => {
       ? { conversationId, contactSessionId }
       : "skip"
   );
+  const messages = useThreadMessages(
+    api.public.messages.getMany,
+    conversation?.threadId && contactSessionId
+      ? {
+          threadId: conversation.threadId,
+          contactSessionId,
+        }
+      : "skip",
+    {
+      initialNumItems: 10,
+    }
+  );
 
   const onBack = () => {
     setConversationId(null);
@@ -48,6 +62,7 @@ export const WidgetChatScreen = () => {
       </WidgetHeader>
       <div className="flex flex-1 flex-col gap-y-4 p-4  ">
         {JSON.stringify(conversation)}
+        {JSON.stringify(messages)}
       </div>
     </>
   );
