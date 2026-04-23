@@ -27,6 +27,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -120,10 +121,13 @@ const VapiPluginForm = ({
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Your public API key"
+                      placeholder="Your Vapi public key"
                       type="password"
                     />
                   </FormControl>
+                  <FormDescription className="text-xs">
+                    Used for client-side voice calls in the widget
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -137,10 +141,13 @@ const VapiPluginForm = ({
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Your private API key"
+                      placeholder="Your Vapi private key"
                       type="password"
                     />
                   </FormControl>
+                  <FormDescription className="text-xs">
+                    Used for server-side API calls (listing assistants, phone numbers)
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

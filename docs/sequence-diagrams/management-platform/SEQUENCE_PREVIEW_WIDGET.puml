@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - Preview Widget
+
+actor "Admin" as Admin
+participant "WidgetPreviewView" as PreviewView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> PreviewView : 1 Open widget preview page
+activate PreviewView
+PreviewView -> PreviewView : 2 Display widget preview
+
+PreviewView -> ClerkAuth : 3 Request widget data
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch widget configuration
+activate Backend
+Backend -> Backend : 5 Retrieve widget data
+Backend -> ClerkAuth : 6 Return widget data
+ClerkAuth -> PreviewView : 7 Return widget info
+PreviewView -> Admin : 8 Display widget preview
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate PreviewView
+
+@enduml

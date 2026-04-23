@@ -137,10 +137,7 @@ export const ConversationIdView = ({
   }
   return (
     <div className="flex h-full flex-col bg-muted ">
-      <header className="flex items-center justify-between border-b bg-background p-2.5">
-        <Button size="sm" variant="ghost">
-          <MoreHorizontalIcon></MoreHorizontalIcon>
-        </Button>
+      <header className="flex items-center justify-between border-b bg-background p-2.5 justify-end">
         {!!conversation && (
           <ConversationStatusButton
             status={conversation?.status}
@@ -177,17 +174,28 @@ export const ConversationIdView = ({
         <AIConversationScrollButton />
       </AIConversation>
       <div className="p-2">
+        {conversation?.status === "unresolved" && (
+          <div className="mb-2 rounded bg-yellow-50 p-2 text-sm text-yellow-900">
+            This conversation is currently <strong>unresolved</strong> — the AI
+            is handling messages. Click the <em>Unresolved</em> status button to
+            escalate and take over the chat.
+          </div>
+        )}
         <Form {...form}>
           <AIInput onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="message"
-              disabled={conversation?.status === "resolved"}
+              disabled={
+                conversation?.status === "resolved" ||
+                conversation?.status === "unresolved"
+              }
               render={({ field }) => (
                 <AIInputTextarea
                   {...field}
                   disabled={
                     conversation?.status === "resolved" ||
+                    conversation?.status === "unresolved" ||
                     form.formState.isSubmitting
                   }
                   onKeyDown={(e) => {
@@ -199,7 +207,9 @@ export const ConversationIdView = ({
                   placeholder={
                     conversation?.status === "resolved"
                       ? "Conversation resolved"
-                      : "Type your message..."
+                      : conversation?.status === "unresolved"
+                        ? "Conversation unresolved — click Unresolved to escalate"
+                        : "Type your message..."
                   }
                   value={field.value}
                 />
@@ -210,6 +220,7 @@ export const ConversationIdView = ({
                 <AIInputButton
                   disabled={
                     conversation?.status === "resolved" ||
+                    conversation?.status === "unresolved" ||
                     isEnhancing ||
                     !form.formState.isValid
                   }
@@ -222,6 +233,7 @@ export const ConversationIdView = ({
               <AIInputSubmit
                 disabled={
                   conversation?.status === "resolved" ||
+                  conversation?.status === "unresolved" ||
                   form.formState.isSubmitting ||
                   !form.formState.isValid
                 }

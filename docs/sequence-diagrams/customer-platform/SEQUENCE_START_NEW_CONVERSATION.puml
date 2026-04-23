@@ -1,0 +1,34 @@
+@startuml Sequence Diagram - Start New Conversation
+
+actor "Customer" as Customer
+participant "ConversationStartView" as StartView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Customer -> StartView : 1 Open chat widget
+activate StartView
+StartView -> StartView : 2 Display new conversation form
+ Customer -> StartView : 3 Enter name and email
+ StartView -> StartView : 4 Validate name and email format
+
+alt [Invalid input]
+	StartView -> StartView : 5 Error notification
+	StartView -> Customer : 6 Display error notification
+else [Valid input]
+	Customer -> StartView : 7 Click "Start Conversation" button
+	StartView -> ClerkAuth : 8 Send start request
+activate ClerkAuth
+
+	ClerkAuth -> Backend : 9 Create new conversation
+	activate Backend
+	Backend -> Backend : 10 Store conversation record
+	Backend -> ClerkAuth : 11 Confirmation
+	ClerkAuth -> StartView : 12 Success notification
+	StartView -> Customer : 13 Display conversation started
+end
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate StartView
+
+@enduml

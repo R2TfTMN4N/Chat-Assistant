@@ -1,0 +1,35 @@
+@startuml Sequence Diagram - Configure Widget Theme
+
+actor "Admin" as Admin
+participant "WidgetCustomizationView" as WidgetView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> WidgetView : 1 Open widget customization page
+activate WidgetView
+WidgetView -> WidgetView : 2 Display theme configuration form
+
+Admin -> WidgetView : 3 Edit theme settings
+Admin -> WidgetView : 4 Click "Save" button
+
+WidgetView -> WidgetView : 5 Validate input format
+
+alt [Invalid input]
+    WidgetView -> WidgetView : 6 Error notification
+    WidgetView -> Admin : 7 Display error notification
+else [Valid input]
+    WidgetView -> ClerkAuth : 8 Send update request
+    activate ClerkAuth
+    ClerkAuth -> Backend : 9 Update widget theme settings
+    activate Backend
+    Backend -> Backend : 10 Store theme configuration
+    Backend -> ClerkAuth : 11 Confirmation
+    deactivate Backend
+    ClerkAuth -> WidgetView : 12 Success notification
+    WidgetView -> Admin : 13 Display success message
+    deactivate ClerkAuth
+end
+
+deactivate WidgetView
+
+@enduml

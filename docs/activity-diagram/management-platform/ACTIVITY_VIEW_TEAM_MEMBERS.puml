@@ -1,0 +1,32 @@
+@startuml Activity Diagram - View Team Members
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display team members view;
+
+repeat
+  |System|
+  :(2) Request team members list;
+  |Database|
+  :(3) Query members;
+  if (Members found?) then (Not found)
+    |System|
+    :(3.1) Display empty state or error notification;
+  else (Found)
+    |System|
+    :(4) Display members list;
+    stop
+  endif
+repeat while (Not found)
+
+@enduml

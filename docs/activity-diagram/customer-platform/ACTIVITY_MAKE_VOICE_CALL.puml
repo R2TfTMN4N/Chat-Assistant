@@ -1,0 +1,40 @@
+@startuml Activity Diagram - Make Voice Call
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|Customer|
+start
+:(1) Click "Voice Call";
+
+|System|
+:(2) Check VAPI & config;
+if (OK?) then (yes)
+  |Database|
+  :(3) Initiate call and persist;
+  |System|
+  :(4) Update UI (ringing);
+  if (Connected?) then (yes)
+    |Customer|
+    :(5) End call;
+    |Database|
+    :(6) Update record and persist;
+    stop
+  else (no)
+    |Database|
+    :(5.1) Update record and persist;
+    |System|
+    :(5.2) Show "Call failed"; 
+    stop
+  endif
+else (no)
+  :(2.1) Show "Not available"; 
+  stop
+endif
+
+@enduml

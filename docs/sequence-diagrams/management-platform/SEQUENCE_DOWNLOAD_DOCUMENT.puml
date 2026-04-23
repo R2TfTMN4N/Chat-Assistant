@@ -1,0 +1,28 @@
+@startuml Sequence Diagram - Download Document
+
+actor "Admin" as Admin
+participant "KnowledgeDocumentView" as DocView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> DocView : 1 Open documents list page
+activate DocView
+DocView -> DocView : 2 Display documents list
+
+Admin -> DocView : 3 Select document to download
+Admin -> DocView : 4 Click "Download" button
+
+DocView -> ClerkAuth : 5 Request document file
+activate ClerkAuth
+ClerkAuth -> Backend : 6 Fetch document file
+activate Backend
+Backend -> Backend : 7 Retrieve document file
+Backend -> ClerkAuth : 8 Return file
+ClerkAuth -> DocView : 9 Return file
+DocView -> Admin : 10 Download document
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate DocView
+
+@enduml

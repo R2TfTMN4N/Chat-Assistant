@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - Generate Widget Embed Code
+
+actor "Admin" as Admin
+participant "WidgetEmbedView" as EmbedView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> EmbedView : 1 Open widget embed page
+activate EmbedView
+EmbedView -> EmbedView : 2 Display embed code options
+
+EmbedView -> ClerkAuth : 3 Request embed code
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Generate embed code
+activate Backend
+Backend -> Backend : 5 Create embed code
+Backend -> ClerkAuth : 6 Return embed code
+ClerkAuth -> EmbedView : 7 Return embed code
+EmbedView -> Admin : 8 Display embed code
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate EmbedView
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml Activity Diagram - Upload Knowledge Document
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Knowledge / Documents view;
+
+|User|
+:(2) Click "Upload";
+:(3) Select file and enter metadata;
+:(4) Click "Upload";
+
+|System|
+:(5) Validate file (type, size, format);
+if (Valid?) then (Yes)
+  |Database|
+  :(6) Store document record;
+  |System|
+  :(7) Enqueue processing/indexing;
+  :(8) Show success; 
+  stop
+else (No)
+  |System|
+  :(5.1) Show error and allow retry;
+   stop
+endif
+
+@enduml

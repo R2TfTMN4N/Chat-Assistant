@@ -1,0 +1,26 @@
+@startuml Sequence Diagram - Escalate to Human
+
+actor "TeamMember" as TeamMember
+participant "ConversationDetailView" as ConvDetailView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+TeamMember -> ConvDetailView : 1 Open conversation detail page
+activate ConvDetailView
+ConvDetailView -> ConvDetailView : 2 Display escalate option
+
+TeamMember -> ConvDetailView : 3 Click "Escalate to Human" button
+ConvDetailView -> ClerkAuth : 4 Send escalate request
+activate ClerkAuth
+ClerkAuth -> Backend : 5 Update escalation status
+activate Backend
+Backend -> Backend : 6 Update conversation record
+Backend -> ClerkAuth : 7 Confirmation
+ClerkAuth -> ConvDetailView : 8 Success notification
+ConvDetailView -> TeamMember : 9 Display success message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate ConvDetailView
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Message History
+
+actor "TeamMember" as TeamMember
+participant "ConversationDetailView" as ConvDetailView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+TeamMember -> ConvDetailView : 1 Open conversation detail page
+activate ConvDetailView
+ConvDetailView -> ConvDetailView : 2 Display message history
+
+ConvDetailView -> ClerkAuth : 3 Request message history
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch message records
+activate Backend
+Backend -> Backend : 5 Retrieve message history
+Backend -> ClerkAuth : 6 Return message data
+ClerkAuth -> ConvDetailView : 7 Return message info
+ConvDetailView -> TeamMember : 8 Display message history
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate ConvDetailView
+
+@enduml

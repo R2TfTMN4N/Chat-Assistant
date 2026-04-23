@@ -1,0 +1,36 @@
+@startuml Activity Diagram - View Organization
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display organization list;
+
+repeat
+  |User|
+  :(2) Select organization;
+  :(3) Click "View";
+
+  |System|
+  :(4) Request organization details;
+  |Database|
+  :(5) Query organization;
+  if (Org found?) then (Not found)
+    |System|
+    :(5.1) Display error notification;
+  else (Found)
+    |System|
+    :(6) Display organization details;
+    stop
+  endif
+repeat while (Not found)
+
+@enduml

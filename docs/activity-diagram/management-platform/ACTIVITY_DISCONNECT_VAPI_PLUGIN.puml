@@ -1,0 +1,41 @@
+@startuml Activity Diagram - Disconnect Vapi Plugin
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+|System|
+:(1) Open Plugins / Integrations view;
+|User|
+
+:(2) Click "View" on a plugin;
+:(3) Click "Disconnect";
+
+|System|
+:(4) Request plugin details;
+:(5) Show confirmation dialog;
+
+|User|
+:(6) Confirm disconnect;
+
+|System|
+:(7) Send request to remove plugin;
+|Database|
+:(7) Delete plugin record;
+if (Deleted?) then (Yes)
+  |System|
+  :(8) Show "Disconnected" and refresh list;
+  stop
+else (No)
+  |System|
+  :(7.1) Show error and allow retry;
+  stop
+endif
+
+@enduml

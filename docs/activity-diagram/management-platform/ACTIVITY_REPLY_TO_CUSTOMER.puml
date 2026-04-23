@@ -1,0 +1,35 @@
+@startuml Activity Diagram - Reply to Customer
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|User|
+:(1) Type reply message;
+:(2) Click "Send";
+
+|System|
+:(3) Send authenticated request to backend;
+|System|
+:(4) Validate and store message;
+|Database|
+:(5) Persist message record;
+if (Saved?) then (Yes)
+  |System|
+  :(6) Push message to customer (websocket/notification);
+  :(7) Display sent message in UI;
+  stop
+else (No)
+  |System|
+  :(5.1) Show "Send failed" and allow retry;
+  stop
+endif
+
+@enduml

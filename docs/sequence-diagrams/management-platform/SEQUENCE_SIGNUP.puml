@@ -1,0 +1,64 @@
+@startuml Sequence Diagram - Sign Up
+
+actor "NewUser" as User
+participant "SignUpView" as SignUpView
+participant "EmailVerification" as EmailVerify
+participant "OrgSelectionView" as OrgView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+User -> SignUpView : 1 Open sign up page
+activate SignUpView
+SignUpView -> SignUpView : 2 Display sign up form
+
+User -> SignUpView : 3 Enter name, email & password
+User -> SignUpView : 4 Click "Sign Up" button
+
+SignUpView -> SignUpView : 5 Validate data format
+
+alt [Invalid data]
+    SignUpView -> SignUpView : 6 Error notification
+    SignUpView -> User : 7 Display error notification
+else [Valid data]
+    SignUpView -> ClerkAuth : 8 Send registration data
+    activate ClerkAuth
+    
+    ClerkAuth -> ClerkAuth : 9 Validate email availability
+    
+    alt [Email already exists]
+        ClerkAuth -> SignUpView : 10 Error notification
+        SignUpView -> SignUpView : 11 Error notification
+        SignUpView -> User : 12 Display error notification
+    else [Valid registration]
+        ClerkAuth -> ClerkAuth : 13 Create user account
+        ClerkAuth -> User : 14 Send verification email
+        ClerkAuth -> SignUpView : 15 Verification pending notification
+        SignUpView -> EmailVerify : 16 Display verification screen
+        activate EmailVerify
+        
+        User -> EmailVerify : 17 Check email & click verification link
+        EmailVerify -> ClerkAuth : 18 Verify email token
+        
+        ClerkAuth -> ClerkAuth : 19 Activate account
+        ClerkAuth -> ClerkAuth : 20 Generate JWT token
+        ClerkAuth -> EmailVerify : 21 Success notification + token
+        
+        EmailVerify -> Backend : 22 Initialize Convex with token
+        activate Backend
+        Backend -> Backend : 23 Create user session
+        Backend -> EmailVerify : 24 Session data
+        deactivate Backend
+        
+        EmailVerify -> EmailVerify : 25 Success notification
+        EmailVerify -> OrgView : 26 Redirect to organization selection
+        deactivate EmailVerify
+        activate OrgView
+        OrgView -> User : 27 Display organization options
+        deactivate OrgView
+    end
+    deactivate ClerkAuth
+end
+
+deactivate SignUpView
+
+@enduml

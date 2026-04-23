@@ -1,0 +1,40 @@
+@startuml Activity Diagram - Upgrade Plan
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display available plans;
+
+repeat
+  |User|
+  :(2) Select plan;
+  :(3) Click "Upgrade";
+
+  |System|
+  :(4) Validate plan selection and payment method;
+  if (Valid?) then (Invalid)
+    :(4.1) Display error notification;
+  else (Valid)
+    |Database|
+    :(5) Process payment and update subscription;
+    if (Payment failed?) then (Error)
+      |System|
+      :(5.1) Display error notification;
+    else (Success)
+      |System|
+      :(6) Display success and update plan info;
+      stop
+    endif
+  endif
+repeat while (Invalid or Error)
+
+@enduml

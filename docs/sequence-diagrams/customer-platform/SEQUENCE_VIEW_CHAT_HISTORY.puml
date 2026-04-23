@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Chat History
+
+actor "Customer" as Customer
+participant "ChatHistoryView" as HistoryView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Customer -> HistoryView : 1 Open chat widget
+activate HistoryView
+HistoryView -> HistoryView : 2 Display chat history
+
+HistoryView -> ClerkAuth : 3 Request chat history
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch message records
+activate Backend
+Backend -> Backend : 5 Retrieve chat history
+Backend -> ClerkAuth : 6 Return message data
+ClerkAuth -> HistoryView : 7 Return message info
+HistoryView -> Customer : 8 Display chat history
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate HistoryView
+
+@enduml

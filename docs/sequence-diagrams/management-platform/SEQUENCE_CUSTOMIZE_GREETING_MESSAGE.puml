@@ -1,0 +1,35 @@
+@startuml Sequence Diagram - Customize Greeting Message
+
+actor "Admin" as Admin
+participant "CustomizationView" as CustomView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> CustomView : 1 Open customization page
+activate CustomView
+CustomView -> CustomView : 2 Display greeting message form
+
+Admin -> CustomView : 3 Edit greeting message
+Admin -> CustomView : 4 Click "Save" button
+
+CustomView -> CustomView : 5 Validate input format
+
+alt [Invalid input]
+    CustomView -> CustomView : 6 Error notification
+    CustomView -> User : 7 Display error notification
+else [Valid input]
+    CustomView -> ClerkAuth : 8 Send update request
+    activate ClerkAuth
+    ClerkAuth -> Backend : 9 Update greeting message
+    activate Backend
+    Backend -> Backend : 10 Store greeting message
+    Backend -> ClerkAuth : 11 Confirmation
+    deactivate Backend
+    ClerkAuth -> CustomView : 12 Success notification
+    CustomView -> Admin : 13 Display success message
+    deactivate ClerkAuth
+end
+
+deactivate CustomView
+
+@enduml

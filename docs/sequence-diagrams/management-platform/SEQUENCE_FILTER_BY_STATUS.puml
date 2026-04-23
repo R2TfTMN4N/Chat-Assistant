@@ -1,0 +1,26 @@
+@startuml Sequence Diagram - Filter by Status
+
+actor "TeamMember" as TeamMember
+participant "ConversationListView" as ConvListView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+TeamMember -> ConvListView : 1 Open conversations page
+activate ConvListView
+ConvListView -> ConvListView : 2 Display filter options
+
+TeamMember -> ConvListView : 3 Select status filter
+ConvListView -> ClerkAuth : 4 Request filtered conversations
+activate ClerkAuth
+ClerkAuth -> Backend : 5 Fetch filtered conversations
+activate Backend
+Backend -> Backend : 6 Retrieve filtered records
+Backend -> ClerkAuth : 7 Return filtered data
+ClerkAuth -> ConvListView : 8 Return filtered info
+ConvListView -> TeamMember : 9 Display filtered conversations
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate ConvListView
+
+@enduml

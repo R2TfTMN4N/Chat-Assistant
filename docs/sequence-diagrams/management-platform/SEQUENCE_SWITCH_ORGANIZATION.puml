@@ -1,0 +1,45 @@
+@startuml Sequence Diagram - Switch Organization
+
+actor "User" as User
+participant "OrganizationSelectionView" as OrgSelectView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+User -> OrgSelectView : 1 Open organization selection page
+activate OrgSelectView
+OrgSelectView -> OrgSelectView : 2 Display organization list
+
+User -> OrgSelectView : 3 Select organization
+User -> OrgSelectView : 4 Click "Switch Organization" button
+
+OrgSelectView -> OrgSelectView : 5 Validate selection
+
+alt [Invalid selection]
+    OrgSelectView -> OrgSelectView : 6 Error notification
+    OrgSelectView -> User : 7 Display error notification
+else [Valid selection]
+    OrgSelectView -> ClerkAuth : 8 Send switch request
+    activate ClerkAuth
+
+    ClerkAuth -> ClerkAuth : 9 Validate organization membership
+
+    alt [Not a member]
+        ClerkAuth -> OrgSelectView : 10 Error notification
+        OrgSelectView -> OrgSelectView : 11 Error notification
+        OrgSelectView -> User : 12 Display error notification
+    else [Is a member]
+        ClerkAuth -> Backend : 13 Switch active organization
+        activate Backend
+        Backend -> Backend : 14 Update user session
+        Backend -> ClerkAuth : 15 Confirmation
+        deactivate Backend
+
+        ClerkAuth -> OrgSelectView : 16 Success notification
+        OrgSelectView -> User : 17 Display success message
+    end
+    deactivate ClerkAuth
+end
+
+deactivate OrgSelectView
+
+@enduml

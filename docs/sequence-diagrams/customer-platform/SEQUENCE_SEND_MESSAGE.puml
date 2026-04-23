@@ -1,0 +1,28 @@
+@startuml Sequence Diagram - Send Message
+
+actor "Customer" as Customer
+participant "ChatView" as ChatView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Customer -> ChatView : 1 Open chat widget
+activate ChatView
+ChatView -> ChatView : 2 Display message form
+
+Customer -> ChatView : 3 Enter message
+Customer -> ChatView : 4 Click "Send" button
+
+ChatView -> ClerkAuth : 5 Send message request
+activate ClerkAuth
+ClerkAuth -> Backend : 6 Store message
+activate Backend
+Backend -> Backend : 7 Update conversation record
+Backend -> ClerkAuth : 8 Confirmation
+ClerkAuth -> ChatView : 9 Success notification
+ChatView -> Customer : 10 Display sent message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate ChatView
+
+@enduml

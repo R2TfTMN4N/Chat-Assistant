@@ -1,0 +1,32 @@
+@startuml Activity Diagram - View Support Status
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|System|
+start
+:(1) Open Support / Help panel;
+
+|Customer|
+:(2) Click "Support status";
+
+|System|
+:(3) Request agent availability;
+|Database|
+:(4) Query status or presence service;
+if (Available?) then (Yes)
+  |System|
+  :(5) Return status: agent online / ETA;
+  stop
+else (No)
+  |System|
+  :(5.1) Return status: offline / contact options;
+  stop
+endif
+
+@enduml

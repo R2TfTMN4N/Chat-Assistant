@@ -26,12 +26,34 @@ import { Button } from "@workspace/ui/components/button";
 import { VapiFormFields } from "./vapi-form-fields";
 import { FormSchema } from "../types";
 import { widgetSettingsSchema } from "../schemas";
+import { ColorPicker } from "@workspace/ui/components/color-picker";
 
 type WidgetSettings = Doc<"widgetSettings">;
 interface CustomizationFormProps {
   initialData?: WidgetSettings | null;
   hasVapiPlugin: boolean;
 }
+
+const themeColors = [
+  "#000000",
+  "#FF0000",
+  "#00FF00",
+  "#0000FF",
+  "#FFFF00",
+  "#FF00FF",
+  "#00FFFF",
+];
+
+const inlayTextColors = [
+  "#FFFFFF",
+  "#000000",
+  "#FF0000",
+  "#00FF00",
+  "#0000FF",
+  "#FFFF00",
+  "#FF00FF",
+  "#00FFFF",
+]
 
 export const CustomizationForm = ({
   initialData,
@@ -51,6 +73,8 @@ export const CustomizationForm = ({
         assistantId: initialData?.vapiSettings?.assistantId || "",
         phoneNumber: initialData?.vapiSettings?.phoneNumber || "",
       },
+      themeColor: initialData?.themeColor || "#000000",
+      inlayTextColor: initialData?.inlayTextColor || "#FFFFFF",
     },
   });
   const onSubmit = async (values: FormSchema) => {
@@ -69,6 +93,8 @@ export const CustomizationForm = ({
         greetMessage: values.greetMessage,
         defaultSuggestions: values.defaultSuggestions,
         vapiSettings,
+        themeColor: values.themeColor,
+        inlayTextColor: values.inlayTextColor,
       });
       toast.success("Widget settings saved successfully.");
     } catch (error) {
@@ -82,10 +108,9 @@ export const CustomizationForm = ({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Customize your chat widget settings</CardTitle>
+            <CardTitle>General</CardTitle>
             <CardDescription>
-              Configure the greeting message, default suggestions, and VAPI
-              settings for your chat widget.
+              Customize the general settings of your chat widget.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -112,63 +137,111 @@ export const CustomizationForm = ({
             <Separator />
             <div className="space-y-4">
               <div>
-                <h3 className="mb-4 text-sm">Default Suggestions</h3>
-                <p className="mb-4 text-muted-foreground text-sm">
+                <h3 className="text-sm font-medium">Default Suggestions</h3>
+                <p className="text-muted-foreground text-sm">
                   These are the default suggestions shown to users when they
                   open the chat widget.
                 </p>
-                <div className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="defaultSuggestions.suggestion1"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Suggestion 1</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            {...field}
-                            placeholder="e.g.. How do I get started?"
-                            rows={3}
-                          ></Textarea>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  ></FormField>
-                  <FormField
-                    control={form.control}
-                    name="defaultSuggestions.suggestion2"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Suggestion 2</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            {...field}
-                            placeholder="e.g.. What features are available?"
-                            rows={3}
-                          ></Textarea>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  ></FormField>
-                  <FormField
-                    control={form.control}
-                    name="defaultSuggestions.suggestion3"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Suggestion 3</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            {...field}
-                            placeholder="e.g.. I need help with my account"
-                            rows={3}
-                          ></Textarea>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  ></FormField>
-                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="defaultSuggestions.suggestion1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Suggestion 1</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="e.g.. How do I get started?"
+                          rows={1}
+                        ></Textarea>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                ></FormField>
+                <FormField
+                  control={form.control}
+                  name="defaultSuggestions.suggestion2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Suggestion 2</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="e.g.. What features are available?"
+                          rows={1}
+                        ></Textarea>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                ></FormField>
+.                <FormField
+                  control={form.control}
+                  name="defaultSuggestions.suggestion3"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Suggestion 3</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="e.g.. I need help with my account"
+                          rows={1}
+                        ></Textarea>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                ></FormField>
               </div>
             </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Appearance</CardTitle>
+            <CardDescription>
+              Customize the appearance of your chat widget.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <FormField
+              control={form.control}
+              name="themeColor"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Theme Color</FormLabel>
+                  <FormControl>
+                    <ColorPicker
+                      colors={themeColors}
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    The primary color of the chat widget.
+                  </FormDescription>
+                </FormItem>
+              )}
+            ></FormField>
+            <FormField
+              control={form.control}
+              name="inlayTextColor"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Inlay Text Color</FormLabel>
+                  <FormControl>
+                    <ColorPicker
+                      colors={inlayTextColors}
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    The color of the text inside the chat widget.
+                  </FormDescription>
+                </FormItem>
+              )}
+            ></FormField>
           </CardContent>
         </Card>
         {hasVapiPlugin && (
@@ -192,3 +265,4 @@ export const CustomizationForm = ({
     </Form>
   );
 };
+

@@ -1,0 +1,44 @@
+@startuml Activity Diagram - Create Organization
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display create organization view;
+
+repeat
+  |User|
+  :(2) Enter organization name and details;
+  :(3) Click "Create";
+
+  |System|
+  :(4) Validate data;
+  if (Data valid?) then (Invalid data)
+    :(4.1) Display error notification;
+  else (Valid data)
+    |Database|
+    :(5) Check organization name uniqueness;
+    if (Exists?) then (Exists)
+      |System|
+      :(5.1) Display error notification;
+    else (Unique)
+      |Database|
+      :(6) Create organization record;
+      |Database|
+      :(7) Add creator as team member;
+      |System|
+      :(8) Display success and redirect to organization dashboard;
+      stop
+    endif
+  endif
+repeat while (Invalid data or Exists)
+
+@enduml

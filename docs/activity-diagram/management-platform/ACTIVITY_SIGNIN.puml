@@ -1,0 +1,40 @@
+@startuml Activity Diagram - Sign In
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display sign in view;
+
+repeat
+  |User|
+  :(2) Enter username and password;
+  :(3) Click "Sign In";
+
+  |System|
+  :(4) Validate data;
+  if (Data valid?) then (Invalid data)
+    :(4.1) Display error notification;
+  else (Valid data)
+    |Database|
+    :(5) Validate credentials;
+    if (Data valid?) then (Invalid data)
+      |System|
+      :(5.1) Display error notification;
+    else (Valid credentials)
+      |System|
+      :(6) Display success and redirect to HomeView;
+      stop
+    endif
+  endif
+repeat while (Invalid data)
+
+@enduml

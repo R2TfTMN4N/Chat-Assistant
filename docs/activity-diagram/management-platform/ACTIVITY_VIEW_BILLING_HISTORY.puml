@@ -1,0 +1,36 @@
+@startuml Activity Diagram - View Billing History
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display billing history view;
+
+repeat
+  |User|
+  :(2) Set filters / date range;
+  :(3) Click "View";
+
+  |System|
+  :(4) Request billing entries;
+  |Database|
+  :(5) Query billing records;
+  if (Records found?) then (Not found)
+    |System|
+    :(5.1) Display empty state or message;
+  else (Found)
+    |System|
+    :(6) Display billing history list;
+    stop
+  endif
+repeat while (Not found)
+
+@enduml

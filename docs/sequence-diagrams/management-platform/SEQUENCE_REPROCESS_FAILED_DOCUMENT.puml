@@ -1,0 +1,28 @@
+@startuml Sequence Diagram - Re-process Failed Document
+
+actor "Admin" as Admin
+participant "KnowledgeDocumentView" as DocView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> DocView : 1 Open documents list page
+activate DocView
+DocView -> DocView : 2 Display documents list
+
+Admin -> DocView : 3 Select failed document
+Admin -> DocView : 4 Click "Re-process" button
+
+DocView -> ClerkAuth : 5 Send re-process request
+activate ClerkAuth
+ClerkAuth -> Backend : 6 Re-process document
+activate Backend
+Backend -> Backend : 7 Process document
+Backend -> ClerkAuth : 8 Confirmation
+ClerkAuth -> DocView : 9 Success notification
+DocView -> Admin : 10 Display success message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate DocView
+
+@enduml

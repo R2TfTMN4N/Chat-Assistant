@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Connected Plugins
+
+actor "Admin" as Admin
+participant "PluginView" as PluginView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> PluginView : 1 Open plugins page
+activate PluginView
+PluginView -> PluginView : 2 Display connected plugins list
+
+PluginView -> ClerkAuth : 3 Request plugins data
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch plugins info
+activate Backend
+Backend -> Backend : 5 Retrieve plugins records
+Backend -> ClerkAuth : 6 Return plugins data
+ClerkAuth -> PluginView : 7 Return plugins info
+PluginView -> Admin : 8 Display plugins list
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate PluginView
+
+@enduml

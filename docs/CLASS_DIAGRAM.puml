@@ -1,0 +1,169 @@
+@startuml Class Diagram - Chat Assistants
+
+' ==================== ACCOUNTS & USERS ====================
+class Organization {
+    + organizationId: String
+    + name: String
+    + createdAt: Date
+}
+
+class User {
+    + userId: int
+    + name: String
+    + email: String
+}
+
+class TeamMember {
+    + memberId: int
+    + organizationId: String
+    + userId: String
+    + role: String
+}
+
+' ==================== SUBSCRIPTION & BILLING ====================
+class Subscription {
+    + subscriptionId: int
+    + organizationId: String
+    + status: String
+}
+
+' ==================== WIDGET & CUSTOMIZATION ====================
+class WidgetSettings {
+    + settingsId: int
+    + organizationId: String
+    + greetMessage: String
+}
+
+class DefaultSuggestions {
+    + suggestionsId: int
+    + settingsId: int
+    + suggestion1: String
+    + suggestion2: String
+    + suggestion3: String
+}
+
+class VapiSettings {
+    + vapiSettingsId: int
+    + settingsId: int
+    + assistantId: String
+    + phoneNumber: String
+}
+
+' ==================== PLUGINS & INTEGRATIONS ====================
+class Plugin {
+    + pluginId: int
+    + organizationId: String
+    + service: String
+    + secretName: String
+}
+
+class Secret {
+    + secretId: int
+    + pluginId: int
+    + publicApiKey: String
+    + privateApiKey: String
+}
+
+' ==================== CUSTOMER & SESSIONS ====================
+class Customer {
+    + customerId: int
+    + name: String
+    + email: String
+}
+
+class ContactSession {
+    + sessionId: int
+    + name: String
+    + email: String
+    + organizationId: String
+    + expiresAt: Number
+}
+
+class SessionMetadata {
+    + metadataId: int
+    + sessionId: int
+    + userAgent: String
+    + language: String
+    + platform: String
+    + timezone: String
+    + currentUrl: String
+}
+
+' ==================== CONVERSATIONS & MESSAGES ====================
+class Conversation {
+    + conversationId: int
+    + threadId: String
+    + organizationId: String
+    + contactSessionId: int
+    + status: String
+}
+
+class Message {
+    + messageId: int
+    + conversationId: int
+    + content: String
+    + role: String
+    + createdAt: Date
+}
+
+class Thread {
+    + threadId: String
+    + organizationId: String
+    + context: String
+}
+
+' ==================== KNOWLEDGE BASE ====================
+class KnowledgeDocument {
+    + documentId: int
+    + organizationId: String
+    + fileName: String
+    + mimeType: String
+    + category: String
+    + status: String
+    + storageId: String
+}
+
+class EmbeddingVector {
+    + vectorId: int
+    + documentId: int
+    + text: String
+    + embedding: Array
+    + order: int
+}
+
+' ==================== RELATIONSHIPS ====================
+
+' Organization relationships
+Organization "1" *-- "0..*" TeamMember : has
+Organization "1" *-- "1" Subscription : has
+Organization "1" *-- "1" WidgetSettings : has
+Organization "1" *-- "0..*" Plugin : has
+Organization "1" *-- "0..*" ContactSession : has
+Organization "1" *-- "0..*" Conversation : has
+Organization "1" *-- "0..*" KnowledgeDocument : has
+
+' User relationships
+User "1" -- "0..*" TeamMember : is
+
+' WidgetSettings relationships
+WidgetSettings "1" *-- "1" DefaultSuggestions : contains
+WidgetSettings "1" *-- "1" VapiSettings : contains
+
+' Plugin relationships
+Plugin "1" *-- "0..1" Secret : has
+
+' ContactSession relationships
+ContactSession "1" *-- "0..1" SessionMetadata : has
+ContactSession "1" -- "0..*" Conversation : has
+
+' Customer relationships
+Customer "1" -- "0..*" ContactSession : creates
+
+' Conversation relationships
+Conversation "1" *-- "0..*" Message : contains
+Conversation "1" -- "1" Thread : uses
+
+' KnowledgeDocument relationships
+KnowledgeDocument "1" *-- "0..*" EmbeddingVector : contains
+
+@enduml

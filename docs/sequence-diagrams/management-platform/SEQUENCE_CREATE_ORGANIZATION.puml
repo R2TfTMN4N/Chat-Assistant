@@ -1,0 +1,45 @@
+@startuml Sequence Diagram - Create Organization
+
+actor "User" as User
+participant "OrganizationView" as OrgView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+User -> OrgView : 1 Open organization creation page
+activate OrgView
+OrgView -> OrgView : 2 Display organization creation form
+
+User -> OrgView : 3 Enter organization details
+User -> OrgView : 4 Click "Create Organization" button
+
+OrgView -> OrgView : 5 Validate input format
+
+alt [Invalid input]
+    OrgView -> OrgView : 6 Error notification
+    OrgView -> User : 7 Display error notification
+else [Valid input]
+    OrgView -> ClerkAuth : 8 Send create organization request
+    activate ClerkAuth
+
+    ClerkAuth -> ClerkAuth : 9 Validate organization details
+
+    alt [Invalid details]
+        ClerkAuth -> OrgView : 10 Error notification
+        OrgView -> OrgView : 11 Error notification
+        OrgView -> User : 12 Display error notification
+    else [Valid details]
+        ClerkAuth -> Backend : 13 Create organization record
+        activate Backend
+        Backend -> Backend : 14 Store organization data
+        Backend -> ClerkAuth : 15 Confirmation
+        deactivate Backend
+
+        ClerkAuth -> OrgView : 16 Success notification
+        OrgView -> User : 17 Display success message
+    end
+    deactivate ClerkAuth
+end
+
+deactivate OrgView
+
+@enduml

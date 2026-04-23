@@ -1,0 +1,41 @@
+
+@startuml Activity Diagram - Generate Widget Embed Code
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+
+
+|User|
+start
+|System|
+:(1) Open Integrations → Embed view;
+
+|User|
+:(2) Select format (HTML / JS / React / Next) and click Generate;
+
+|System|
+:(3) Send authenticated request for snippet;
+
+|System|
+:(4) Validate auth and organization;
+if (Valid?) then (yes)
+  |System|
+  :(5) (Optional) Log generation/audit;
+  |System|
+  :(6) Build snippet (org-id or signed token) and return;
+  |User|
+  :(7) Show modal with snippet; copy to clipboard;
+  stop
+else (no)
+  |System|
+  :(4.1) Return error and offer retry;
+  stop
+endif
+
+@enduml

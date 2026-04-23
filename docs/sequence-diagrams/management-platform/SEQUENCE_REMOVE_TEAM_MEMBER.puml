@@ -1,0 +1,30 @@
+@startuml Sequence Diagram - Remove Team Member from Organization
+
+actor "Admin" as Admin
+participant "OrganizationView" as OrgView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> OrgView : 1 Open organization members page
+activate OrgView
+OrgView -> OrgView : 2 Display members list view
+
+Admin -> OrgView : 3 Select member to remove
+Admin -> OrgView : 4 Click "Remove Member" button
+
+OrgView -> OrgView : 5 Confirm removal action
+
+OrgView -> ClerkAuth : 6 Send remove request
+activate ClerkAuth
+ClerkAuth -> Backend : 7 Remove member from organization
+activate Backend
+Backend -> Backend : 8 Update organization records
+Backend -> ClerkAuth : 9 Confirmation
+ClerkAuth -> OrgView : 10 Success notification
+OrgView -> Admin : 11 Display success message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate OrgView
+
+@enduml

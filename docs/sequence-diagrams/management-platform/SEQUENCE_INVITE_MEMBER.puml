@@ -1,0 +1,40 @@
+@startuml Sequence Diagram - Invite Member to Organization
+
+actor "Admin" as Admin
+participant "InviteMemberView" as InviteMemberView
+participant "ClerkAuth" as ClerkAuth
+participant "EmailService" as EmailService
+participant "Backend" as Backend
+
+Admin -> InviteMemberView : 1 Open invite member page
+activate InviteMemberView
+InviteMemberView -> InviteMemberView : 2 Display invite form
+
+Admin -> InviteMemberView : 3 Enter member email & role
+Admin -> InviteMemberView : 4 Click "Send Invite" button
+
+InviteMemberView -> InviteMemberView : 5 Validate email format
+
+alt [Invalid email]
+    InviteMemberView -> InviteMemberView : 6 Error notification
+    InviteMemberView -> Admin : 7 Display error notification
+else [Valid email]
+    InviteMemberView -> ClerkAuth : 8 Create invitation token
+    activate ClerkAuth
+    ClerkAuth -> ClerkAuth : 9 Generate invite link
+    ClerkAuth -> EmailService : 10 Send invite email with link
+    activate EmailService
+    EmailService -> Admin : 11 Confirmation of invite sent
+    deactivate EmailService
+    ClerkAuth -> Backend : 12 Store pending invitation
+    activate Backend
+    Backend -> Backend : 13 Update organization pending invites
+    Backend -> InviteMemberView : 14 Success notification
+    deactivate Backend
+    InviteMemberView -> Admin : 15 Display success notification
+    deactivate ClerkAuth
+end
+
+deactivate InviteMemberView
+
+@enduml

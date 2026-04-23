@@ -1,0 +1,191 @@
+@startuml Domain Model - Chat Assistant System
+
+skinparam linetype ortho
+
+skinparam class {
+  BackgroundColor #A7D8F0
+  BorderColor Black
+  ArrowColor Black
+}
+
+skinparam package {
+  BackgroundColor #F5E6FF
+  BorderColor #C4A1D9
+  FontColor Black
+}
+
+' ==================== ORGANIZATION MANAGEMENT ====================
+package "Organization Management" {
+  class Organization {
+    -organizationId : String
+    -name : String
+    -maxAllowedMemberships : Integer
+  }
+  
+  class Subscription {
+    -organizationId : String
+    -status : String <<active|inactive|trial>>
+  }
+  
+  class TeamMember {
+    -userId : String
+    -orgId : String
+    -email : String
+    -role : String <<admin|member>>
+  }
+  
+  class User {
+    -name : String
+    -email : String
+  }
+}
+
+' ==================== WIDGET CONFIGURATION ====================
+package "Widget Configuration" {
+  class WidgetSettings {
+    -organizationId : String
+    -greetMessage : String
+    -suggestion1 : String
+    -suggestion2 : String
+    -suggestion3 : String
+  }
+  
+  class VapiSettings {
+    -assistantId : String
+    -phoneNumber : String
+  }
+  
+  class Plugin {
+    -organizationId : String
+    -service : String <<vapi>>
+    -secretName : String
+  }
+  
+  class Secret {
+    -secretName : String
+    -privateApiKey : String
+    -publicApiKey : String
+  }
+}
+
+' ==================== KNOWLEDGE MANAGEMENT ====================
+package "Knowledge Management" {
+  class KnowledgeDocument {
+    -entryId : String
+    -fileName : String
+    -mimeType : String
+    -category : String
+    -organizationId : String
+    -storageId : String
+    -status : String <<ready|processing|error>>
+  }
+  
+  class EmbeddingVector {
+    -vectorId : String
+    -entryId : String
+    -text : String
+    -embedding : Float[]
+    -namespace : String
+    -order : Integer
+  }
+}
+
+' ==================== CUSTOMER INTERACTION ====================
+package "Customer Interaction" {
+  class Customer {
+    -name : String
+    -email : String
+  }
+  
+  class ContactSession {
+    -contactSessionId : ID
+    -name : String
+    -email : String
+    -organizationId : String
+    -expiresAt : Timestamp
+    -userAgent : String
+    -language : String
+    -platform : String
+    -timezone : String
+    -currentUrl : String
+    -screenResolution : String
+  }
+  
+  class Conversation {
+    -conversationId : ID
+    -threadId : String
+    -organizationId : String
+    -contactSessionId : ID
+    -status : Enum <<unresolved|escalated|resolved>>
+  }
+  
+  class Thread {
+    -threadId : String
+  }
+  
+  class Message {
+    -messageId : ID
+    -threadId : String
+    -content : String
+    -role : String <<user|assistant|system>>
+    -timestamp : Number
+  }
+}
+
+' ==================== AI SUPPORT AGENT ====================
+package "AI Support Agent" {
+  class SupportAgent {
+    -agentName : String
+    -instructions : String
+    -model : String
+  }
+  
+  class RAG {
+    -namespace : String
+    -embeddingModel : String
+    -embeddingDimension : Integer
+  }
+  
+  class Tool {
+    -toolName : String <<search|escalate|resolve>>
+    -description : String
+  }
+}
+
+' ==================== RELATIONSHIPS ====================
+
+' Organization Management relationships
+Organization "1" -- "1" Subscription : subscribe
+Organization "1" -- "0..*" TeamMember : employ
+User "1" -- "0..*" TeamMember : is
+
+' Widget Configuration relationships
+Organization "1" -- "1" WidgetSettings : configure
+WidgetSettings "1" *-- "1" VapiSettings : contains
+Organization "1" -- "0..*" Plugin : integrate
+Plugin "1" --> "1" Secret : reference
+
+' Knowledge Management relationships
+Organization "1" -- "0..*" KnowledgeDocument : upload
+KnowledgeDocument "1" -- "0..*" EmbeddingVector : vectorize
+
+' Customer Interaction relationships
+Customer "1" -- "0..*" ContactSession : create
+Organization "1" -- "0..*" ContactSession : own
+ContactSession "1" -- "0..*" Conversation : initiate
+Organization "1" -- "0..*" Conversation : own
+Conversation "1" -- "1" Thread : contain
+Thread "1" -- "0..*" Message : store
+
+' AI Support Agent relationships
+SupportAgent "1" -- "0..*" Tool : use
+SupportAgent "1" -- "1" RAG : search
+RAG "1" -- "0..*" EmbeddingVector : query
+Conversation "1" -- "1" SupportAgent : handle
+
+' User interactions
+TeamMember "0..*" -- "0..*" Conversation : monitor
+Customer "1" -- "0..*" Message : send
+TeamMember "0..*" -- "0..*" Message : reply
+
+@enduml

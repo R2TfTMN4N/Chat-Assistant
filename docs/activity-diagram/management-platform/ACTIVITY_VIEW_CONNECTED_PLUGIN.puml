@@ -1,0 +1,36 @@
+@startuml Activity Diagram - View Connected Plugin
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Plugins / Integrations view;
+:(2) Display connected plugins;
+
+|User|
+:(3) Click "View" on a plugin;
+
+|System|
+:(4) Request plugin details;
+
+|Database|
+:(5) Query plugin record;
+
+if (Plugin found?) then (Yes)
+  |System|
+  :(6) Display plugin details;
+else (No)
+  |System|
+  :(6.1) Display "Plugin not found";
+endif
+
+end
+@enduml

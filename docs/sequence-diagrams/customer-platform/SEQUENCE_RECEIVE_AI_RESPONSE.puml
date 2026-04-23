@@ -1,0 +1,34 @@
+@startuml Sequence Diagram - Receive AI Response
+
+actor "Customer" as Customer
+participant "ChatView" as ChatView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+participant "AIService" as AIService
+
+Customer -> ChatView : 1 Open chat widget
+activate ChatView
+ChatView -> ChatView : 2 Display message form
+
+Customer -> ChatView : 3 Enter message
+Customer -> ChatView : 4 Click "Send" button
+
+ChatView -> ClerkAuth : 5 Send message request
+activate ClerkAuth
+ClerkAuth -> Backend : 6 Store message
+activate Backend
+Backend -> Backend : 7 Update conversation record
+Backend -> AIService : 8 Request AI response
+activate AIService
+AIService -> AIService : 9 Generate response
+AIService -> Backend : 10 Return AI response
+Backend -> ClerkAuth : 11 Return AI response
+ClerkAuth -> ChatView : 12 Return AI response
+ChatView -> Customer : 13 Display AI response
+
+deactivate AIService
+deactivate Backend
+deactivate ClerkAuth
+deactivate ChatView
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml Sequence Diagram - Manage Subscription
+
+actor "Admin" as Admin
+participant "SubscriptionView" as SubscriptionView
+participant "PaymentGateway" as PaymentGateway
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> SubscriptionView : 1 Open subscription management page
+activate SubscriptionView
+SubscriptionView -> SubscriptionView : 2 Display current subscription status
+
+Admin -> SubscriptionView : 3 Select new plan / update payment info
+Admin -> SubscriptionView : 4 Click "Update Subscription" button
+
+SubscriptionView -> SubscriptionView : 5 Validate input data
+
+alt [Invalid data]
+    SubscriptionView -> Admin : 6 Display error notification
+else [Valid data]
+    SubscriptionView -> PaymentGateway : 7 Process payment
+    activate PaymentGateway
+    PaymentGateway -> PaymentGateway : 8 Validate payment
+    
+    alt [Payment failed]
+        PaymentGateway -> SubscriptionView : 9 Error notification
+        SubscriptionView -> Admin : 10 Display payment error
+    else [Payment success]
+        PaymentGateway -> ClerkAuth : 11 Notify subscription update
+        activate ClerkAuth
+        ClerkAuth -> ClerkAuth : 12 Update subscription status
+        ClerkAuth -> Backend : 13 Update organization subscription
+        activate Backend
+        Backend -> Backend : 14 Update subscription record
+        Backend -> SubscriptionView : 15 Success notification
+        deactivate Backend
+        ClerkAuth -> SubscriptionView : 16 Success notification
+        deactivate ClerkAuth
+        SubscriptionView -> Admin : 17 Display success notification
+    end
+    deactivate PaymentGateway
+end
+
+deactivate SubscriptionView
+
+@enduml

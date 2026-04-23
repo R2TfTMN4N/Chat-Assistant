@@ -25,6 +25,7 @@ interface Feature {
   description: string;
 }
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 interface PremiumFeatureOverlayProps {
   children: React.ReactNode;
 }
@@ -78,8 +79,8 @@ export const PremiumFeatureOverlay = ({
         {children}
       </div>
       <div className="absolute inset-0 bg-black/25 backdrop-blur-[2px]" />
-      <div className="absolute inset-0 z-40 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
+      <div className="absolute inset-0 z-40 flex items-center justify-center p-4 ">
+        <Card className="w-full max-w-md ">
           <CardHeader className=" text-center">
             <div className="flex items-center justify-center">
               <div className="mb-2 inline-flex h-12 w-12 items-center justify-center rounded-full border bg-muted">

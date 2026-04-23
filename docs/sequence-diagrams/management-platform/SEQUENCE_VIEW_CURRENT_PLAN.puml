@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Current Plan
+
+actor "User" as User
+participant "BillingView" as BillingView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+User -> BillingView : 1 Open billing/plan page
+activate BillingView
+BillingView -> BillingView : 2 Display current plan info
+
+BillingView -> ClerkAuth : 3 Request plan details
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch plan data
+activate Backend
+Backend -> Backend : 5 Retrieve plan record
+Backend -> ClerkAuth : 6 Return plan data
+ClerkAuth -> BillingView : 7 Return plan info
+BillingView -> User : 8 Display current plan details
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate BillingView
+
+@enduml

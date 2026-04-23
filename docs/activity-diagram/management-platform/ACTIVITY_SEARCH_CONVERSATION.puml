@@ -1,0 +1,33 @@
+@startuml Activity Diagram - Search Conversation
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Conversations view;
+|User|
+:(2) Enter search query and submit;
+
+|System|
+:(3) Search messages/conversations;
+|Database|
+:(4) Query search index or DB;
+if (Results?) then (Yes)
+  |System|
+  :(5) Display search results; 
+  stop
+else (No)
+  |System|
+  :(5.1) Display "No results"; 
+stop
+endif
+
+@enduml

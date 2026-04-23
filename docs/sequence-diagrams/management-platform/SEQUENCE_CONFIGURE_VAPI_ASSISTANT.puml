@@ -1,0 +1,35 @@
+@startuml Sequence Diagram - Configure VAPI Assistant
+
+actor "Admin" as Admin
+participant "VAPIAssistantView" as VAPIView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> VAPIView : 1 Open VAPI assistant configuration page
+activate VAPIView
+VAPIView -> VAPIView : 2 Display assistant configuration form
+
+Admin -> VAPIView : 3 Edit assistant settings
+Admin -> VAPIView : 4 Click "Save" button
+
+VAPIView -> VAPIView : 5 Validate input format
+
+alt [Invalid input]
+    VAPIView -> VAPIView : 6 Error notification
+    VAPIView -> Admin : 7 Display error notification
+else [Valid input]
+    VAPIView -> ClerkAuth : 8 Send update request
+    activate ClerkAuth
+    ClerkAuth -> Backend : 9 Update assistant settings
+    activate Backend
+    Backend -> Backend : 10 Store assistant configuration
+    Backend -> ClerkAuth : 11 Confirmation
+    deactivate Backend
+    ClerkAuth -> VAPIView : 12 Success notification
+    VAPIView -> Admin : 13 Display success message
+    deactivate ClerkAuth
+end
+
+deactivate VAPIView
+
+@enduml

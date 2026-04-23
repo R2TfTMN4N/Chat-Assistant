@@ -1,0 +1,33 @@
+@startuml Activity Diagram - View Conversation Detail
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Conversations view;
+|User|
+:(2) Click a conversation to view details;
+
+|System|
+:(3) Request messages for conversation;
+|Database|
+:(4) Query message records;
+if (Found?) then (Yes)
+  |System|
+  :(5) Display conversation detail (messages, participants);
+  stop
+else (No)
+  |System|
+  :(4.1) Show "Conversation not found"; 
+  stop
+endif
+
+@enduml

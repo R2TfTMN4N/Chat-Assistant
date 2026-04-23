@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Support Status
+
+actor "Customer" as Customer
+participant "SupportStatusView" as StatusView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Customer -> StatusView : 1 Open support status page
+activate StatusView
+StatusView -> StatusView : 2 Display support status
+
+StatusView -> ClerkAuth : 3 Request support status
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch support status
+activate Backend
+Backend -> Backend : 5 Retrieve support status
+Backend -> ClerkAuth : 6 Return status data
+ClerkAuth -> StatusView : 7 Return status info
+StatusView -> Customer : 8 Display support status
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate StatusView
+
+@enduml

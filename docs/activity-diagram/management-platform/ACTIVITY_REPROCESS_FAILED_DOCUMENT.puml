@@ -1,0 +1,37 @@
+@startuml Activity Diagram - Reprocess Failed Document
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Knowledge / Documents view;
+:(2) View failed documents list;
+
+|User|
+:(3) Select failed document;
+:(4) Click "Re-process";
+
+|System|
+:(5) Send to processing pipeline;
+:(6) Monitor processing result;
+if (Success?) then (Yes)
+  |Database|
+  :(7) Update document status to "Processed";
+  |System|
+  :(8) Show success; 
+  stop
+else (No)
+  |System|
+  :(7.1) Show failure and log error; 
+  stop
+endif
+
+@enduml

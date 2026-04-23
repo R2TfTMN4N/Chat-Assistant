@@ -1,0 +1,29 @@
+@startuml Sequence Diagram - Cancel Subscription
+
+actor "Admin" as Admin
+participant "BillingView" as BillingView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> BillingView : 1 Open billing/plan page
+activate BillingView
+BillingView -> BillingView : 2 Display current subscription info
+
+Admin -> BillingView : 3 Click "Cancel Subscription" button
+
+BillingView -> BillingView : 4 Confirm cancellation action
+
+BillingView -> ClerkAuth : 5 Send cancellation request
+activate ClerkAuth
+ClerkAuth -> Backend : 6 Update subscription status
+activate Backend
+Backend -> Backend : 7 Update user/organization subscription record
+Backend -> ClerkAuth : 8 Confirmation
+ClerkAuth -> BillingView : 9 Success notification
+BillingView -> Admin : 10 Display success message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate BillingView
+
+@enduml

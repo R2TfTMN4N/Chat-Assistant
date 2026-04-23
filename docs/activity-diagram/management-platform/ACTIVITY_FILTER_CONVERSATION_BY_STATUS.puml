@@ -1,0 +1,29 @@
+@startuml Activity Diagram - Filter Conversations by Status
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Conversations view;
+:(2) Display conversations list;
+
+|User|
+:(3) Select status filter (Resolved / Unresolved/Escalated / All);
+
+|Database|
+:(4) Query by status;
+
+:(5) Return filtered list;
+|System|
+:(6) Display results; 
+stop
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Team Members of Organization
+
+actor "User" as User
+participant "OrganizationView" as OrgView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+User -> OrgView : 1 Open organization members page
+activate OrgView
+OrgView -> OrgView : 2 Display members list view
+
+OrgView -> ClerkAuth : 3 Request members info
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch members data
+activate Backend
+Backend -> Backend : 5 Retrieve members records
+Backend -> ClerkAuth : 6 Return members data
+ClerkAuth -> OrgView : 7 Return members info
+OrgView -> User : 8 Display members list
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate OrgView
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml Sequence Diagram - Delete Document
+
+actor "Admin" as Admin
+participant "KnowledgeDocumentView" as DocView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> DocView : 1 Open documents list page
+activate DocView
+DocView -> DocView : 2 Display documents list
+
+Admin -> DocView : 3 Select document to delete
+Admin -> DocView : 4 Click "Delete" button
+
+DocView -> DocView : 5 Confirm deletion action
+
+DocView -> ClerkAuth : 6 Send delete request
+activate ClerkAuth
+ClerkAuth -> Backend : 7 Delete document
+activate Backend
+Backend -> Backend : 8 Remove document record
+Backend -> ClerkAuth : 9 Confirmation
+ClerkAuth -> DocView : 10 Success notification
+DocView -> Admin : 11 Display success message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate DocView
+
+@enduml

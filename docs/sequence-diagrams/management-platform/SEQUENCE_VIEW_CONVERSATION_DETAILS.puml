@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Conversation Details
+
+actor "TeamMember" as TeamMember
+participant "ConversationDetailView" as ConvDetailView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+TeamMember -> ConvDetailView : 1 Open conversation detail page
+activate ConvDetailView
+ConvDetailView -> ConvDetailView : 2 Display conversation details
+
+ConvDetailView -> ClerkAuth : 3 Request conversation data
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch conversation info
+activate Backend
+Backend -> Backend : 5 Retrieve conversation record
+Backend -> ClerkAuth : 6 Return conversation data
+ClerkAuth -> ConvDetailView : 7 Return conversation info
+ConvDetailView -> TeamMember : 8 Display conversation details
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate ConvDetailView
+
+@enduml

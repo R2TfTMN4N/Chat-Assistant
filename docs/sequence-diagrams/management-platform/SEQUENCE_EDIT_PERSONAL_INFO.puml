@@ -1,0 +1,46 @@
+@startuml Sequence Diagram - Edit Personal Info
+
+actor "User" as User
+participant "AccountSettingsView" as SettingsView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+User -> SettingsView : 1 Open account settings page
+activate SettingsView
+SettingsView -> SettingsView : 2 Display personal info form
+
+User -> SettingsView : 3 Edit personal info fields
+User -> SettingsView : 4 Click "Save Changes" button
+
+SettingsView -> SettingsView : 5 Validate input format
+
+alt [Invalid input]
+    SettingsView -> SettingsView : 6 Error notification
+    SettingsView -> User : 7 Display error notification
+else [Valid input]
+    SettingsView -> ClerkAuth : 8 Send update request
+    activate ClerkAuth
+
+    ClerkAuth -> ClerkAuth : 9 Validate changes
+
+    alt [Invalid changes]
+        ClerkAuth -> SettingsView : 10 Error notification
+        SettingsView -> SettingsView : 11 Error notification
+        SettingsView -> User : 12 Display error notification
+    else [Valid changes]
+        ClerkAuth -> ClerkAuth : 13 Update personal info
+        ClerkAuth -> Backend : 14 Sync changes
+        activate Backend
+        Backend -> Backend : 15 Update user record
+        Backend -> ClerkAuth : 16 Confirmation
+        deactivate Backend
+
+        ClerkAuth -> SettingsView : 17 Success notification
+        SettingsView -> User : 18 Display success message
+    end
+    deactivate ClerkAuth
+end
+
+deactivate SettingsView
+
+@enduml

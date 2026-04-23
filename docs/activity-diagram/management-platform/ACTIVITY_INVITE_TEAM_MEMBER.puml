@@ -1,0 +1,42 @@
+@startuml Activity Diagram - Invite Team Member
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display invite member view;
+
+repeat
+  |User|
+  :(2) Enter email and role;
+  :(3) Click "Invite";
+
+  |System|
+  :(4) Validate email and role;
+  if (Valid?) then (Invalid)
+    :(4.1) Display error notification;
+  else (Valid)
+    |Database|
+    :(5) Check if email already a member;
+    if (Exists?) then (Exists)
+      |System|
+      :(5.1) Display error notification;
+    else (Not exists)
+      |Database|
+      :(6) Create invitation record and send invite;
+      |System|
+      :(7) Display success notification;
+      stop
+    endif
+  endif
+repeat while (Invalid or Exists)
+
+@enduml

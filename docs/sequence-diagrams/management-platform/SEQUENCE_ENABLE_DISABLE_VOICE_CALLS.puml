@@ -1,0 +1,35 @@
+@startuml Sequence Diagram - Enable/Disable Voice Calls
+
+actor "Admin" as Admin
+participant "VoiceCallSettingsView" as VoiceView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> VoiceView : 1 Open voice call settings page
+activate VoiceView
+VoiceView -> VoiceView : 2 Display voice call settings form
+
+Admin -> VoiceView : 3 Toggle voice call setting
+Admin -> VoiceView : 4 Click "Save" button
+
+VoiceView -> VoiceView : 5 Validate input format
+
+alt [Invalid input]
+    VoiceView -> VoiceView : 6 Error notification
+    VoiceView -> Admin : 7 Display error notification
+else [Valid input]
+    VoiceView -> ClerkAuth : 8 Send update request
+    activate ClerkAuth
+    ClerkAuth -> Backend : 9 Update voice call setting
+    activate Backend
+    Backend -> Backend : 10 Store voice call setting
+    Backend -> ClerkAuth : 11 Confirmation
+    deactivate Backend
+    ClerkAuth -> VoiceView : 12 Success notification
+    VoiceView -> Admin : 13 Display success message
+    deactivate ClerkAuth
+end
+
+deactivate VoiceView
+
+@enduml

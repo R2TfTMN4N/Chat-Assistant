@@ -1,0 +1,30 @@
+@startuml Activity Diagram - Start New Conversation
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|Customer|
+start
+
+|Customer|
+:(1) Open chat widget / click "Start conversation";
+|System|
+:(2) Authenticate (if required) and request new conversation (API);
+:(3) Create conversation record;
+
+|Database|
+:(4) Persist conversation;
+
+|System|
+:(5) Return conversation id and initial state; display greeting;
+
+|Customer|
+:(6) Begin typing or select suggested question;
+stop
+
+@enduml

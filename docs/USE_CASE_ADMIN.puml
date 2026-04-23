@@ -1,0 +1,238 @@
+@startuml Use Case - Chat Assistant System
+left to right direction
+
+actor "Admin" as Admin
+' actor "TeamMember" as TeamMember  
+' actor "Customer" as Customer
+
+rectangle "Chat Assistant System" {
+
+  ' ========== ADMIN USE CASES ==========
+  
+  ' 1. Manage Organization
+  usecase "Manage Organization" as ManageOrg
+  usecase "Create Organization" as CreateOrg
+  usecase "View Organizations" as ViewOrgs
+  usecase "Switch Organization" as SwitchOrg
+  usecase "Validate Organization" as ValidateOrg
+  
+  ManageOrg <.. CreateOrg : <<extend>>
+  ManageOrg <.. ViewOrgs : <<extend>>
+  ManageOrg <.. SwitchOrg : <<extend>>
+  ManageOrg <.. ValidateOrg : <<extend>>
+  
+  ' 2. Manage Team Members
+  usecase "Manage Team Members" as ManageTeam
+  usecase "Invite Team Member" as InviteTeam
+  usecase "View Team Members" as ViewTeam
+  usecase "Remove Team Member" as RemoveTeam
+  usecase "Update Member Role" as UpdateRole
+  
+  ManageTeam <.. InviteTeam : <<extend>>
+  ManageTeam <.. ViewTeam : <<extend>>
+  ManageTeam <.. RemoveTeam : <<extend>>
+  ManageTeam <.. UpdateRole : <<extend>>
+  
+  ' 3. Manage Subscription
+  usecase "Manage Subscription" as ManageSub
+  usecase "View Subscription Status" as ViewSub
+  usecase "Upgrade Subscription Plan" as UpgradeSub
+  usecase "Cancel Subscription" as CancelSub
+  usecase "Check Subscription Validity" as CheckSub
+  
+  ManageSub <.. ViewSub : <<extend>>
+  ManageSub <.. UpgradeSub : <<extend>>
+  ManageSub <.. CancelSub : <<extend>>
+  ManageSub <.. CheckSub : <<extend>>
+  
+  ' 4. Configure Widget
+  usecase "Configure Widget" as ConfigWidget
+  usecase "View Widget Settings" as ViewWidget
+  usecase "Update Greeting Message" as UpdateGreeting
+  usecase "Configure Suggested Questions" as ConfigQuestions
+  usecase "Configure VAPI Settings" as ConfigVAPI
+  usecase "Update Widget Theme" as UpdateTheme
+  
+  ConfigWidget <.. ViewWidget : <<extend>>
+  ConfigWidget <.. UpdateGreeting : <<extend>>
+  ConfigWidget <.. ConfigQuestions : <<extend>>
+  ConfigWidget <.. ConfigVAPI : <<extend>>
+  ConfigWidget <.. UpdateTheme : <<extend>>
+  
+  ' 5. Manage Plugins
+  usecase "Manage Plugins" as ManagePlugins
+  usecase "View Connected Plugins" as ViewPlugins
+  usecase "Add VAPI Plugin" as AddPlugin
+  usecase "Remove Plugin" as RemovePlugin
+  usecase "Update Plugin Credentials" as UpdatePlugin
+  usecase "Get VAPI Phone Numbers" as GetPhones
+  usecase "Get VAPI Assistants" as GetAssistants
+  
+  ManagePlugins <.. ViewPlugins : <<extend>>
+  ManagePlugins <.. AddPlugin : <<extend>>
+  ManagePlugins <.. RemovePlugin : <<extend>>
+  ManagePlugins <.. UpdatePlugin : <<extend>>
+  ManagePlugins <.. GetPhones : <<extend>>
+  ManagePlugins <.. GetAssistants : <<extend>>
+  
+  ' 6. Manage Knowledge Base
+  usecase "Manage Knowledge Base" as ManageKB
+  usecase "Upload Document" as UploadDoc
+  usecase "View Documents List" as ViewDocs
+  usecase "Delete Document" as DeleteDoc
+  usecase "Re-process Failed Document" as ReprocessDoc
+  usecase "Search Knowledge Base" as SearchKB
+  
+  ManageKB <.. UploadDoc : <<extend>>
+  ManageKB <.. ViewDocs : <<extend>>
+  ManageKB <.. DeleteDoc : <<extend>>
+  ManageKB <.. ReprocessDoc : <<extend>>
+  ManageKB <.. SearchKB : <<extend>>
+  
+  ' 7. Manage Widget Embedding
+  usecase "Manage Widget Embedding" as ManageEmbed
+  usecase "View Organization ID" as ViewOrgID
+  usecase "Copy Organization ID" as CopyOrgID
+  usecase "View HTML Embed Code" as ViewHTML
+  usecase "Copy HTML Embed Code" as CopyHTML
+  usecase "View JavaScript Embed Code" as ViewJS
+  usecase "Copy JavaScript Embed Code" as CopyJS
+  usecase "View React Embed Code" as ViewReact
+  usecase "Copy React Embed Code" as CopyReact
+  
+  ManageEmbed <.. ViewOrgID : <<extend>>
+  ManageEmbed <.. CopyOrgID : <<extend>>
+  ManageEmbed <.. ViewHTML : <<extend>>
+  ManageEmbed <.. CopyHTML : <<extend>>
+  ManageEmbed <.. ViewJS : <<extend>>
+  ManageEmbed <.. CopyJS : <<extend>>
+  ManageEmbed <.. ViewReact : <<extend>>
+  ManageEmbed <.. CopyReact : <<extend>>
+  
+  ' ========== ADMIN & TEAM MEMBER SHARED USE CASES ==========
+  
+  ' 8. Manage Conversations
+  usecase "Manage Conversations" as ManageConv
+  usecase "View All Conversations" as ViewConvs
+  usecase "View Conversation Details" as ViewConvDetails
+  usecase "Update Conversation Status" as UpdateConvStatus
+  usecase "Escalate Conversation" as EscalateConv
+  usecase "Resolve Conversation" as ResolveConv
+  usecase "Filter Conversations" as FilterConv
+  usecase "Search Conversations" as SearchConv
+  
+  ManageConv <.. ViewConvs : <<extend>>
+  ManageConv <.. ViewConvDetails : <<extend>>
+  ManageConv <.. UpdateConvStatus : <<extend>>
+  ManageConv <.. EscalateConv : <<extend>>
+  ManageConv <.. ResolveConv : <<extend>>
+  ManageConv <.. FilterConv : <<extend>>
+  ManageConv <.. SearchConv : <<extend>>
+  
+  ' 9. Chat with Customer
+  usecase "Chat with Customer" as ChatSupport
+  usecase "Send Message (Staff)" as SendStaffMsg
+  usecase "View Message History" as ViewMsgHistory
+  usecase "Add System Message" as AddSysMsg
+  
+  ChatSupport <.. SendStaffMsg : <<extend>>
+  ChatSupport <.. ViewMsgHistory : <<extend>>
+  ChatSupport <.. AddSysMsg : <<extend>>
+  
+  ' 10. View Analytics
+  usecase "View Analytics" as ViewAnalytics
+  usecase "View Conversation Statistics" as ViewStats
+  usecase "Export Conversation Report" as ExportReport
+  usecase "View Resolution Metrics" as ViewMetrics
+  usecase "View Response Time Analytics" as ViewResponseTime
+  usecase "View AI Performance" as ViewAIPerf
+  usecase "View Team Performance" as ViewTeamPerf
+  
+  ViewAnalytics <.. ViewStats : <<extend>>
+  ViewAnalytics <.. ExportReport : <<extend>>
+  ViewAnalytics <.. ViewMetrics : <<extend>>
+  ViewAnalytics <.. ViewResponseTime : <<extend>>
+  ViewAnalytics <.. ViewAIPerf : <<extend>>
+  ViewAnalytics <.. ViewTeamPerf : <<extend>>
+  
+  ' ========== CUSTOMER USE CASES ==========
+  
+  ' 11. Use Chat Widget
+  ' usecase "Use Chat Widget" as UseWidget
+  ' usecase "Create Contact Session" as CreateSession
+  ' usecase "Display Greeting Message" as ShowGreeting
+  ' usecase "Display Suggested Questions" as ShowQuestions
+  ' usecase "Select Suggested Question" as SelectQuestion
+  ' usecase "Start Chat Session" as StartChat
+  
+  ' UseWidget <.. CreateSession : <<extend>>
+  ' UseWidget <.. ShowGreeting : <<extend>>
+  ' UseWidget <.. ShowQuestions : <<extend>>
+  ' UseWidget <.. SelectQuestion : <<extend>>
+  ' UseWidget <.. StartChat : <<extend>>
+  
+  ' 12. Chat Interaction
+  ' usecase "Chat Interaction" as ChatInteraction
+  ' usecase "Start Conversation" as StartConv
+  ' usecase "Send Message (Customer)" as SendCustMsg
+  ' usecase "View AI Responses" as ViewAIResp
+  ' usecase "Receive Human Response" as ReceiveHumanResp
+  ' usecase "View Chat History" as ViewChatHistory
+  
+  ' ChatInteraction <.. StartConv : <<extend>>
+  ' ChatInteraction <.. SendCustMsg : <<extend>>
+  ' ChatInteraction <.. ViewAIResp : <<extend>>
+  ' ChatInteraction <.. ReceiveHumanResp : <<extend>>
+  ' ChatInteraction <.. ViewChatHistory : <<extend>>
+  
+  ' 13. Voice Call
+  ' usecase "Make Voice Call" as VoiceCall
+  ' usecase "Initiate VAPI Call" as InitiateCall
+  ' usecase "Talk with AI Assistant" as TalkAI
+  
+  ' VoiceCall <.. InitiateCall : <<extend>>
+  ' VoiceCall <.. TalkAI : <<extend>>
+  
+  ' 14. Manage Profile
+  usecase "Manage Profile" as ManageProfile
+  usecase "Sign In" as SignIn
+  usecase "Sign Up" as SignUp
+  usecase "Change Password" as ChangePassword
+  usecase "Edit Personal Information" as EditProfile
+  usecase "View User Profile" as ViewProfile
+  
+  ManageProfile <.. SignIn : <<extend>>
+  ManageProfile <.. SignUp : <<extend>>
+  ManageProfile <.. ChangePassword : <<extend>>
+  ManageProfile <.. EditProfile : <<extend>>
+  ManageProfile <.. ViewProfile : <<extend>>
+}
+
+' ========== ACTOR RELATIONSHIPS ==========
+
+' Admin - Full Access
+Admin --> ManageOrg
+Admin --> ManageTeam
+Admin --> ManageSub
+Admin --> ConfigWidget
+Admin --> ManagePlugins
+Admin --> ManageKB
+Admin --> ManageEmbed
+Admin --> ManageConv
+Admin --> ChatSupport
+Admin --> ViewAnalytics
+Admin --> ManageProfile
+
+' ' TeamMember - Limited Access
+' TeamMember --> ManageConv
+' TeamMember --> ChatSupport
+' TeamMember --> ViewAnalytics
+' TeamMember --> ManageProfile
+
+' ' Customer - Widget Access Only
+' Customer --> UseWidget
+' Customer --> ChatInteraction
+' Customer --> VoiceCall
+' Customer --> ManageProfile
+
+@enduml

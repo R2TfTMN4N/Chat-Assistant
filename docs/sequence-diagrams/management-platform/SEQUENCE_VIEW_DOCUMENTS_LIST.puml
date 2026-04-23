@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Documents List
+
+actor "Admin" as Admin
+participant "KnowledgeDocumentView" as DocView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> DocView : 1 Open documents list page
+activate DocView
+DocView -> DocView : 2 Display documents list
+
+DocView -> ClerkAuth : 3 Request documents data
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch documents info
+activate Backend
+Backend -> Backend : 5 Retrieve documents records
+Backend -> ClerkAuth : 6 Return documents data
+ClerkAuth -> DocView : 7 Return documents info
+DocView -> Admin : 8 Display documents list
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate DocView
+
+@enduml

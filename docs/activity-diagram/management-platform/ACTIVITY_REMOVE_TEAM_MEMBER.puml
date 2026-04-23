@@ -1,0 +1,40 @@
+@startuml Activity Diagram - Remove Team Member
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display team members view;
+
+repeat
+  |User|
+  :(2) Select member to remove;
+  :(3) Click "Remove";
+
+  |System|
+  :(4) Confirm removal;
+  if (Confirmed?) then (No)
+    :(4.1) Cancel and return to list;
+  else (Yes)
+    |Database|
+    :(5) Remove member record;
+    if (Remove failed?) then (Error)
+      |System|
+      :(5.1) Display error notification;
+    else (Success)
+      |System|
+      :(6) Display success notification and refresh list;
+      stop
+    endif
+  endif
+repeat while (Error)
+
+@enduml

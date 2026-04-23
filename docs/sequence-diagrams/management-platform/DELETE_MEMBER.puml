@@ -1,0 +1,35 @@
+@startuml Sequence Diagram - Delete Member from Organization
+
+actor "Admin" as Admin
+participant "MemberListView" as MemberListView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> MemberListView : 1 Open member list page
+activate MemberListView
+MemberListView -> MemberListView : 2 Display list of members
+
+Admin -> MemberListView : 3 Select member to delete
+Admin -> MemberListView : 4 Click "Delete Member" button
+
+MemberListView -> MemberListView : 5 Confirm deletion
+
+alt [Cancel]
+    MemberListView -> Admin : 6 Cancel deletion
+else [Confirm]
+    MemberListView -> ClerkAuth : 7 Request member removal
+    activate ClerkAuth
+    ClerkAuth -> ClerkAuth : 8 Remove member from organization
+    ClerkAuth -> Backend : 9 Update organization member list
+    activate Backend
+    Backend -> Backend : 10 Remove member data
+    Backend -> MemberListView : 11 Success notification
+    deactivate Backend
+    ClerkAuth -> MemberListView : 12 Success notification
+    deactivate ClerkAuth
+    MemberListView -> Admin : 13 Display success notification
+end
+
+deactivate MemberListView
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml Activity Diagram - Configure Widget
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display widget settings view;
+
+repeat
+  |User|
+  :(2) Edit widget settings (theme, greeting, suggestions, assistant);
+  :(3) Click "Save";
+
+  |System|
+  :(4) Validate settings;
+  if (Valid?) then (Invalid)
+    :(4.1) Display error notification;
+  else (Valid)
+    |Database|
+    :(5) Store widget settings;
+    if (Store failed?) then (Error)
+      |System|
+      :(5.1) Display error notification;
+    else (Success)
+      |System|
+      :(6) Display success and apply settings;
+      stop
+    endif
+  endif
+repeat while (Invalid or Error)
+
+@enduml

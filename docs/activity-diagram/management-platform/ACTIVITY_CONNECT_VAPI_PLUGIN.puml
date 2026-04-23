@@ -1,0 +1,35 @@
+@startuml Activity Diagram - Connect VAPI Plugin
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Plugins / Integrations view;
+:(2) Click "Connect VAPI";
+
+|User|
+:(3) Enter VAPI credentials/config and click "Connect";
+
+|System|
+:(4) Validate credentials (syntax & optional test call);
+if (Valid?) then (Yes)
+  |Database|
+  :(5) Store plugin configuration;
+  |System|
+  :(6) Show success; 
+  stop
+else (No)
+  |System|
+  :(4.1) Show error and allow retry;
+  stop
+endif
+
+@enduml

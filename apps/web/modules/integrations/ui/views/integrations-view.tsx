@@ -85,13 +85,13 @@ export const IntegrationsView = () => {
                 Chat
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
               {INTERGRATIONS.map((integration) => (
                 <button
                   type="button"
                   key={integration.id}
                   onClick={() => handleIntegrationClick(integration.id)}
-                  className="flex items-center gap-4 rounded-lg border bg-background p-4 hover:bg-accent"
+                  className="flex items-center min-w-30 gap-4 rounded-lg border bg-background p-4 hover:bg-accent"
                 >
                   <Image
                     src={integration.icon}

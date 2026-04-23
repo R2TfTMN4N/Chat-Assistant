@@ -1,0 +1,25 @@
+@startuml Sequence Diagram - View Billing History
+
+actor "Admin" as Admin
+participant "BillingView" as BillingView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> BillingView : 1 Open billing/history page
+activate BillingView
+BillingView -> BillingView : 2 Display billing history view
+
+BillingView -> ClerkAuth : 3 Request billing history
+activate ClerkAuth
+ClerkAuth -> Backend : 4 Fetch billing records
+activate Backend
+Backend -> Backend : 5 Retrieve billing history
+Backend -> ClerkAuth : 6 Return billing data
+ClerkAuth -> BillingView : 7 Return billing history
+BillingView -> Admin : 8 Display billing history
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate BillingView
+
+@enduml

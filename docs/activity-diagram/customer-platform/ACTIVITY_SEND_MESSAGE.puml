@@ -1,0 +1,34 @@
+@startuml Activity Diagram - Send Message (Customer)
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|Customer|
+start
+
+|System|
+:(1) Focus chat input;
+
+|Customer|
+:(2) Type message;
+:(3) Click "Send";
+
+|System|
+:(4) Validate message (not-empty);
+:(5) Send message ( API request);
+
+|Backend|
+:(6) Authenticate and accept message;
+:(7) Persist message record;
+:(8) Forward message to recipient (AI or staff) and return ack;
+
+|System|
+:(9) Display sent message state (sent/delivered);
+stop
+
+@enduml

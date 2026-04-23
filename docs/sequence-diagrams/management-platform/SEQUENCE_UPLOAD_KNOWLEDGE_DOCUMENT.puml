@@ -1,0 +1,35 @@
+@startuml Sequence Diagram - Upload Knowledge Document
+
+actor "Admin" as Admin
+participant "KnowledgeDocumentView" as DocView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> DocView : 1 Open knowledge document upload page
+activate DocView
+DocView -> DocView : 2 Display upload form
+
+Admin -> DocView : 3 Select document
+Admin -> DocView : 4 Click "Upload" button
+
+DocView -> DocView : 5 Validate file format
+
+alt [Invalid file]
+    DocView -> DocView : 6 Error notification
+    DocView -> Admin : 7 Display error notification
+else [Valid file]
+    DocView -> ClerkAuth : 8 Send upload request
+    activate ClerkAuth
+    ClerkAuth -> Backend : 9 Store document
+    activate Backend
+    Backend -> Backend : 10 Save document
+    Backend -> ClerkAuth : 11 Confirmation
+    deactivate Backend
+    ClerkAuth -> DocView : 12 Success notification
+    DocView -> Admin : 13 Display success message
+    deactivate ClerkAuth
+end
+
+deactivate DocView
+
+@enduml

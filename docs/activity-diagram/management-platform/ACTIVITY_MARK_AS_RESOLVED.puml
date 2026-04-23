@@ -1,0 +1,33 @@
+@startuml Activity Diagram - Mark Conversation as Resolved
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+|System|
+:(1) Open Conversation detail;
+|User|
+
+:(2) Click "Mark as Resolved";
+
+|System|
+:(3) Send authenticated request to update status;
+|Database|
+:(4) Update conversation status to "resolved";
+if (Updated?) then (Yes)
+  |System|
+  :(5) Show success / updated status;
+  stop
+else (No)
+  |System|
+  :(4.1) Show error and allow retry;
+  stop
+endif
+
+@enduml

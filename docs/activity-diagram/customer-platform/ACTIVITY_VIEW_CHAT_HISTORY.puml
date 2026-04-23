@@ -1,0 +1,33 @@
+@startuml Activity Diagram - View Chat History
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|Customer|
+start
+|Customer|
+:(1) Open Conversation detail view;
+
+|Customer|
+:(2) Click "View messages";
+
+|System|
+:(3) Send authenticated request for message history;
+|Database|
+:(4) Query message records;
+if (Found?) then (Yes)
+  |System|
+  :(5) Return and display messages;
+  stop
+else (No)
+  |System|
+  :(4.1) Show "No messages"; 
+  stop
+endif
+
+@enduml

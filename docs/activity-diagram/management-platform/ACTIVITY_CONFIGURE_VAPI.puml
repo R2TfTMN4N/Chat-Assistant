@@ -1,0 +1,48 @@
+
+@startuml
+title Activity Diagram - Configure VAPI Assistants 
+
+
+skinparam dpi 100
+skinparam activityPadding 4
+skinparam activityMargin 4
+skinparam arrowThickness 1
+skinparam notePadding 3
+skinparam shadowing false
+skinparam defaultFontSize 10
+|User|
+start
+
+|System|
+:(1) Open VAPI page;
+:(2) Show status;
+
+|User|
+:(3) Enter API keys & Connect;
+
+if (Not connected?) then (yes)
+  |System|
+  :(4) Validate keys;
+  if (Invalid?) then (no)
+    :(4.1) Show validation error;
+    stop
+  else (yes)
+    |Database|
+    :(5) Store credentials;
+    |System|
+    :(6) Show success;
+    stop
+  endif
+
+else (connected)
+  |User|
+  :(7) Configure Widget;
+  :(8) Select assistant & number;
+  :(9) Click Save;
+
+  |System|
+  :(10) Validate & store settings; show success;
+  stop
+endif
+
+@enduml

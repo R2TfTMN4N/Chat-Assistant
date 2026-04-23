@@ -1,0 +1,33 @@
+@startuml Activity Diagram - Escalate to Human
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Conversation detail;
+:(2) Show "Escalate to Human" option;
+
+|User|
+:(3) Click "Escalate to Human";
+
+|System|
+:(4) Send authenticated escalate request;
+|System|
+:(5) Run escalate tool / mutation;
+|Database|
+:(6) Update conversation status to "escalated";
+|System|
+:(7) Add system message: "Conversation escalated to a human operator";
+:(8) Notify on-duty team members; 
+:(9) Display success; 
+stop
+
+@enduml

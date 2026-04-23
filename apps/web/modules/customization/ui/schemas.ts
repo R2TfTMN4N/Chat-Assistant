@@ -13,4 +13,6 @@ export const widgetSettingsSchema = z.object({
     assistantId: z.string().optional(),
     phoneNumber: z.string().optional(),
   }),
+  themeColor: z.string().optional(),
+  inlayTextColor: z.string().optional(),
 });

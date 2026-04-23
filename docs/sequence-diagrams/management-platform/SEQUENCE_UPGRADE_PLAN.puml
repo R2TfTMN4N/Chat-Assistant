@@ -1,0 +1,30 @@
+@startuml Sequence Diagram - Upgrade Plan
+
+actor "Admin" as User
+participant "BillingView" as BillingView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+User -> BillingView : 1 Open billing/plan page
+activate BillingView
+BillingView -> BillingView : 2 Display available plans
+
+Admin -> BillingView : 3 Select new plan
+Admin -> BillingView : 4 Click "Upgrade Plan" button
+
+BillingView -> BillingView : 5 Confirm upgrade action
+
+BillingView -> ClerkAuth : 6 Send upgrade request
+activate ClerkAuth
+ClerkAuth -> Backend : 7 Update plan in backend
+activate Backend
+Backend -> Backend : 8 Update user/organization plan record
+Backend -> ClerkAuth : 9 Confirmation
+ClerkAuth -> BillingView : 10 Success notification
+BillingView -> User : 11 Display success message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate BillingView
+
+@enduml

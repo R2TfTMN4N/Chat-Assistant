@@ -1,0 +1,35 @@
+@startuml Activity Diagram - Switch Organization
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Display organization list;
+
+repeat
+  |User|
+  :(2) Select organization to switch;
+  :(3) Click "Switch";
+
+  |System|
+  :(4) Validate membership and permissions;
+  if (Allowed?) then (Not allowed)
+    :(4.1) Display error notification;
+  else (Allowed)
+    |Database|
+    :(5) Update user active organization;
+    |System|
+    :(6) Display success and refresh view;
+    stop
+  endif
+repeat while (Not allowed)
+
+@enduml

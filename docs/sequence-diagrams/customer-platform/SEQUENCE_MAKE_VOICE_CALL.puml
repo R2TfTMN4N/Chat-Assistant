@@ -1,0 +1,31 @@
+@startuml Sequence Diagram - Make Voice Call
+
+actor "Customer" as Customer
+participant "VoiceCallView" as VoiceView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+participant "VoiceService" as VoiceService
+
+Customer -> VoiceView : 1 Open chat widget
+activate VoiceView
+VoiceView -> VoiceView : 2 Display voice call option
+
+Customer -> VoiceView : 3 Click "Call" button
+VoiceView -> ClerkAuth : 4 Send call request
+activate ClerkAuth
+ClerkAuth -> Backend : 5 Store call request
+activate Backend
+Backend -> VoiceService : 6 Initiate voice call
+activate VoiceService
+VoiceService -> VoiceService : 7 Connect call
+VoiceService -> Backend : 8 Call status
+Backend -> ClerkAuth : 9 Call status
+ClerkAuth -> VoiceView : 10 Call status
+VoiceView -> Customer : 11 Display call status
+
+deactivate VoiceService
+deactivate Backend
+deactivate ClerkAuth
+deactivate VoiceView
+
+@enduml

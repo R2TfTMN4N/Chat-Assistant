@@ -1,0 +1,49 @@
+@startuml Sequence Diagram - Sign In
+
+actor "TeamMember" as User
+participant "SignInView" as SignInView
+participant "HomeView" as HomeView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+User -> SignInView : 1 Open sign in page
+activate SignInView
+SignInView -> SignInView : 2 Display sign in form
+
+User -> SignInView : 3 Enter email & password
+User -> SignInView : 4 Click "Sign In" button
+
+SignInView -> SignInView : 5 Validate data format
+
+alt [Invalid data]
+    SignInView -> SignInView : 6 Error notification
+    SignInView -> User : 7 Display error notification
+else [Valid data]
+    SignInView -> ClerkAuth : 8 Send email & password
+    activate ClerkAuth
+    
+    ClerkAuth -> ClerkAuth : 9 Validate credentials
+    
+    alt [Invalid credentials]
+        ClerkAuth -> SignInView : 10 Error notification
+        SignInView -> SignInView : 11 Error notification
+        SignInView -> User : 12 Display error notification
+    else [Valid credentials]
+        ClerkAuth -> ClerkAuth : 13 Generate JWT token
+        ClerkAuth -> SignInView : 14 Success notification + token
+        SignInView -> Backend : 15 Initialize Convex with token
+        activate Backend
+        Backend -> Backend : 16 Verify JWT and organization
+        Backend -> SignInView : 17 User data
+        deactivate Backend
+        SignInView -> SignInView : 18 Success notification
+        SignInView -> HomeView : 19 Redirect to dashboard
+        activate HomeView
+        HomeView -> User : 20 Display home view
+        deactivate HomeView
+    end
+    deactivate ClerkAuth
+end
+
+deactivate SignInView
+
+@enduml

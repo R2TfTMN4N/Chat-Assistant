@@ -1,0 +1,25 @@
+@startuml Activity Diagram - View All Conversations
+
+skinparam dpi 150
+skinparam activityPadding 6
+skinparam activityMargin 6
+skinparam arrowThickness 1
+skinparam notePadding 4
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+|User|
+start
+
+|System|
+:(1) Open Conversations view;
+:(2) Display list of conversations (paged);
+
+|User|
+:(3) Scroll / Paginate / Select conversation;
+
+|System|
+:(4) Show selected conversation or indicate empty state; 
+stop
+
+@enduml

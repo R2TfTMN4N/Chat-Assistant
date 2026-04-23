@@ -160,14 +160,24 @@ export const WidgetLoadingScreen = ({
   return (
     <>
       <WidgetHeader>
+        {" "}
         <div className="flex flex-col justify-between gap-y-2 px-2 py-6">
-          <p className="text-3xl">Hi there! Welcome to the Widget View.</p>
-          <p className="text-lg">Let's get started!</p>
+          <p className="text-3xl font-bold text-white dark:text-white">
+            Hi there! Welcome to meet your Assistant.
+          </p>
+          <p className="text-lg text-white dark:text-gray-300">
+            Let's get started!
+          </p>
         </div>
       </WidgetHeader>
-      <div className="flex flex-1 flex-col gap-y-4 p-4 items-center justify-center">
-        <LoaderIcon className="animate-spin" />
-        <p className="text-sm">{loadingMessage ?? "Loading..."}</p>
+      <div className="flex flex-1 flex-col items-center justify-center gap-y-4 p-4">
+        <div className="relative flex h-24 w-24 items-center justify-center">
+          <div className="absolute h-full w-full animate-spin rounded-full border-4 border-t-4 border-gray-200 dark:border-gray-700 border-t-blue-500 dark:border-t-blue-400"></div>
+          <LoaderIcon className="h-12 w-12 text-blue-500 dark:text-blue-400" />
+        </div>
+        <p className="text-center text-sm text-black dark:text-gray-400">
+          {loadingMessage ?? "Loading..."}
+        </p>
       </div>
     </>
   );

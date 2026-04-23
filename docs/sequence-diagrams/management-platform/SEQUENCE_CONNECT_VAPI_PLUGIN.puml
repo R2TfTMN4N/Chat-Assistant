@@ -1,0 +1,28 @@
+@startuml Sequence Diagram - Connect VAPI Plugin
+
+actor "Admin" as Admin
+participant "PluginView" as PluginView
+participant "ClerkAuth" as ClerkAuth
+participant "Backend" as Backend
+
+Admin -> PluginView : 1 Open plugins page
+activate PluginView
+PluginView -> PluginView : 2 Display available plugins
+
+Admin -> PluginView : 3 Select VAPI plugin
+Admin -> PluginView : 4 Click "Connect" button
+
+PluginView -> ClerkAuth : 5 Send connect request
+activate ClerkAuth
+ClerkAuth -> Backend : 6 Connect VAPI plugin
+activate Backend
+Backend -> Backend : 7 Update plugin records
+Backend -> ClerkAuth : 8 Confirmation
+ClerkAuth -> PluginView : 9 Success notification
+PluginView -> Admin : 10 Display success message
+
+deactivate Backend
+deactivate ClerkAuth
+deactivate PluginView
+
+@enduml
