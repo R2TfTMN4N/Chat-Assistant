@@ -1,4 +1,4 @@
 const Page = () => {
-  return <div>Vapi Page</div>;
+  return <div>Voice Assistant Page</div>;
 };
 export default Page;
