@@ -1,12 +1,12 @@
 import { v } from "convex/values";
-import { query } from "../_generated/server";
-import { rag } from "../system/ai/rag";
+import { action } from "../_generated/server";
+import rag from "../system/ai/rag";
 
 /**
  * Get suggested questions based on knowledge base content
  * Uses RAG to find relevant topics and generate question suggestions
  */
-export const getSuggestedQuestions = query({
+export const getSuggestedQuestions = action({
   args: {
     organizationId: v.string(),
     limit: v.optional(v.number()),
@@ -16,7 +16,8 @@ export const getSuggestedQuestions = query({
 
     try {
       // Search for general topics in the knowledge base
-      const searchResults = await rag.search(ctx, "", {
+      const searchResults = await rag.search(ctx, {
+        query: "",
         namespace: args.organizationId,
         limit: 10,
       });
@@ -25,44 +26,40 @@ export const getSuggestedQuestions = query({
       const suggestions: Array<{ text: string; source?: string }> = [];
       const seenTexts = new Set<string>();
 
-      for (const result of searchResults) {
+      // Use the combined text from search results
+      const content = searchResults.text || "";
+
+      // Try to find question-like patterns or headers
+      const lines = content.split("\n");
+      for (const line of lines) {
         if (suggestions.length >= limit) break;
 
-        // Extract meaningful snippets from the content
-        const content = result.document.text;
+        const trimmed = line.trim();
 
-        // Try to find question-like patterns or headers
-        const lines = content.split("\n");
-        for (const line of lines) {
-          if (suggestions.length >= limit) break;
+        // Look for questions or important topics (headers, bullet points)
+        if (
+          (trimmed.endsWith("?") ||
+            trimmed.match(/^#+\s+/) ||
+            trimmed.match(/^[-*]\s+/)) &&
+          trimmed.length > 10 &&
+          trimmed.length < 150 &&
+          !seenTexts.has(trimmed)
+        ) {
+          let questionText = trimmed
+            .replace(/^#+\s+/, "") // Remove markdown headers
+            .replace(/^[-*]\s+/, "") // Remove bullet points
+            .trim();
 
-          const trimmed = line.trim();
-
-          // Look for questions or important topics (headers, bullet points)
-          if (
-            (trimmed.endsWith("?") ||
-              trimmed.match(/^#+\s+/) ||
-              trimmed.match(/^[-*]\s+/)) &&
-            trimmed.length > 10 &&
-            trimmed.length < 150 &&
-            !seenTexts.has(trimmed)
-          ) {
-            let questionText = trimmed
-              .replace(/^#+\s+/, "") // Remove markdown headers
-              .replace(/^[-*]\s+/, "") // Remove bullet points
-              .trim();
-
-            // If it's not a question, make it one
-            if (!questionText.endsWith("?")) {
-              questionText = `What about ${questionText.toLowerCase()}?`;
-            }
-
-            suggestions.push({
-              text: questionText,
-              source: result.document.metadata?.fileName as string | undefined,
-            });
-            seenTexts.add(trimmed);
+          // If it's not a question, make it one
+          if (!questionText.endsWith("?")) {
+            questionText = `What about ${questionText.toLowerCase()}?`;
           }
+
+          suggestions.push({
+            text: questionText,
+            source: "knowledge base",
+          });
+          seenTexts.add(trimmed);
         }
       }
 
