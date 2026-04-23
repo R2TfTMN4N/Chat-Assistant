@@ -7,6 +7,7 @@ import {
   loadingMessageAtom,
   organizationIdAtom,
   screenAtom,
+  vapiSecretsAtom,
   widgetSettingsAtom,
 } from "../../atoms/widget-atoms";
 import { WidgetHeader } from "../components/widget-header";
@@ -32,7 +33,7 @@ export const WidgetLoadingScreen = ({
   const setOrganizationId = useSetAtom(organizationIdAtom);
   const loadingMessage = useAtomValue(loadingMessageAtom);
   const setScreen = useSetAtom(screenAtom);
-
+  const setVapiSecrets = useSetAtom(vapiSecretsAtom);
   const contactSessionId = useAtomValue(
     contactSessionIdAtomFamily(organizationId || "")
   );
@@ -112,17 +113,43 @@ export const WidgetLoadingScreen = ({
 
   const widgetSettings = useQuery(
     api.public.widgetSettings.getByOrganizationId,
-
     organizationId ? { organizationId } : "skip"
   );
   useEffect(() => {
     if (step !== "settings") return;
     setLoadingMessage("Loading widget settings...");
-    if (widgetSettings !== undefined && organizationId) {
+    if (widgetSettings !== undefined) {
       setWidgetSettings(widgetSettings);
-      setStep("done");
+      setStep("vapi");
     }
   }, [step, widgetSettings, setStep, setWidgetSettings, setLoadingMessage]);
+
+  const getVapiSecrets = useAction(api.public.secrets.getVapiSecrets);
+  useEffect(() => {
+    if (step !== "vapi") return;
+    if (!organizationId) {
+      setErrorMessage("Organization ID is missing.");
+      setScreen("error");
+      return;
+    }
+    setLoadingMessage("Loading voice features...");
+    getVapiSecrets({ organizationId })
+      .then((secrets) => {
+        setVapiSecrets(secrets);
+        setStep("done");
+      })
+      .catch(() => {
+        setVapiSecrets(null);
+        setStep("done");
+      });
+  }, [
+    step,
+    organizationId,
+    getVapiSecrets,
+    setVapiSecrets,
+    setLoadingMessage,
+    setStep,
+  ]);
 
   useEffect(() => {
     if (step !== "done") return;
@@ -130,9 +157,6 @@ export const WidgetLoadingScreen = ({
     setScreen(hasValidSession ? "selection" : "auth");
   }, [step, contactSessionId, sessionValid, setScreen]);
 
-  // ------------------------------
-  // UI
-  // ------------------------------
   return (
     <>
       <WidgetHeader>
