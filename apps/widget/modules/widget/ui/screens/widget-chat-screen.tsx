@@ -10,6 +10,7 @@ import {
   errorMessageAtom,
   organizationIdAtom,
   screenAtom,
+  widgetSettingsAtom,
 } from "../../atoms/widget-atoms";
 import { WidgetHeader } from "../components/widget-header";
 import { AlertTriangleIcon, ArrowLeftIcon, MenuIcon } from "lucide-react";
@@ -35,7 +36,12 @@ import {
   AIInputToolbar,
   AIInputTools,
 } from "@workspace/ui/components/ai/input";
+import {
+  AISuggestion,
+  AISuggestions,
+} from "@workspace/ui/components/ai/suggestion";
 import { Form, FormField } from "@workspace/ui/components/form";
+import { useMemo } from "react";
 const formSchema = z.object({
   message: z.string().min(1, "Message is required"),
 });
@@ -43,7 +49,7 @@ const formSchema = z.object({
 export const WidgetChatScreen = () => {
   const setScreen = useSetAtom(screenAtom);
   const setConversationId = useSetAtom(conversationIdAtom);
-
+  const widgetSettings = useAtomValue(widgetSettingsAtom);
   const conversationId = useAtomValue(conversationIdAtom);
   const organizationId = useAtomValue(organizationIdAtom);
   const contactSessionId = useAtomValue(
@@ -53,6 +59,14 @@ export const WidgetChatScreen = () => {
     setConversationId(null);
     setScreen("selection");
   };
+  const suggestions = useMemo(() => {
+    if (!widgetSettings) return [];
+    return Object.keys(widgetSettings.defaultSuggestions).map((key) => {
+      return widgetSettings.defaultSuggestions[
+        key as keyof typeof widgetSettings.defaultSuggestions
+      ];
+    });
+  }, [widgetSettings]);
 
   const conversation = useQuery(
     api.public.conversations.getOne,
@@ -129,10 +143,10 @@ export const WidgetChatScreen = () => {
                 </AIMessageContent>
                 {message.role === "assistant" && (
                   <DicebearAvatar
-                    imageUrl="/logo.png"
+                    imageUrl="/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"
                     seed="assistant"
                     size={32}
-                    badgeImageUrl="/logo.png"
+                    badgeImageUrl="/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"
                   />
                 )}
               </AIMessage>
@@ -140,7 +154,27 @@ export const WidgetChatScreen = () => {
           })}
         </AIConversationContent>
       </AIConversation>
-
+      {toUIMessages(messages.results ?? [])?.length === 1 && (
+        <AISuggestions className="flex w-full flex-col items-end p-2">
+          {suggestions.map((suggestion) => {
+            if (!suggestion) return null;
+            return (
+              <AISuggestion
+                key={suggestion}
+                suggestion={suggestion}
+                onClick={() => {
+                  form.setValue("message", suggestion, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  });
+                  form.handleSubmit(onSubmit)();
+                }}
+              />
+            );
+          })}
+        </AISuggestions>
+      )}
       <Form {...form}>
         <AIInput
           className="rounded-none border-x-0 border-b-0"

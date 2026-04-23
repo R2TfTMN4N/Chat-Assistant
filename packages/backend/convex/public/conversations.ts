@@ -103,6 +103,12 @@ export const create = mutation({
         message: "Invalid or expired contact session",
       });
     }
+    const widgetSettings = await ctx.db
+      .query("widgetSettings")
+      .withIndex("by_organizationId", (q) =>
+        q.eq("organizationId", args.organizationId)
+      )
+      .unique();
     const { threadId } = await supportAgent.createThread(ctx, {
       userId: args.organizationId,
     });
@@ -111,7 +117,8 @@ export const create = mutation({
       threadId,
       message: {
         role: "assistant",
-        content: "Hello, How can I message you today",
+        content:
+          widgetSettings?.greetMessage || "Hello! How can I assist you today?",
       },
     });
 
