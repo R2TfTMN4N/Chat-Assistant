@@ -69,6 +69,12 @@ export default function RootLayout({
                 organizationPreviewMainIdentifier: "text-foreground",
                 organizationPreviewSecondaryIdentifier: "text-muted-foreground",
                 badge: "bg-primary/10 text-primary border-primary/20",
+                // Checkout drawer z-index - ensure it appears above sidebar
+                drawerRoot: "!z-[100]",
+                drawerBackdrop: "!z-[100]",
+                drawerContent: "!z-[100]",
+                modalBackdrop: "!z-[100]",
+                modalContent: "!z-[100]",
               },
             }}
           >

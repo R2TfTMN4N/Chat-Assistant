@@ -235,7 +235,7 @@ export function DashboardAnalytics() {
               Conversation volume throughout the day
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             {hourlyActivity && hourlyActivity.length > 0 ? (
               <ChartContainer
                 config={{
@@ -244,7 +244,7 @@ export function DashboardAnalytics() {
                     color: CHART_COLORS[0],
                   },
                 }}
-                className="h-[300px]"
+                className="aspect-auto h-[260px] w-full"
               >
                 <BarChart data={hourlyActivity}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -272,7 +272,7 @@ export function DashboardAnalytics() {
             <CardTitle>Status Distribution</CardTitle>
             <CardDescription>Breakdown by conversation status</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             {statusData.some((d) => d.value > 0) ? (
               <ChartContainer
                 config={{
@@ -289,7 +289,7 @@ export function DashboardAnalytics() {
                     color: CHART_COLORS[1],
                   },
                 }}
-                className="h-[300px]"
+                className="aspect-auto h-[260px] w-full"
               >
                 <PieChart>
                   <Pie
@@ -317,8 +317,10 @@ export function DashboardAnalytics() {
             )}
           </CardContent>
         </Card>
+      </div>
 
-        {/* Weekly Comparison */}
+      <div className="grid gap-4 md:grid-cols-2">
+        {/* Resolution Performance */}
         <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Resolution Performance</CardTitle>
@@ -326,7 +328,7 @@ export function DashboardAnalytics() {
               Compare resolution vs escalation rates
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             {stats && (
               <ChartContainer
                 config={{
@@ -339,7 +341,7 @@ export function DashboardAnalytics() {
                     color: CHART_COLORS[2],
                   },
                 }}
-                className="h-[300px]"
+                className="aspect-auto h-[260px] w-full"
               >
                 <BarChart
                   data={[
@@ -370,9 +372,7 @@ export function DashboardAnalytics() {
             )}
           </CardContent>
         </Card>
-      </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
         {/* Conversation Trends */}
         <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
@@ -396,7 +396,7 @@ export function DashboardAnalytics() {
               </Select>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             {trends && trends.length > 0 ? (
               <ChartContainer
                 config={{
@@ -413,7 +413,7 @@ export function DashboardAnalytics() {
                     color: CHART_COLORS[0],
                   },
                 }}
-                className="h-[300px]"
+                className="aspect-auto h-[260px] w-full"
               >
                 <AreaChart data={trends}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -465,29 +465,43 @@ export function DashboardAnalytics() {
               Most active users by conversation count
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             {topContacts && topContacts.length > 0 ? (
-              <ChartContainer
-                config={{
-                  count: {
-                    label: "Conversations",
-                    color: CHART_COLORS[0],
-                  },
-                }}
-                className="h-[300px]"
-              >
-                <BarChart data={topContacts} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
-                  <YAxis dataKey="name" type="category" width={100} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar
-                    dataKey="count"
-                    fill={CHART_COLORS[3]}
-                    radius={[0, 4, 4, 0]}
-                  />
-                </BarChart>
-              </ChartContainer>
+              <div>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Showing {topContacts.length} of {topContacts.length} contacts
+                </p>
+                <ChartContainer
+                  config={{
+                    count: {
+                      label: "Conversations",
+                      color: CHART_COLORS[0],
+                    },
+                  }}
+                  className="aspect-auto h-[500px] w-full"
+                >
+                  <BarChart
+                    data={topContacts}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 5, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis
+                      dataKey="name"
+                      type="category"
+                      width={140}
+                      fontSize={12}
+                    />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Bar
+                      dataKey="count"
+                      fill={CHART_COLORS[3]}
+                      radius={[0, 4, 4, 0]}
+                    />
+                  </BarChart>
+                </ChartContainer>
+              </div>
             ) : (
               <div className="h-[300px] flex items-center justify-center text-muted-foreground">
                 No contact data available
@@ -574,16 +588,17 @@ export function DashboardAnalytics() {
                       )}
                     </div>
                     <div>
-                      <p className="text-sm font-medium">
+                      <p className="text-md font-medium">
                         {activity.contactName}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm text-muted-foreground">
                         {activity.contactEmail}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right text-md">
                     <Badge
+                      className="text-sm "
                       variant={
                         activity.status === "resolved"
                           ? "default"
@@ -594,7 +609,7 @@ export function DashboardAnalytics() {
                     >
                       {activity.status}
                     </Badge>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       {formatDistanceToNow(activity._creationTime, {
                         addSuffix: true,
                       })}

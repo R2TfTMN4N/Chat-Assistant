@@ -371,39 +371,10 @@ export const CustomizationForm = ({
 
                         <button
                           type="button"
-                          onClick={() => field.onChange("gemini-2.0-flash-exp")}
+                          onClick={() => field.onChange("gemini-2.5-pro")}
                           className={cn(
                             "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
-                            field.value === "gemini-2.0-flash-exp"
-                              ? "border-primary bg-primary/5 shadow-md"
-                              : "border-border/50 bg-background/50",
-                          )}
-                        >
-                          <div className="flex items-start justify-between mb-1">
-                            <div className="flex items-center gap-2">
-                              <Sparkles className="h-4 w-4 text-purple-500" />
-                              <span className="font-semibold text-sm">
-                                Gemini 2.0 Flash
-                              </span>
-                            </div>
-                            <Badge
-                              variant="destructive"
-                              className="text-[10px] px-1.5 py-0"
-                            >
-                              Experimental
-                            </Badge>
-                          </div>
-                          <p className="text-xs text-muted-foreground">
-                            Latest experimental features
-                          </p>
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => field.onChange("gemini-1.5-pro")}
-                          className={cn(
-                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
-                            field.value === "gemini-1.5-pro"
+                            field.value === "gemini-2.5-pro"
                               ? "border-primary bg-primary/5 shadow-md"
                               : "border-border/50 bg-background/50",
                           )}
@@ -412,7 +383,7 @@ export const CustomizationForm = ({
                             <div className="flex items-center gap-2">
                               <Brain className="h-4 w-4 text-indigo-500" />
                               <span className="font-semibold text-sm">
-                                Gemini 1.5 Pro
+                                Gemini 2.5 Pro
                               </span>
                             </div>
                             <Badge
@@ -429,10 +400,10 @@ export const CustomizationForm = ({
 
                         <button
                           type="button"
-                          onClick={() => field.onChange("gemini-1.5-flash")}
+                          onClick={() => field.onChange("gemini-2.5-flash")}
                           className={cn(
                             "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
-                            field.value === "gemini-1.5-flash"
+                            field.value === "gemini-2.5-flash"
                               ? "border-primary bg-primary/5 shadow-md"
                               : "border-border/50 bg-background/50",
                           )}
@@ -441,7 +412,7 @@ export const CustomizationForm = ({
                             <div className="flex items-center gap-2">
                               <Zap className="h-4 w-4 text-yellow-500" />
                               <span className="font-semibold text-sm">
-                                Gemini 1.5 Flash
+                                Gemini 2.5 Flash
                               </span>
                             </div>
                           </div>

@@ -18,6 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@workspace/ui/components/sidebar";
 import { cn } from "@workspace/ui/lib/utils";
 import {
@@ -39,7 +40,7 @@ import { Label } from "@workspace/ui/components/label";
 const customerSupportItems = [
   {
     title: "Dashboard",
-    url: "/",
+    url: "/dashboard",
     icon: LayoutDashboardIcon,
   },
   {
@@ -82,12 +83,18 @@ export const DashboardSidebar = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const { user } = useUser();
   const { organization } = useOrganization();
+  const { setOpenMobile } = useSidebar();
 
   const isActive = (url: string) => {
     if (url === "/") {
       return pathname === "/";
     }
     return pathname.startsWith(url);
+  };
+
+  const handleNavClick = () => {
+    // Close mobile sidebar when navigating
+    setOpenMobile(false);
   };
 
   return (
@@ -135,7 +142,7 @@ export const DashboardSidebar = () => {
                     )}
                     tooltip={item.title}
                   >
-                    <Link href={item.url}>
+                    <Link href={item.url} onClick={handleNavClick}>
                       <item.icon className="size-5 mx-2 group-data-[collapsible=icon]:mx-auto" />
                       <span
                         className={cn(
@@ -169,7 +176,7 @@ export const DashboardSidebar = () => {
                     )}
                     tooltip={item.title}
                   >
-                    <Link href={item.url}>
+                    <Link href={item.url} onClick={handleNavClick}>
                       <item.icon className="size-6 mx-2 group-data-[collapsible=icon]:mx-auto" />
                       <span
                         className={cn(
@@ -203,7 +210,7 @@ export const DashboardSidebar = () => {
                     )}
                     tooltip={item.title}
                   >
-                    <Link href={item.url}>
+                    <Link href={item.url} onClick={handleNavClick}>
                       <item.icon className="size-5 mx-2 group-data-[collapsible=icon]:mx-auto" />
                       <span
                         className={cn(

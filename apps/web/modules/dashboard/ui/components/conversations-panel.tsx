@@ -102,7 +102,7 @@ export const ConversationsPanel = () => {
       {isLoadingFirstPage ? (
         <SkeletonConversations />
       ) : (
-        <ScrollArea className="max-h-[calc(100vh-53px)]">
+        <ScrollArea className="flex-1">
           <div className="flex w-full flex-1 flex-col text-sm">
             {conversations.results.map((conversation) => {
               const isLastMessageFromOperator =
@@ -132,27 +132,27 @@ export const ConversationsPanel = () => {
                   ></div>
                   <DicebearAvatar
                     seed={conversation.contactSession._id || "User"}
-                    size={40}
+                    size={48}
                     badgeImageUrl={countryFlagUrl || undefined}
                     className="shrink-0"
                   />
                   <div className="flex-1">
                     <div className="flex w-full items-center gap-2">
-                      <span className="truncate font-bold">
+                      <span className="truncate font-bold text-base">
                         {conversation.contactSession.name}
                       </span>
-                      <span className="ml-auto shrink-0 text-muted-foreground text-xs">
+                      <span className="ml-auto shrink-0 text-muted-foreground text-sm">
                         {formatDistanceToNow(conversation._creationTime)}
                       </span>
                     </div>
                     <div className="mt-1 flex items-center justify-between gap-2">
                       <div className="flex w-0 grow items-center gap-1">
                         {isLastMessageFromOperator && (
-                          <CornerUpLeftIcon className="size-3 shrink-0 text-muted-foreground" />
+                          <CornerUpLeftIcon className="size-4 shrink-0 text-muted-foreground" />
                         )}
                         <span
                           className={cn(
-                            "line-clamp-1 text-muted-foreground text-xs",
+                            "line-clamp-1 text-muted-foreground text-sm",
                             !isLastMessageFromOperator &&
                               "font-semibold text-foreground",
                           )}
