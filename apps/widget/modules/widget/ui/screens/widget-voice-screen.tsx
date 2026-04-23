@@ -3,7 +3,12 @@ import { screenAtom } from "../../atoms/widget-atoms";
 import { useVapi } from "../../hooks/use-vapi";
 import { WidgetHeader } from "../components/widget-header";
 import { Button } from "@workspace/ui/components/button";
-import { MicIcon, MicOffIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  ChevronLeftIcon,
+  MicIcon,
+  MicOffIcon,
+} from "lucide-react";
 import { WidgetFooter } from "../components/widget-footer";
 import { cn } from "@workspace/ui/lib/utils";
 import {
@@ -35,12 +40,14 @@ export const WidgetVoiceScreen = () => {
             variant="transparent"
             size="icon"
             onClick={() => setScreen("selection")}
-          ></Button>
+          >
+            <ArrowLeftIcon className="text-white" />
+          </Button>
           <p>Voice Chat</p>
         </div>
       </WidgetHeader>
       {transcript.length > 0 ? (
-        <AIConversation className="h-full flex-1">
+        <AIConversation className="h-full ">
           <AIConversationContent>
             {transcript.map((message, index) => (
               <AIMessage
@@ -58,9 +65,7 @@ export const WidgetVoiceScreen = () => {
           <div className=" flex items-center justify-center rounded-full border bg-white p-3 ">
             <MicIcon className="size-6 text-muted-foreground"></MicIcon>
           </div>
-          <p className="text-muted-foreground">
-            Voice chat is coming soon! Stay tuned for updates.
-          </p>
+          <p className="text-muted-foreground">Transcript will appear here.</p>
         </div>
       )}
       <div className="border-t bg-background p-4">
@@ -79,13 +84,13 @@ export const WidgetVoiceScreen = () => {
             </div>
           )}
           <div className="flex w-full justify-center">
-            {false ? (
+            {isConnected ? (
               <Button
                 className="w-full"
                 size="lg"
                 variant="destructive"
                 onClick={() => {
-                  endCall;
+                  endCall();
                 }}
               >
                 <MicOffIcon />
