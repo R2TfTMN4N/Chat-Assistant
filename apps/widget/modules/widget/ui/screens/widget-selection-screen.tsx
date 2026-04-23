@@ -17,8 +17,8 @@ import {
 import { Button } from "@workspace/ui/components/button";
 import { useMutation } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
-import { set } from "zod/v4-mini";
 import { useState } from "react";
+import { WidgetFooter } from "../components/widget-footer";
 export const WidgetSelectionScreen = () => {
   const setErrorMessage = useSetAtom(errorMessageAtom);
   const setScreen = useSetAtom(screenAtom);
@@ -58,7 +58,7 @@ export const WidgetSelectionScreen = () => {
   return (
     <>
       <WidgetHeader>
-        <div className="flex flex-col justify-between gap-y-2 px-2 py-6">
+        <div className="flex flex-col justify-between gap-y-2 px-2 py-6 font-semibold">
           <p className="text-3xl">Hi there! Welcome to the Widget View.</p>
           <p className="text-lg">Let's get started!</p>
         </div>
@@ -77,6 +77,7 @@ export const WidgetSelectionScreen = () => {
           <ChevronRightIcon />
         </Button>
       </div>
+      <WidgetFooter />
     </>
   );
 };
