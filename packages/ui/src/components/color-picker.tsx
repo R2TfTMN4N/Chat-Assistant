@@ -1,17 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "../lib/utils";
+import { cn } from "@workspace/ui/lib/utils";
 
 interface ColorPickerProps {
   colors: string[];
   value: string;
-  onChange: (color: string) => void;
+  onValueChange: (color: string) => void;
   className?: string;
 }
 
 const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
-  ({ colors, value, onChange, className }, ref) => {
+  ({ colors, value, onValueChange, className }, ref) => {
     return (
       <div ref={ref} className={cn("flex flex-wrap gap-2", className)}>
         {colors.map((color) => (
@@ -25,7 +25,7 @@ const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
                 : "border-transparent"
             )}
             style={{ backgroundColor: color }}
-            onClick={() => onChange(color)}
+            onClick={() => onValueChange(color)}
           />
         ))}
       </div>

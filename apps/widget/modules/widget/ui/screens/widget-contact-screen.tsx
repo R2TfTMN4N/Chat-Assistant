@@ -13,6 +13,7 @@ import {
   PhoneIcon,
 } from "lucide-react";
 import { WidgetFooter } from "../components/widget-footer";
+import { DarkModeToggle } from "../components/dark-mode-toggle";
 import { cn } from "@workspace/ui/lib/utils";
 import {
   AIConversation,
@@ -45,15 +46,18 @@ export const WidgetContactScreen = () => {
   return (
     <div className="min-h-[calc(100vh-2px)] flex flex-col">
       <WidgetHeader>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="transparent"
-            size="icon"
-            onClick={() => setScreen("selection")}
-          >
-            <ArrowLeftIcon className="text-white" />
-          </Button>
-          <p>Contact Us</p>
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="transparent"
+              size="icon"
+              onClick={() => setScreen("selection")}
+            >
+              <ArrowLeftIcon className="text-white" />
+            </Button>
+            <p>Contact Us</p>
+          </div>
+          <DarkModeToggle />
         </div>
       </WidgetHeader>
       <div className="flex h-full flex-col items-center justify-center gap-yy-4">

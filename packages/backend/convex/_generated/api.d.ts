@@ -13,6 +13,7 @@ import type * as http from "../http.js";
 import type * as libs_extractTextContent from "../libs/extractTextContent.js";
 import type * as libs_secrets from "../libs/secrets.js";
 import type * as playground from "../playground.js";
+import type * as private_analytics from "../private/analytics.js";
 import type * as private_contactSessions from "../private/contactSessions.js";
 import type * as private_conversations from "../private/conversations.js";
 import type * as private_files from "../private/files.js";
@@ -60,6 +61,7 @@ declare const fullApi: ApiFromModules<{
   "libs/extractTextContent": typeof libs_extractTextContent;
   "libs/secrets": typeof libs_secrets;
   playground: typeof playground;
+  "private/analytics": typeof private_analytics;
   "private/contactSessions": typeof private_contactSessions;
   "private/conversations": typeof private_conversations;
   "private/files": typeof private_files;

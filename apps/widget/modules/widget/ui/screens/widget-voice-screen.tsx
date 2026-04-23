@@ -10,6 +10,7 @@ import {
   MicOffIcon,
 } from "lucide-react";
 import { WidgetFooter } from "../components/widget-footer";
+import { DarkModeToggle } from "../components/dark-mode-toggle";
 import { cn } from "@workspace/ui/lib/utils";
 import {
   AIConversation,
@@ -35,15 +36,18 @@ export const WidgetVoiceScreen = () => {
   return (
     <div className="min-h-[calc(100vh-2px)] flex flex-col">
       <WidgetHeader>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="transparent"
-            size="icon"
-            onClick={() => setScreen("selection")}
-          >
-            <ArrowLeftIcon className="text-white" />
-          </Button>
-          <p>Voice Chat</p>
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="transparent"
+              size="icon"
+              onClick={() => setScreen("selection")}
+            >
+              <ArrowLeftIcon className="text-white" />
+            </Button>
+            <p>Voice Chat</p>
+          </div>
+          <DarkModeToggle />
         </div>
       </WidgetHeader>
       {transcript.length > 0 ? (

@@ -21,6 +21,8 @@ export default defineSchema({
     }),
     themeColor: v.optional(v.string()),
     inlayTextColor: v.optional(v.string()),
+    themeStyle: v.optional(v.string()),
+    darkMode: v.optional(v.boolean()),
   }).index("by_organizationId", ["organizationId"]),
 
   plugins: defineTable({

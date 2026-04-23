@@ -146,7 +146,8 @@ const VapiPluginForm = ({
                     />
                   </FormControl>
                   <FormDescription className="text-xs">
-                    Used for server-side API calls (listing assistants, phone numbers)
+                    Used for server-side API calls (listing assistants, phone
+                    numbers)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

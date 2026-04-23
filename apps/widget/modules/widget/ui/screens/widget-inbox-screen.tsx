@@ -11,6 +11,7 @@ import { WidgetHeader } from "../components/widget-header";
 import { AlertTriangleIcon, ArrowLeftIcon } from "lucide-react";
 import { WidgetFooter } from "../components/widget-footer";
 import { Button } from "@workspace/ui/components/button";
+import { DarkModeToggle } from "../components/dark-mode-toggle";
 import { usePaginatedQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { formatDistanceToNow } from "date-fns";
@@ -44,17 +45,20 @@ export const WidgetInboxScreen = () => {
     <div className=" flex  flex-col justify-between min-h-[calc(100vh-2px)]">
       <div>
         <WidgetHeader>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="transparent"
-              size="icon"
-              onClick={() => {
-                setScreen("selection");
-              }}
-            >
-              <ArrowLeftIcon />
-            </Button>
-            <p>Inbox</p>
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2">
+              <Button
+                variant="transparent"
+                size="icon"
+                onClick={() => {
+                  setScreen("selection");
+                }}
+              >
+                <ArrowLeftIcon />
+              </Button>
+              <p>Inbox</p>
+            </div>
+            <DarkModeToggle />
           </div>
         </WidgetHeader>
         <div className="flex flex-1 flex-col gap-y-2 overflow-y-auto p-4 ">

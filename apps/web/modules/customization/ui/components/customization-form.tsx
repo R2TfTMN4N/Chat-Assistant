@@ -27,6 +27,18 @@ import { VapiFormFields } from "./vapi-form-fields";
 import { FormSchema } from "../types";
 import { widgetSettingsSchema } from "../schemas";
 import { ColorPicker } from "@workspace/ui/components/color-picker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
+import { Switch } from "@workspace/ui/components/switch";
+import { useThemeSwitcher } from "@/hooks/use-theme-switcher";
+import { useDarkMode } from "@/hooks/use-dark-mode";
+import { Moon, Sun } from "lucide-react";
+import { useEffect } from "react";
 
 type WidgetSettings = Doc<"widgetSettings">;
 interface CustomizationFormProps {
@@ -53,12 +65,14 @@ const inlayTextColors = [
   "#FFFF00",
   "#FF00FF",
   "#00FFFF",
-]
+];
 
 export const CustomizationForm = ({
   initialData,
   hasVapiPlugin,
 }: CustomizationFormProps) => {
+  const { currentTheme, changeTheme, availableThemes } = useThemeSwitcher();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const upsertWidgetSettings = useMutation(api.private.widgetSettings.upsert);
   const form = useForm<FormSchema>({
     resolver: zodResolver(widgetSettingsSchema),
@@ -75,8 +89,23 @@ export const CustomizationForm = ({
       },
       themeColor: initialData?.themeColor || "#000000",
       inlayTextColor: initialData?.inlayTextColor || "#FFFFFF",
+      themeStyle: initialData?.themeStyle || "globals",
+      darkMode: initialData?.darkMode || false,
     },
   });
+
+  // Sync theme from database on load
+  useEffect(() => {
+    if (initialData?.themeStyle && initialData.themeStyle !== currentTheme) {
+      changeTheme(initialData.themeStyle as any);
+    }
+    if (
+      initialData?.darkMode !== undefined &&
+      initialData.darkMode !== isDarkMode
+    ) {
+      toggleDarkMode();
+    }
+  }, [initialData]);
   const onSubmit = async (values: FormSchema) => {
     try {
       const vapiSettings: WidgetSettings["vapiSettings"] = {
@@ -95,6 +124,8 @@ export const CustomizationForm = ({
         vapiSettings,
         themeColor: values.themeColor,
         inlayTextColor: values.inlayTextColor,
+        themeStyle: currentTheme,
+        darkMode: isDarkMode,
       });
       toast.success("Widget settings saved successfully.");
     } catch (error) {
@@ -176,7 +207,8 @@ export const CustomizationForm = ({
                     </FormItem>
                   )}
                 ></FormField>
-.                <FormField
+                .{" "}
+                <FormField
                   control={form.control}
                   name="defaultSuggestions.suggestion3"
                   render={({ field }) => (
@@ -204,6 +236,42 @@ export const CustomizationForm = ({
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            <div>
+              <FormLabel>Theme Style</FormLabel>
+              <Select
+                value={currentTheme}
+                onValueChange={(value) => changeTheme(value as any)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a theme" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableThemes.map((theme) => (
+                    <SelectItem key={theme.value} value={theme.value}>
+                      {theme.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription className="mt-2">
+                Choose a theme style for the entire application interface.
+              </FormDescription>
+            </div>
+            <Separator />
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <FormLabel>Dark Mode</FormLabel>
+                <FormDescription>
+                  Toggle between light and dark variants of the selected theme.
+                </FormDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Sun className="h-4 w-4 text-muted-foreground" />
+                <Switch checked={isDarkMode} onCheckedChange={toggleDarkMode} />
+                <Moon className="h-4 w-4 text-muted-foreground" />
+              </div>
+            </div>
+            <Separator />
             <FormField
               control={form.control}
               name="themeColor"
@@ -214,7 +282,7 @@ export const CustomizationForm = ({
                     <ColorPicker
                       colors={themeColors}
                       value={field.value}
-                      onChange={field.onChange}
+                      onValueChange={field.onChange}
                     />
                   </FormControl>
                   <FormDescription>
@@ -233,7 +301,7 @@ export const CustomizationForm = ({
                     <ColorPicker
                       colors={inlayTextColors}
                       value={field.value}
-                      onChange={field.onChange}
+                      onValueChange={field.onChange}
                     />
                   </FormControl>
                   <FormDescription>
@@ -265,4 +333,3 @@ export const CustomizationForm = ({
     </Form>
   );
 };
-

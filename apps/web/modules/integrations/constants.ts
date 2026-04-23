@@ -21,6 +21,7 @@ export const INTERGRATIONS = [
   },
 ];
 
+
 export type IntegrationId = (typeof INTERGRATIONS)[number]["id"];
 
 export const HTML_SCRIPT = `<script src="http://localhost:3001/widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;

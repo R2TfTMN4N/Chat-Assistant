@@ -15,4 +15,6 @@ export const widgetSettingsSchema = z.object({
   }),
   themeColor: z.string().optional(),
   inlayTextColor: z.string().optional(),
+  themeStyle: z.string().optional(),
+  darkMode: z.boolean().optional(),
 });

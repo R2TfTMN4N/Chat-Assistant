@@ -27,6 +27,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 const customerSupportItems = [
   {
+    title: "Dashboard",
+    url: "/",
+    icon: LayoutDashboardIcon,
+  },
+  {
     title: "Conversations",
     url: "/conversations",
     icon: InboxIcon,

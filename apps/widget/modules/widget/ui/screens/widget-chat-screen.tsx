@@ -13,6 +13,7 @@ import {
   widgetSettingsAtom,
 } from "../../atoms/widget-atoms";
 import { WidgetHeader } from "../components/widget-header";
+import { DarkModeToggle } from "../components/dark-mode-toggle";
 import { AlertTriangleIcon, ArrowLeftIcon, MenuIcon } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { useAction, useQuery } from "convex/react";
@@ -120,9 +121,12 @@ export const WidgetChatScreen = () => {
           </Button>
           <p>Chat</p>
         </div>
-        <Button size="icon" variant="transparent">
-          <MenuIcon />
-        </Button>
+        <div className="flex items-center gap-x-1">
+          <DarkModeToggle />
+          <Button size="icon" variant="transparent">
+            <MenuIcon />
+          </Button>
+        </div>
       </WidgetHeader>
       <AIConversation>
         <AIConversationContent>

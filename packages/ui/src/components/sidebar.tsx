@@ -337,7 +337,10 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-header"
       data-sidebar="header"
-      className={cn("flex items-center gap-2 p-2 h-12 text-base md:text-lg", className)}
+      className={cn(
+        "flex items-center gap-2 p-2 h-12 text-base md:text-lg",
+        className
+      )}
       {...props}
     />
   );
@@ -348,7 +351,10 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
-      className={cn("flex items-center gap-2 p-2 h-12 text-base md:text-lg", className)}
+      className={cn(
+        "flex items-center gap-2 p-2 h-12 text-base md:text-lg",
+        className
+      )}
       {...props}
     />
   );
