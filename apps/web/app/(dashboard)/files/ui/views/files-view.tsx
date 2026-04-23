@@ -137,8 +137,14 @@ export const FilesView = () => {
                   <div className="text-2xl font-bold">
                     {files.results
                       .reduce((acc, file) => {
-                        const sizeMatch = file.size.match(/([\d.]+)/);
-                        return acc + (sizeMatch ? parseFloat(sizeMatch[1]) : 0);
+                        // Extract numeric part of size string (e.g., "12.3 KB"); defaults to 0 when missing/unknown
+                        const sizeMatch = (file.size ?? "").match(/([\d.]+)/);
+                        const numericSize = sizeMatch?.[1]
+                          ? parseFloat(sizeMatch[1])
+                          : 0;
+                        return (
+                          acc + (Number.isNaN(numericSize) ? 0 : numericSize)
+                        );
                       }, 0)
                       .toFixed(1)}{" "}
                     KB

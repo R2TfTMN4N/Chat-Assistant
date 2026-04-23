@@ -28,13 +28,13 @@ export const getStats = query({
     // Calculate status counts
     const totalConversations = conversations.length;
     const unresolvedCount = conversations.filter(
-      (c) => c.status === "unresolved"
+      (c) => c.status === "unresolved",
     ).length;
     const resolvedCount = conversations.filter(
-      (c) => c.status === "resolved"
+      (c) => c.status === "resolved",
     ).length;
     const escalatedCount = conversations.filter(
-      (c) => c.status === "escalated"
+      (c) => c.status === "escalated",
     ).length;
 
     // Calculate percentages
@@ -106,7 +106,9 @@ export const getConversationTrends = query({
     for (let i = 0; i < days; i++) {
       const date = new Date(now - i * 24 * 60 * 60 * 1000);
       const dateKey = date.toISOString().split("T")[0];
-      dailyData[dateKey] = { unresolved: 0, resolved: 0, escalated: 0 };
+      if (dateKey) {
+        dailyData[dateKey] = { unresolved: 0, resolved: 0, escalated: 0 };
+      }
     }
 
     // Count conversations by day and status
@@ -114,7 +116,7 @@ export const getConversationTrends = query({
       if (conv._creationTime >= startTime) {
         const date = new Date(conv._creationTime);
         const dateKey = date.toISOString().split("T")[0];
-        if (dailyData[dateKey]) {
+        if (dateKey && dailyData[dateKey]) {
           dailyData[dateKey][conv.status]++;
         }
       }
@@ -233,7 +235,7 @@ export const getRecentActivity = query({
           contactName: contactSession?.name || "Unknown",
           contactEmail: contactSession?.email || "",
         };
-      })
+      }),
     );
 
     return activities;
@@ -314,7 +316,9 @@ export const getHourlyActivity = query({
     conversations.forEach((conv) => {
       const date = new Date(conv._creationTime);
       const hour = date.getHours();
-      hourlyData[hour]++;
+      if (hourlyData[hour] !== undefined) {
+        hourlyData[hour]++;
+      }
     });
 
     // Convert to array
@@ -359,7 +363,7 @@ export const getStatusTimeline = query({
 
     // Filter by time and count by status
     const recentConversations = conversations.filter(
-      (c) => c._creationTime >= startTime
+      (c) => c._creationTime >= startTime,
     );
 
     const avgResolutionTime = recentConversations
