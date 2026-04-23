@@ -18,6 +18,7 @@ export const add = mutation({
     if (!orgId) {
       throw new Error("No organization associated with user");
     }
+
     const userId = await ctx.db.insert("users", {
       name: "New User",
       email: "newuser@example.com",
