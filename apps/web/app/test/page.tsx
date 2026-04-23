@@ -637,7 +637,7 @@ const ProductDetails = () => {
       </div>
 
       <div
-        ref={domRef}
+        ref={domRef as React.RefObject<HTMLDivElement>}
         className="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center relative z-10"
       >
         <div
@@ -911,7 +911,10 @@ const BentoGrid = () => {
 
   return (
     <section className="bg-[#0a0a0c] py-32 px-6">
-      <div ref={domRef} className="max-w-7xl mx-auto">
+      <div
+        ref={domRef as React.RefObject<HTMLDivElement>}
+        className="max-w-7xl mx-auto"
+      >
         <div
           className={`flex flex-col md:flex-row justify-between items-end mb-20 border-b border-white/10 pb-12 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
         >
@@ -979,7 +982,10 @@ const Technology = () => {
 
   return (
     <section className="bg-[#050505] py-32 px-6">
-      <div ref={domRef} className="max-w-7xl mx-auto">
+      <div
+        ref={domRef as React.RefObject<HTMLDivElement>}
+        className="max-w-7xl mx-auto"
+      >
         <h2
           className={`text-5xl md:text-7xl font-semibold text-white tracking-tighter mb-16 text-center transition-all duration-1000 ${isVisible ? "opacity-100" : "opacity-0"}`}
         >
