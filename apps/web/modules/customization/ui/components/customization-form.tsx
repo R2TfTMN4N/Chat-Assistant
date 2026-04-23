@@ -37,8 +37,19 @@ import {
 import { Switch } from "@workspace/ui/components/switch";
 import { useThemeSwitcher } from "@/hooks/use-theme-switcher";
 import { useDarkMode } from "@/hooks/use-dark-mode";
-import { Moon, Sun } from "lucide-react";
+import {
+  Moon,
+  Sun,
+  Sparkles,
+  Zap,
+  DollarSign,
+  Rocket,
+  Bot,
+  Brain,
+} from "lucide-react";
 import { useEffect } from "react";
+import { Badge } from "@workspace/ui/components/badge";
+import { cn } from "@workspace/ui/lib/utils";
 
 type WidgetSettings = Doc<"widgetSettings">;
 interface CustomizationFormProps {
@@ -91,6 +102,7 @@ export const CustomizationForm = ({
       inlayTextColor: initialData?.inlayTextColor || "#FFFFFF",
       themeStyle: initialData?.themeStyle || "globals",
       darkMode: initialData?.darkMode || false,
+      aiModel: initialData?.aiModel || "gpt-4o-mini",
     },
   });
 
@@ -126,6 +138,7 @@ export const CustomizationForm = ({
         inlayTextColor: values.inlayTextColor,
         themeStyle: currentTheme,
         darkMode: isDarkMode,
+        aiModel: values.aiModel,
       });
       toast.success("Widget settings saved successfully.");
     } catch (error) {
@@ -186,6 +199,263 @@ export const CustomizationForm = ({
               )}
             ></FormField>
             <Separator />
+            <FormField
+              control={form.control}
+              name="aiModel"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
+                        <Brain className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <FormLabel className="text-base font-semibold">
+                          AI Model
+                        </FormLabel>
+                        <FormDescription className="text-xs">
+                          Choose the AI engine that powers your chat assistant
+                        </FormDescription>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {/* OpenAI Models */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 px-2 py-1 bg-muted/50 rounded-md">
+                          <Bot className="h-3.5 w-3.5 text-muted-foreground" />
+                          <span className="text-xs font-medium text-muted-foreground">
+                            OpenAI
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => field.onChange("gpt-4o")}
+                          className={cn(
+                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
+                            field.value === "gpt-4o"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-border/50 bg-background/50",
+                          )}
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <Sparkles className="h-4 w-4 text-primary" />
+                              <span className="font-semibold text-sm">
+                                GPT-4o
+                              </span>
+                            </div>
+                            <Badge
+                              variant="secondary"
+                              className="text-[10px] px-1.5 py-0"
+                            >
+                              Premium
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Most capable model with advanced reasoning
+                          </p>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => field.onChange("gpt-4o-mini")}
+                          className={cn(
+                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
+                            field.value === "gpt-4o-mini"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-border/50 bg-background/50",
+                          )}
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <Zap className="h-4 w-4 text-amber-500" />
+                              <span className="font-semibold text-sm">
+                                GPT-4o Mini
+                              </span>
+                            </div>
+                            <Badge
+                              variant="outline"
+                              className="text-[10px] px-1.5 py-0 border-amber-500/50 text-amber-600"
+                            >
+                              Recommended
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Fast, efficient & cost-effective
+                          </p>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => field.onChange("gpt-4-turbo")}
+                          className={cn(
+                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
+                            field.value === "gpt-4-turbo"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-border/50 bg-background/50",
+                          )}
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <Rocket className="h-4 w-4 text-blue-500" />
+                              <span className="font-semibold text-sm">
+                                GPT-4 Turbo
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Enhanced speed with GPT-4 quality
+                          </p>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => field.onChange("gpt-3.5-turbo")}
+                          className={cn(
+                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
+                            field.value === "gpt-3.5-turbo"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-border/50 bg-background/50",
+                          )}
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <DollarSign className="h-4 w-4 text-green-500" />
+                              <span className="font-semibold text-sm">
+                                GPT-3.5 Turbo
+                              </span>
+                            </div>
+                            <Badge
+                              variant="secondary"
+                              className="text-[10px] px-1.5 py-0 border-green-500/50 bg-green-500/10"
+                            >
+                              Budget
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Economical choice for basic needs
+                          </p>
+                        </button>
+                      </div>
+
+                      {/* Google Gemini Models */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 px-2 py-1 bg-muted/50 rounded-md">
+                          <svg
+                            className="h-3.5 w-3.5"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M12 2L2 7L12 12L22 7L12 2Z"
+                              fill="currentColor"
+                              opacity="0.4"
+                            />
+                            <path
+                              d="M2 17L12 22L22 17"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            />
+                            <path
+                              d="M2 12L12 17L22 12"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            />
+                          </svg>
+                          <span className="text-xs font-medium text-muted-foreground">
+                            Google Gemini
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => field.onChange("gemini-2.0-flash-exp")}
+                          className={cn(
+                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
+                            field.value === "gemini-2.0-flash-exp"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-border/50 bg-background/50",
+                          )}
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <Sparkles className="h-4 w-4 text-purple-500" />
+                              <span className="font-semibold text-sm">
+                                Gemini 2.0 Flash
+                              </span>
+                            </div>
+                            <Badge
+                              variant="destructive"
+                              className="text-[10px] px-1.5 py-0"
+                            >
+                              Experimental
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Latest experimental features
+                          </p>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => field.onChange("gemini-1.5-pro")}
+                          className={cn(
+                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
+                            field.value === "gemini-1.5-pro"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-border/50 bg-background/50",
+                          )}
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <Brain className="h-4 w-4 text-indigo-500" />
+                              <span className="font-semibold text-sm">
+                                Gemini 1.5 Pro
+                              </span>
+                            </div>
+                            <Badge
+                              variant="secondary"
+                              className="text-[10px] px-1.5 py-0"
+                            >
+                              Pro
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Advanced multimodal capabilities
+                          </p>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => field.onChange("gemini-1.5-flash")}
+                          className={cn(
+                            "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
+                            field.value === "gemini-1.5-flash"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-border/50 bg-background/50",
+                          )}
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <Zap className="h-4 w-4 text-yellow-500" />
+                              <span className="font-semibold text-sm">
+                                Gemini 1.5 Flash
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Lightning fast responses
+                          </p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </FormItem>
+              )}
+            ></FormField>
+            <Separator />
             <div className="space-y-4">
               <div>
                 <h3 className="text-sm font-medium">Default Suggestions</h3>
@@ -194,7 +464,7 @@ export const CustomizationForm = ({
                   open the chat widget.
                 </p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 max-w-2xl gap-4">
                 <FormField
                   control={form.control}
                   name="defaultSuggestions.suggestion1"
@@ -227,7 +497,7 @@ export const CustomizationForm = ({
                     </FormItem>
                   )}
                 ></FormField>
-                .{" "}
+
                 <FormField
                   control={form.control}
                   name="defaultSuggestions.suggestion3"
@@ -280,7 +550,7 @@ export const CustomizationForm = ({
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <FormLabel>Theme Style</FormLabel>
+              <FormLabel className="py-2">Theme Style</FormLabel>
               <Select
                 value={currentTheme}
                 onValueChange={(value) => changeTheme(value as any)}
@@ -315,44 +585,6 @@ export const CustomizationForm = ({
               </div>
             </div>
             <Separator />
-            <FormField
-              control={form.control}
-              name="themeColor"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Theme Color</FormLabel>
-                  <FormControl>
-                    <ColorPicker
-                      colors={themeColors}
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The primary color of the chat widget.
-                  </FormDescription>
-                </FormItem>
-              )}
-            ></FormField>
-            <FormField
-              control={form.control}
-              name="inlayTextColor"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Inlay Text Color</FormLabel>
-                  <FormControl>
-                    <ColorPicker
-                      colors={inlayTextColors}
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The color of the text inside the chat widget.
-                  </FormDescription>
-                </FormItem>
-              )}
-            ></FormField>
           </CardContent>
         </Card>
         {hasVapiPlugin && (

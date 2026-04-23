@@ -42,6 +42,7 @@ export const upsert = mutation({
     inlayTextColor: v.optional(v.string()),
     themeStyle: v.optional(v.string()),
     darkMode: v.optional(v.boolean()),
+    aiModel: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -71,6 +72,7 @@ export const upsert = mutation({
         inlayTextColor: args.inlayTextColor,
         themeStyle: args.themeStyle,
         darkMode: args.darkMode,
+        aiModel: args.aiModel,
       });
     } else {
       await ctx.db.insert("widgetSettings", {
@@ -82,6 +84,7 @@ export const upsert = mutation({
         inlayTextColor: args.inlayTextColor,
         themeStyle: args.themeStyle,
         darkMode: args.darkMode,
+        aiModel: args.aiModel,
       });
     }
     return null;

@@ -3,7 +3,10 @@ import { action, query } from "../_generated/server";
 import { components, internal } from "../_generated/api";
 // import { supportAgent } from "./ai/agents/supportAgent";
 import { paginationOptsValidator } from "convex/server";
-import { supportAgent } from "../system/ai/agents/supportAgent";
+import {
+  supportAgent,
+  createSupportAgent,
+} from "../system/ai/agents/supportAgent";
 import { escalateConversation } from "../system/ai/tools/escalateConversation";
 import { resolveConversation } from "../system/ai/tools/resolveConversation";
 import { saveMessage } from "@convex-dev/agent";
@@ -20,7 +23,7 @@ export const create = action({
       internal.system.contactSessions.getOne,
       {
         contactSessionId: args.contactSessionId,
-      }
+      },
     );
     if (!contactSession || contactSession.expiresAt < Date.now()) {
       throw new ConvexError({
@@ -32,7 +35,7 @@ export const create = action({
       internal.system.conversations.getByThreadId,
       {
         threadId: args.threadId,
-      }
+      },
     );
     if (!conversation) {
       throw new ConvexError({
@@ -54,13 +57,24 @@ export const create = action({
       internal.system.subscriptions.getByOrganizationId,
       {
         organizationId: conversation.organizationId,
-      }
+      },
+    );
+
+    // Get widget settings to determine AI model
+    const widgetSettings = await ctx.runQuery(
+      internal.system.widgetSettings.getByOrganizationId,
+      {
+        organizationId: conversation.organizationId,
+      },
     );
 
     const shouldTriggerAgent =
       conversation.status === "unresolved" && subscription?.status === "active";
     if (shouldTriggerAgent) {
-      await supportAgent.generateText(
+      // Create agent with the organization's selected model
+      const agent = createSupportAgent(widgetSettings?.aiModel);
+
+      await agent.generateText(
         ctx,
         {
           threadId: args.threadId,
@@ -72,7 +86,7 @@ export const create = action({
             resolveConversationTool: resolveConversation,
             searchTool: search,
           },
-        }
+        },
       );
     } else {
       await saveMessage(ctx, components.agent, {

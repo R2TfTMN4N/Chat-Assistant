@@ -23,6 +23,7 @@ export default defineSchema({
     inlayTextColor: v.optional(v.string()),
     themeStyle: v.optional(v.string()),
     darkMode: v.optional(v.boolean()),
+    aiModel: v.optional(v.string()),
   }).index("by_organizationId", ["organizationId"]),
 
   plugins: defineTable({
@@ -44,7 +45,7 @@ export default defineSchema({
     status: v.union(
       v.literal("unresolved"),
       v.literal("resolved"),
-      v.literal("escalated")
+      v.literal("escalated"),
     ),
   })
     .index("by_organization_Id", ["organizationId"])
@@ -70,7 +71,7 @@ export default defineSchema({
         timezone: v.optional(v.string()),
         viewportSize: v.optional(v.string()),
         cookieEnabled: v.optional(v.boolean()),
-      })
+      }),
     ),
   })
     .index("by_organizationId", ["organizationId"])

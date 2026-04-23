@@ -30,6 +30,7 @@ import type * as public_secrets from "../public/secrets.js";
 import type * as public_widgetSettings from "../public/widgetSettings.js";
 import type * as system_ai_agents_supportAgent from "../system/ai/agents/supportAgent.js";
 import type * as system_ai_constants from "../system/ai/constants.js";
+import type * as system_ai_helpers_getAIModel from "../system/ai/helpers/getAIModel.js";
 import type * as system_ai_rag from "../system/ai/rag.js";
 import type * as system_ai_tools_escalateConversation from "../system/ai/tools/escalateConversation.js";
 import type * as system_ai_tools_resolveConversation from "../system/ai/tools/resolveConversation.js";
@@ -39,6 +40,7 @@ import type * as system_conversations from "../system/conversations.js";
 import type * as system_plugins from "../system/plugins.js";
 import type * as system_secrets from "../system/secrets.js";
 import type * as system_subscriptions from "../system/subscriptions.js";
+import type * as system_widgetSettings from "../system/widgetSettings.js";
 import type * as users from "../users.js";
 
 import type {
@@ -78,6 +80,7 @@ declare const fullApi: ApiFromModules<{
   "public/widgetSettings": typeof public_widgetSettings;
   "system/ai/agents/supportAgent": typeof system_ai_agents_supportAgent;
   "system/ai/constants": typeof system_ai_constants;
+  "system/ai/helpers/getAIModel": typeof system_ai_helpers_getAIModel;
   "system/ai/rag": typeof system_ai_rag;
   "system/ai/tools/escalateConversation": typeof system_ai_tools_escalateConversation;
   "system/ai/tools/resolveConversation": typeof system_ai_tools_resolveConversation;
@@ -87,6 +90,7 @@ declare const fullApi: ApiFromModules<{
   "system/plugins": typeof system_plugins;
   "system/secrets": typeof system_secrets;
   "system/subscriptions": typeof system_subscriptions;
+  "system/widgetSettings": typeof system_widgetSettings;
   users: typeof users;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
