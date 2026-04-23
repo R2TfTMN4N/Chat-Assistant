@@ -105,7 +105,7 @@ import {
 
 // --- Utility Hooks ---
 const useScrollAnimation = (
-  threshold = 0.1
+  threshold = 0.1,
 ): [boolean, React.MutableRefObject<HTMLElement | null>] => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
@@ -119,7 +119,7 @@ const useScrollAnimation = (
           }
         });
       },
-      { threshold }
+      { threshold },
     );
 
     const currentRef = domRef.current;
@@ -300,7 +300,7 @@ const ParticleBackground = () => {
       opacity: 0.8,
       life: 100 + Math.random() * 100,
     }),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -339,8 +339,8 @@ const ParticleBackground = () => {
           particles.current.push(
             createParticle(
               Math.random() * canvas.width,
-              Math.random() * canvas.height
-            )
+              Math.random() * canvas.height,
+            ),
           );
         } else {
           ctx.beginPath();
@@ -356,8 +356,8 @@ const ParticleBackground = () => {
       particles.current.push(
         createParticle(
           Math.random() * canvas.width,
-          Math.random() * canvas.height
-        )
+          Math.random() * canvas.height,
+        ),
       );
     animate();
 
@@ -501,7 +501,7 @@ const Navbar = () => {
                 >
                   {item}
                 </a>
-              )
+              ),
             )}
           </div>
           <div className="hidden md:flex items-center gap-3">
@@ -667,8 +667,8 @@ const ProductDetails = () => {
   );
 };
 
-// --- VisionOS Horizontal Scroll Section (REVISED) ---
-const VisionOSSection = () => {
+// --- Platform Showcase Horizontal Scroll Section ---
+const PlatformShowcase = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -695,36 +695,45 @@ const VisionOSSection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const apps = [
+  const features = [
     {
-      name: "Safari",
-      img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop",
+      name: "Dashboard",
+      desc: "Complete overview of all conversations and metrics",
+      img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
     },
     {
-      name: "Photos",
-      img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop",
-    },
-    {
-      name: "Messages",
+      name: "Conversations",
+      desc: "Manage and respond to customer chats in real-time",
       img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop",
     },
     {
-      name: "Music",
-      img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop",
+      name: "Knowledge Base",
+      desc: "Upload docs and train your AI with custom content",
+      img: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2070&auto=format&fit=crop",
     },
     {
-      name: "Mindfulness",
-      img: "https://images.unsplash.com/photo-1518005052357-e93055054683?q=80&w=2073&auto=format&fit=crop",
+      name: "Widget Builder",
+      desc: "Customize and embed your chat widget anywhere",
+      img: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop",
+    },
+    {
+      name: "Analytics",
+      desc: "Track performance with detailed insights and reports",
+      img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop",
+    },
+    {
+      name: "Team Management",
+      desc: "Invite members and assign roles for collaboration",
+      img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop",
     },
   ];
 
   return (
-    // Height reduced to 300vh to prevent "gap" feeling
     <section ref={sectionRef} className="relative h-[300vh] bg-[#020204]">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center bg-[#020204]">
         {/* Background Elements */}
         <div
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 blur-3xl transform scale-110 transition-transform duration-1000"
+          className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black opacity-50 blur-3xl transform scale-110 transition-transform duration-1000"
           style={{ transform: `scale(${1 + scrollProgress * 0.2})` }}
         ></div>
 
@@ -736,11 +745,11 @@ const VisionOSSection = () => {
               transform: `translateY(${-scrollProgress * 50}px)`,
             }}
           >
-            <h3 className="text-xl font-semibold text-gray-400 mb-2">
-              visionOS
+            <h3 className="text-xl font-semibold text-blue-400 mb-2">
+              Platform
             </h3>
             <h2 className="text-5xl md:text-8xl font-semibold text-white tracking-tighter">
-              An operating system <br /> designed for spatial.
+              Everything you need <br /> to delight customers.
             </h2>
           </div>
         </div>
@@ -748,9 +757,9 @@ const VisionOSSection = () => {
         {/* Horizontal Scrolling Track */}
         <div
           className="flex gap-12 pl-[40vw] items-center will-change-transform relative z-20"
-          style={{ transform: `translateX(${-scrollProgress * 2500}px)` }}
+          style={{ transform: `translateX(${-scrollProgress * 3000}px)` }}
         >
-          {apps.map((app, i) => (
+          {features.map((feature, i) => (
             <div
               key={i}
               className="relative flex-shrink-0 w-[600px] h-[400px] bg-black/50 rounded-[2rem] border border-white/10 overflow-hidden shadow-2xl backdrop-blur-xl hover:scale-105 transition-transform duration-500 group"
@@ -761,13 +770,17 @@ const VisionOSSection = () => {
                 <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
               </div>
               <img
-                src={app.img}
-                alt={app.name}
-                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                src={feature.img}
+                alt={feature.name}
+                className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity"
               />
-              <div className="absolute bottom-6 left-6">
-                <span className="text-2xl font-medium text-white drop-shadow-md">
-                  {app.name}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <span className="text-2xl font-semibold text-white drop-shadow-md block mb-2">
+                  {feature.name}
+                </span>
+                <span className="text-sm text-gray-300 drop-shadow-md">
+                  {feature.desc}
                 </span>
               </div>
             </div>
@@ -1124,7 +1137,7 @@ export default function Test() {
         <Hero />
         <StickyScrollText />
         <ProductDetails />
-        <VisionOSSection />
+        <PlatformShowcase />
         <CarouselSection />
         <BentoGrid />
         <Technology />

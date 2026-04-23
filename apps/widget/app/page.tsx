@@ -1,12 +1,19 @@
 "use client";
 
 import { WidgetView } from "@/modules/widget/ui/views/widget-view";
+import { WidgetInfoScreen } from "@/modules/widget/ui/screens/widget-info-screen";
 import { use } from "react";
 interface Props {
-  searchParams: Promise<{ organizationId: string }>;
+  searchParams: Promise<{ organizationId?: string }>;
 }
 export default function Page({ searchParams }: Props) {
   const { organizationId } = use(searchParams);
+
+  // If no organizationId is provided, show information screen
+  if (!organizationId) {
+    return <WidgetInfoScreen />;
+  }
+
   return (
     <WidgetView organizationId={organizationId}></WidgetView>
     //   const {

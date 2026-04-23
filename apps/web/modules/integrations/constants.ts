@@ -23,7 +23,7 @@ export const INTERGRATIONS = [
 
 export type IntegrationId = (typeof INTERGRATIONS)[number]["id"];
 
-export const HTML_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app//widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
-export const JAVASCRIPT_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app//widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
-export const REACT_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app//widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
-export const NEXTJS_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app//widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
+export const HTML_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app/widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
+export const JAVASCRIPT_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app/widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
+export const REACT_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app/widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
+export const NEXTJS_SCRIPT = `<script src="https://chat-assistant-widget.vercel.app/widget.js" data-organization-id="{{ORGANIZATION_ID}}"></script>`;
