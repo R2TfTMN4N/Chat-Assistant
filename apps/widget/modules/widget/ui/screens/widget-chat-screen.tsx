@@ -1,5 +1,7 @@
 "use client";
-
+import { InfiniteScrollTrigger } from "@workspace/ui/components/infinite-scroll-trigger";
+import { DicebearAvatar } from "@workspace/ui/components/dicebear-avatar";
+import { useInfiniteScroll } from "@workspace/ui/hooks/use-infinite-scroll";
 import { useThreadMessages, toUIMessages } from "@convex-dev/agent/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
@@ -15,7 +17,7 @@ import { Button } from "@workspace/ui/components/button";
 import { useAction, useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { z } from "zod";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   AIConversation,
@@ -33,7 +35,7 @@ import {
   AIInputToolbar,
   AIInputTools,
 } from "@workspace/ui/components/ai/input";
-import { FormField } from "@workspace/ui/components/form";
+import { Form, FormField } from "@workspace/ui/components/form";
 const formSchema = z.object({
   message: z.string().min(1, "Message is required"),
 });
@@ -70,6 +72,12 @@ export const WidgetChatScreen = () => {
       initialNumItems: 10,
     }
   );
+  const { topElementRef, handleLoadmore, canLoadMore, isLoadingMore } =
+    useInfiniteScroll({
+      status: messages.status,
+      loadMore: messages.loadMore,
+      loadSize: 10,
+    });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,16 +112,32 @@ export const WidgetChatScreen = () => {
       </WidgetHeader>
       <AIConversation>
         <AIConversationContent>
-          {toUIMessages(messages.results).map((message) => (
-            <AIMessage
-              key={message.id}
-              from={message.role === "user" ? "user" : "assistant"}
-            >
-              <AIMessageContent>
-                <AIResponse>{message.content}</AIResponse>
-              </AIMessageContent>
-            </AIMessage>
-          ))}
+          <InfiniteScrollTrigger
+            canLoadMore={canLoadMore}
+            isLoadingMore={isLoadingMore}
+            onLoadMore={handleLoadmore}
+            ref={topElementRef}
+          />
+          {toUIMessages(messages.results).map((message) => {
+            return (
+              <AIMessage
+                key={message.id}
+                from={message.role === "user" ? "user" : "assistant"}
+              >
+                <AIMessageContent>
+                  <AIResponse>{message.content}</AIResponse>
+                </AIMessageContent>
+                {message.role === "assistant" && (
+                  <DicebearAvatar
+                    imageUrl="/image.png"
+                    seed="assistant"
+                    size={32}
+                    badgeImageUrl="/image.png"
+                  />
+                )}
+              </AIMessage>
+            );
+          })}
         </AIConversationContent>
       </AIConversation>
       <Form {...form}>
@@ -124,6 +148,7 @@ export const WidgetChatScreen = () => {
           <FormField
             control={form.control}
             name="message"
+            disabled={conversation?.status === "resolved"}
             render={({ field }) => (
               <AIInputTextarea
                 disabled={conversation?.status === "resolved"}
