@@ -1,20 +1,53 @@
 "use client";
-import { useAtomValue } from "jotai";
-import { errorMessageAtom } from "../../atoms/widget-atoms";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import {
+  contactSessionIdAtomFamily,
+  conversationIdAtom,
+  errorMessageAtom,
+  organizationIdAtom,
+  screenAtom,
+} from "../../atoms/widget-atoms";
 import { WidgetHeader } from "../components/widget-header";
-import { AlertTriangleIcon } from "lucide-react";
+import { AlertTriangleIcon, ArrowLeftIcon, MenuIcon } from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
+import { useQuery } from "convex/react";
+import { api } from "@workspace/backend/_generated/api";
 export const WidgetChatScreen = () => {
-  const errorMessage = useAtomValue(errorMessageAtom);
+  const setScreen = useSetAtom(screenAtom);
+  const setConversationId = useSetAtom(conversationIdAtom);
+
+  const conversationId = useAtomValue(conversationIdAtom);
+  const organizationId = useAtomValue(organizationIdAtom);
+  const contactSessionId = useAtomValue(
+    contactSessionIdAtomFamily(organizationId || "")
+  );
+  const conversation = useQuery(
+    api.public.conversations.getOne,
+    conversationId && contactSessionId
+      ? { conversationId, contactSessionId }
+      : "skip"
+  );
+
+  const onBack = () => {
+    setConversationId(null);
+    setScreen("selection");
+  };
+
   return (
     <>
-      <WidgetHeader>
-        <div className="flex flex-col justify-between gap-y-2 px-2 py-6">
-          <p className="text-3xl">Hi there! Welcome to the Widget View.</p>
-          <p className="text-lg">Let's get started!</p>
+      <WidgetHeader className="flex items-center justify-between">
+        <div className="flex items-center gap-x-2 h-full">
+          <Button size="icon" variant="transparent" onClick={onBack}>
+            <ArrowLeftIcon />
+          </Button>
+          <p>Chat</p>
         </div>
+        <Button size="icon" variant="transparent">
+          <MenuIcon />
+        </Button>
       </WidgetHeader>
-      <div className="flex flex-1 flex-col gap-y-4 p-4 ">
-        <p className="text-sm">Chat</p>
+      <div className="flex flex-1 flex-col gap-y-4 p-4  ">
+        {JSON.stringify(conversation)}
       </div>
     </>
   );
