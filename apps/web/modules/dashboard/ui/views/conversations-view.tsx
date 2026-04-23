@@ -10,11 +10,11 @@ export const ConversationsView = () => {
           alt="Logo"
           src="/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"
           width={400}
-          height={400} // Added the required height prop
+          height={400}
+          className="dark:invert"
         />
-             {" "}
+               {" "}
       </div>
-         {" "}
     </div>
   );
 };

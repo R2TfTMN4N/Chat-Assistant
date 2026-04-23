@@ -1,15 +1,8 @@
 "use client";
 
 import {
-  OrganizationSwitcher,
-  UserButton,
-  useOrganization,
-  useUser,
-} from "@clerk/nextjs";
-import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -28,15 +21,10 @@ import {
   LibraryIcon,
   Mic,
   PaletteIcon,
-  Moon,
-  Sun,
+  MessageSquare,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useDarkMode } from "@/hooks/use-dark-mode";
-import { Button } from "@workspace/ui/components/button";
-import { Separator } from "@workspace/ui/components/separator";
-import { Label } from "@workspace/ui/components/label";
 const customerSupportItems = [
   {
     title: "Dashboard",
@@ -80,9 +68,6 @@ const accountItems = [
 ];
 export const DashboardSidebar = () => {
   const pathname = usePathname();
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const { user } = useUser();
-  const { organization } = useOrganization();
   const { setOpenMobile } = useSidebar();
 
   const isActive = (url: string) => {
@@ -103,24 +88,16 @@ export const DashboardSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
-              <OrganizationSwitcher
-                hidePersonal
-                skipInvitationScreen
-                appearance={{
-                  elements: {
-                    rootBox: "w-full! h-8!",
-                    avatarBox: "size-4! rounded-sm! mx-2!",
-                    organizationSwitcherTrigger:
-                      "w-full! justify-start! group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
-                    organizationPreview:
-                      "group-data-[collapsible=icon]:justify-center! gap-2!",
-                    organizationPreviewTextContainer:
-                      "group-data-[collapsible=icon]:hidden! text-xs! font-medium! text-sidebar-foreground!",
-                    organizationSwitcherTriggerIcon:
-                      "group-data-[collapsible=icon]:hidden! text-xs! ml-auto! text-sidebar-foreground!",
-                  },
-                }}
-              />
+              <Link href="/dashboard" onClick={handleNavClick}>
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary dark:bg-white">
+                    <MessageSquare className="h-4 w-4 text-primary-foreground dark:text-primary" />
+                  </div>
+                  <span className="font-semibold text-sm group-data-[collapsible=icon]:hidden">
+                    Chat Assistants
+                  </span>
+                </div>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -146,7 +123,7 @@ export const DashboardSidebar = () => {
                       <item.icon className="size-5 mx-2 group-data-[collapsible=icon]:mx-auto" />
                       <span
                         className={cn(
-                          "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
+                          "text-lg opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
                           isActive(item.url) && "opacity-100",
                         )}
                       >
@@ -177,10 +154,10 @@ export const DashboardSidebar = () => {
                     tooltip={item.title}
                   >
                     <Link href={item.url} onClick={handleNavClick}>
-                      <item.icon className="size-6 mx-2 group-data-[collapsible=icon]:mx-auto" />
+                      <item.icon className="size-5 mx-2 group-data-[collapsible=icon]:mx-auto" />
                       <span
                         className={cn(
-                          "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
+                          "text-lg opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
                           isActive(item.url) && "opacity-100",
                         )}
                       >
@@ -214,7 +191,7 @@ export const DashboardSidebar = () => {
                       <item.icon className="size-5 mx-2 group-data-[collapsible=icon]:mx-auto" />
                       <span
                         className={cn(
-                          "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
+                          "text-lg opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
                           isActive(item.url) && "opacity-100",
                         )}
                       >
@@ -227,64 +204,7 @@ export const DashboardSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        {/* Theme Toggle */}
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={toggleDarkMode}
-                  className={cn(
-                    "h-10",
-                    isDarkMode &&
-                      "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90",
-                  )}
-                  tooltip={isDarkMode ? "Dark Mode" : "Light Mode"}
-                >
-                  <div className="flex items-center gap-2 w-full">
-                    {isDarkMode ? (
-                      <Moon className="size-5 mx-1 mr-2 group-data-[collapsible=icon]:mx-auto" />
-                    ) : (
-                      <Sun className="size-5 mx-1 mr-2 group-data-[collapsible=icon]:mx-auto" />
-                    )}
-                    <span
-                      className={cn(
-                        "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
-                        isDarkMode && "opacity-100",
-                      )}
-                    >
-                      {isDarkMode ? "Dark Mode" : "Light Mode"}
-                    </span>
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <UserButton
-              showName
-              appearance={{
-                elements: {
-                  rootBox: "w-full! h-8",
-                  userButtonTrigger:
-                    "w-full! p-2! hover:bg-sidebar-accent! hover:text-sidebar-accent-foreground! group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
-                  userButtonBox:
-                    "w-full! flex-row-reverse! justify-end! gap-2! group-data-[collapsible=icon]:justify-center! text-sidebar-foreground! text-xl!",
-                  userButtonOuterIdentifier:
-                    "pl-0! group-data-[collapsible=icon]:hidden! text-xl!",
-                  userButtonOuterBox: "text-xl!",
-                  avatarBox: "size-6! mr-2! ml-1! rounded-sm!",
-                },
-              }}
-            ></UserButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

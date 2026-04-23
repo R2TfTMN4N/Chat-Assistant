@@ -57,8 +57,8 @@ export const ConversationsPanel = () => {
     loadSize: 10,
   });
   return (
-    <div className="flex h-full w-full flex-col bg-gradient-to-b from-background via-background to-muted/30 text-sidebar-foreground">
-      <div className="flex flex-col gap-3.5 border-b border-border/50 bg-background/80 backdrop-blur-sm p-3">
+    <div className="flex h-full w-full flex-col bg-gradient-to-b from-background via-background to-muted/30 text-sidebar-foreground overflow-hidden">
+      <div className="flex flex-col gap-3.5 border-b border-border/50 bg-background/80 backdrop-blur-sm p-3 shrink-0">
         <Select
           defaultValue="all"
           onValueChange={(value) =>
@@ -102,8 +102,8 @@ export const ConversationsPanel = () => {
       {isLoadingFirstPage ? (
         <SkeletonConversations />
       ) : (
-        <ScrollArea className="flex-1">
-          <div className="flex w-full flex-1 flex-col text-sm">
+        <ScrollArea className="flex-1 min-h-0">
+          <div className="flex w-full flex-col text-sm">
             {conversations.results.map((conversation) => {
               const isLastMessageFromOperator =
                 conversation.lastMessage?.message?.role !== "user";
@@ -118,7 +118,7 @@ export const ConversationsPanel = () => {
                   href={`/conversations/${conversation._id}`}
                   key={conversation._id.toString()}
                   className={cn(
-                    "relative flex cursor-pointer items-start gap-3 border-b border-border/30 p-4 py-5 text-sm leading-tight transition-all duration-200 hover:bg-accent/80 hover:text-accent-foreground",
+                    "relative flex cursor-pointer items-center gap-3 border-b border-border/30 px-4 min-h-[80px] max-h-[80px] text-sm leading-tight transition-all duration-200 hover:bg-accent/80 hover:text-accent-foreground",
                     pathname === `/conversations/${conversation._id}` &&
                       "bg-primary/5 text-accent-foreground border-l-2 border-l-primary",
                   )}

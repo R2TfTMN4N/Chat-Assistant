@@ -18,8 +18,8 @@ export const ConversationIdLayout = ({
       <ResizableHandle className="hidden lg:block bg-transparent hover:bg-primary/20 transition-colors" />
       <ResizablePanel
         className="hidden lg:block border-l border-border/50"
-        defaultSize={40}
-        maxSize={40}
+        defaultSize={30}
+        maxSize={30}
         minSize={20}
       >
         <ContactPanel></ContactPanel>

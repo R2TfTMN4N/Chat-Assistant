@@ -21,7 +21,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             src="/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"
             width={40}
             height={40}
-            className="drop-shadow-lg"
+            className="drop-shadow-lg dark:invert"
           />
         </div>
         <h1 className="text-2xl font-bold tracking-tight">Chat Assistants</h1>

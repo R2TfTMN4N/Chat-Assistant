@@ -38,7 +38,7 @@ export const PluginCard = ({
             <div className="relative rounded-xl bg-background p-3 shadow-md ring-1 ring-border">
               <Image
                 alt="Platform Logo"
-                className="rounded-lg object-contain"
+                className="rounded-lg object-contain dark:invert"
                 height={48}
                 width={48}
                 src="/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"

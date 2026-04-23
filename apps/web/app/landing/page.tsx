@@ -369,17 +369,16 @@ const Navbar = () => {
   }, []);
 
   const handleNavClick = (section: string) => {
-    if (section === "Dashboard" || section === "Get Started") {
+    if (section === "Get Started") {
       if (isSignedIn) {
-        router.push("/");
+        router.push("/dashboard");
       } else {
         router.push("/sign-in");
       }
     } else {
-      // Scroll to section
-      const element = document.getElementById(
-        section.toLowerCase().replace(" ", "-"),
-      );
+      // Scroll to section - replace all spaces with hyphens
+      const sectionId = section.toLowerCase().replace(/\s+/g, "-");
+      const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
@@ -390,58 +389,111 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-black/70 backdrop-blur-xl border-b border-white/5 py-2" : "bg-transparent py-4"}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-black/80 backdrop-blur-xl border-b border-white/10 py-3" : "bg-transparent py-5"}`}
       >
-        <div className="max-w-[980px] mx-auto px-6 h-10 flex justify-between items-center text-[12px] font-normal tracking-wide text-gray-200">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-blue-400" />
-              <span className="font-semibold text-white text-[13px] cursor-pointer opacity-90 hover:opacity-100 transition-opacity">
-                Chat Assistants
+        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+              <MessageSquare className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-bold text-white text-lg tracking-tight">
+              Chat Assistants
+            </span>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {["Features", "How It Works", "Pricing"].map((item) => (
+              <button
+                key={item}
+                onClick={() => handleNavClick(item)}
+                className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
+              >
+                {item}
+              </button>
+            ))}
+            {/* Dashboard with stats badge */}
+            <button
+              onClick={() => handleNavClick("Dashboard")}
+              className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200 flex items-center gap-2"
+            >
+              Dashboard
+              <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-0.5 rounded-full">
+                Live
+              </span>
+            </button>
+          </div>
+
+          {/* Stats Pills - Desktop */}
+          <div className="hidden lg:flex items-center gap-3 mr-4">
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
+              <Users className="w-3.5 h-3.5 text-green-400" />
+              <span className="text-xs font-semibold text-white">2.4K+</span>
+              <span className="text-xs text-gray-400">Users</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
+              <MessageSquare className="w-3.5 h-3.5 text-blue-400" />
+              <span className="text-xs font-semibold text-white">156K+</span>
+              <span className="text-xs text-gray-400">Messages</span>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="hidden md:flex items-center">
+            <button
+              onClick={() => handleNavClick("Get Started")}
+              className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40 active:scale-95"
+            >
+              {isSignedIn ? "Go to Dashboard" : "Get Started Free"}
+            </button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl text-white pt-24 px-6 animate-in slide-in-from-top-5 duration-300">
+          {/* Mobile Stats */}
+          <div className="flex justify-center gap-4 mb-8">
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+              <Users className="w-4 h-4 text-green-400" />
+              <span className="text-sm font-semibold text-white">
+                2.4K+ Users
+              </span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+              <MessageSquare className="w-4 h-4 text-blue-400" />
+              <span className="text-sm font-semibold text-white">
+                156K+ Messages
               </span>
             </div>
           </div>
-          <div className="hidden md:flex items-center gap-8">
+
+          <div className="flex flex-col gap-2">
             {["Features", "How It Works", "Pricing", "Dashboard"].map(
               (item) => (
                 <button
                   key={item}
                   onClick={() => handleNavClick(item)}
-                  className="hover:text-white hover:opacity-100 opacity-80 transition-all duration-200"
+                  className="text-left text-lg font-medium py-3 px-4 hover:bg-white/5 rounded-xl transition-colors"
                 >
                   {item}
                 </button>
               ),
             )}
-          </div>
-          <div className="hidden md:flex items-center gap-3">
+            <div className="h-[1px] bg-gray-800 w-full my-4"></div>
             <button
               onClick={() => handleNavClick("Get Started")}
-              className="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[11px] font-medium hover:bg-blue-500 transition-transform active:scale-95"
-            >
-              {isSignedIn ? "Go to Dashboard" : "Get Started Free"}
-            </button>
-          </div>
-          <button
-            className="md:hidden text-white opacity-80"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </div>
-      </nav>
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-black text-white pt-20 px-6 animate-in slide-in-from-top-5 duration-300">
-          <div className="flex flex-col gap-6 text-xl font-medium">
-            <button onClick={() => handleNavClick("Features")}>Features</button>
-            <button onClick={() => handleNavClick("How It Works")}>
-              How It Works
-            </button>
-            <button onClick={() => handleNavClick("Pricing")}>Pricing</button>
-            <div className="h-[1px] bg-gray-800 w-full my-2"></div>
-            <button
-              onClick={() => handleNavClick("Get Started")}
-              className="bg-blue-600 text-white w-full py-3 rounded-full text-sm"
+              className="bg-blue-600 hover:bg-blue-500 text-white w-full py-4 rounded-xl text-base font-semibold transition-colors"
             >
               {isSignedIn ? "Go to Dashboard" : "Get Started Free"}
             </button>
@@ -463,7 +515,7 @@ const Hero = () => {
 
   const handleGetStarted = () => {
     if (isSignedIn) {
-      router.push("/");
+      router.push("/dashboard");
     } else {
       router.push("/sign-in");
     }
@@ -1062,6 +1114,217 @@ const Pricing = () => {
   );
 };
 
+// Dashboard Analytics Section
+const DashboardAnalytics = () => {
+  const [isVisible, domRef] = useScrollAnimation(0.2);
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+
+  const stats = [
+    {
+      label: "Active Users",
+      value: "2,847",
+      change: "+12.5%",
+      positive: true,
+      icon: Users,
+      description: "Businesses using our platform",
+    },
+    {
+      label: "Messages Processed",
+      value: "1.2M+",
+      change: "+28.3%",
+      positive: true,
+      icon: MessageSquare,
+      description: "AI-powered conversations",
+    },
+    {
+      label: "Avg Response Time",
+      value: "< 2s",
+      change: "-45%",
+      positive: true,
+      icon: Clock,
+      description: "Lightning fast AI responses",
+    },
+    {
+      label: "Customer Satisfaction",
+      value: "98.5%",
+      change: "+3.2%",
+      positive: true,
+      icon: CheckCircle,
+      description: "Based on user feedback",
+    },
+  ];
+
+  const realtimeData = [
+    { time: "00:00", messages: 1250 },
+    { time: "04:00", messages: 890 },
+    { time: "08:00", messages: 2340 },
+    { time: "12:00", messages: 3200 },
+    { time: "16:00", messages: 2890 },
+    { time: "20:00", messages: 1980 },
+    { time: "Now", messages: 2456 },
+  ];
+
+  const maxMessages = Math.max(...realtimeData.map((d) => d.messages));
+
+  return (
+    <section
+      id="dashboard"
+      className="bg-gradient-to-b from-[#050505] via-[#080812] to-[#050505] py-32 px-6 relative overflow-hidden"
+    >
+      {/* Background effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-600/5 rounded-full blur-[120px]" />
+      </div>
+
+      <div
+        ref={domRef as React.RefObject<HTMLDivElement>}
+        className="max-w-6xl mx-auto relative z-10"
+      >
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div
+            className={`inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-6 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}
+          >
+            <BarChart3 className="w-4 h-4 text-blue-400" />
+            <span className="text-sm font-medium text-blue-400">
+              Live Platform Analytics
+            </span>
+          </div>
+          <h2
+            className={`text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          >
+            Real-time Dashboard
+          </h2>
+          <p
+            className={`text-xl text-gray-400 max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          >
+            See how Chat Assistants is powering customer support for thousands
+            of businesses worldwide
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 transition-all duration-700 hover:bg-white/[0.07] hover:border-white/20 group ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: `${300 + i * 100}ms` }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
+                  <stat.icon className="w-5 h-5 text-blue-400" />
+                </div>
+                <span
+                  className={`text-xs font-semibold px-2 py-1 rounded-full ${stat.positive ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}
+                >
+                  {stat.change}
+                </span>
+              </div>
+              <div className="text-3xl font-bold text-white mb-1">
+                {stat.value}
+              </div>
+              <div className="text-sm text-gray-400 mb-1">{stat.label}</div>
+              <div className="text-xs text-gray-500">{stat.description}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Chart Section */}
+        <div
+          className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h3 className="text-xl font-semibold text-white mb-1">
+                Message Volume (24h)
+              </h3>
+              <p className="text-sm text-gray-400">
+                Real-time conversation activity across all platforms
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <span className="text-sm text-green-400 font-medium">
+                Live Data
+              </span>
+            </div>
+          </div>
+
+          {/* Simple Bar Chart */}
+          <div className="flex items-end justify-between gap-2 h-48">
+            {realtimeData.map((data, i) => (
+              <div key={i} className="flex-1 flex flex-col items-center gap-2">
+                <div className="w-full flex flex-col items-center justify-end h-40">
+                  <div
+                    className={`w-full max-w-12 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg transition-all duration-1000 ${isVisible ? "opacity-100" : "opacity-0"}`}
+                    style={{
+                      height: `${(data.messages / maxMessages) * 100}%`,
+                      transitionDelay: `${700 + i * 100}ms`,
+                    }}
+                  />
+                </div>
+                <span className="text-xs text-gray-500">{data.time}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom Stats */}
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
+            <div className="flex items-center gap-6">
+              <div>
+                <div className="text-2xl font-bold text-white">156,847</div>
+                <div className="text-sm text-gray-400">Total today</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-green-400">+23.4%</div>
+                <div className="text-sm text-gray-400">vs. yesterday</div>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                if (isSignedIn) {
+                  router.push("/dashboard");
+                } else {
+                  router.push("/sign-in");
+                }
+              }}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-full font-medium transition-all active:scale-95"
+            >
+              {isSignedIn ? "View Full Dashboard" : "Get Started Free"}
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Trust badges */}
+        <div
+          className={`flex flex-wrap items-center justify-center gap-8 mt-12 transition-all duration-700 delay-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+        >
+          <div className="flex items-center gap-2 text-gray-400">
+            <Shield className="w-5 h-5" />
+            <span className="text-sm">Enterprise Security</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-400">
+            <Globe className="w-5 h-5" />
+            <span className="text-sm">99.9% Uptime</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-400">
+            <Zap className="w-5 h-5" />
+            <span className="text-sm">Real-time Sync</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-400">
+            <Brain className="w-5 h-5" />
+            <span className="text-sm">Advanced AI Models</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const CTA = () => {
   const [isVisible, domRef] = useScrollAnimation(0.3);
   const { isSignedIn } = useAuth();
@@ -1069,7 +1332,7 @@ const CTA = () => {
 
   const handleGetStarted = () => {
     if (isSignedIn) {
-      router.push("/");
+      router.push("/dashboard");
     } else {
       router.push("/sign-in");
     }
@@ -1170,6 +1433,7 @@ export default function LandingPage() {
         <CarouselSection />
         <BentoGrid />
         <Pricing />
+        <DashboardAnalytics />
         <CTA />
       </main>
       <Footer />

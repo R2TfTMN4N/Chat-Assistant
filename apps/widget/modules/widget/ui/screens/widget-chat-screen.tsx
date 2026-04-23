@@ -137,20 +137,33 @@ export const WidgetChatScreen = () => {
             ref={topElementRef}
           />
           {toUIMessages(messages.results).map((message) => {
+            // Check if message is from human operator (has agentName and it's not the AI agent)
+            const isOperator =
+              !!(message as any).agentName &&
+              (message as any).agentName !== "supportAgent";
+            const messageType =
+              message.role === "user"
+                ? "user"
+                : isOperator
+                  ? "operator"
+                  : "assistant";
+
             return (
-              <AIMessage
-                key={message.id}
-                from={message.role === "user" ? "user" : "assistant"}
-              >
+              <AIMessage key={message.id} from={messageType}>
                 <AIMessageContent>
                   <AIResponse>{message.content}</AIResponse>
                 </AIMessageContent>
-                {message.role === "assistant" && (
+                {(messageType === "assistant" ||
+                  messageType === "operator") && (
                   <DicebearAvatar
                     imageUrl="/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"
-                    seed="assistant"
+                    seed={isOperator ? (message as any).agentName : "assistant"}
                     size={32}
-                    badgeImageUrl="/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"
+                    badgeImageUrl={
+                      isOperator
+                        ? undefined
+                        : "/ai-chatbot-assistant-software-logo-cute-style-no-title-loook-str.svg"
+                    }
                   />
                 )}
               </AIMessage>

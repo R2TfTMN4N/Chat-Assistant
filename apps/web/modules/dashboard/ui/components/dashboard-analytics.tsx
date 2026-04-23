@@ -115,7 +115,7 @@ export function DashboardAnalytics() {
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total Conversations
@@ -132,7 +132,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Resolution Rate
@@ -147,7 +147,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Unresolved</CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
@@ -160,7 +160,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total Contacts
@@ -176,7 +176,7 @@ export function DashboardAnalytics() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {/* Response Metrics */}
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Avg Response Time
@@ -193,7 +193,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Avg Conversation Length
@@ -210,7 +210,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Avg Resolution Time
@@ -228,7 +228,7 @@ export function DashboardAnalytics() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {/* Hourly Activity Heatmap */}
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader>
             <CardTitle>Activity by Hour</CardTitle>
             <CardDescription>
@@ -267,7 +267,7 @@ export function DashboardAnalytics() {
         </Card>
 
         {/* Status Distribution */}
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader>
             <CardTitle>Status Distribution</CardTitle>
             <CardDescription>Breakdown by conversation status</CardDescription>
@@ -319,9 +319,9 @@ export function DashboardAnalytics() {
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4">
         {/* Resolution Performance */}
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader>
             <CardTitle>Resolution Performance</CardTitle>
             <CardDescription>
@@ -374,7 +374,7 @@ export function DashboardAnalytics() {
         </Card>
 
         {/* Conversation Trends */}
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -456,9 +456,9 @@ export function DashboardAnalytics() {
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4">
         {/* Top Contacts */}
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader>
             <CardTitle>Top Contacts</CardTitle>
             <CardDescription>
@@ -478,20 +478,20 @@ export function DashboardAnalytics() {
                       color: CHART_COLORS[0],
                     },
                   }}
-                  className="aspect-auto h-[500px] w-full"
+                  className="aspect-auto h-[400px] w-full"
                 >
                   <BarChart
                     data={topContacts}
                     layout="vertical"
-                    margin={{ top: 5, right: 30, left: 5, bottom: 5 }}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" />
                     <YAxis
                       dataKey="name"
                       type="category"
-                      width={140}
-                      fontSize={12}
+                      width={180}
+                      fontSize={13}
                     />
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Bar
@@ -511,7 +511,7 @@ export function DashboardAnalytics() {
         </Card>
 
         {/* Platform Distribution */}
-        <Card className="bg-background/80 backdrop-blur-sm">
+        <Card className="bg-card/50 backdrop-blur-sm border-border/60">
           <CardHeader>
             <CardTitle>Platform Distribution</CardTitle>
             <CardDescription>Users by browser/platform</CardDescription>
@@ -564,7 +564,7 @@ export function DashboardAnalytics() {
       </div>
 
       {/* Recent Activity */}
-      <Card className="bg-background/80 backdrop-blur-sm">
+      <Card className="bg-card/50 backdrop-blur-sm border-border/60">
         <CardHeader>
           <CardTitle>Recent Activity</CardTitle>
           <CardDescription>Latest conversations</CardDescription>

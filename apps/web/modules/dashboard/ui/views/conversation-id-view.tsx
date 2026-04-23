@@ -137,7 +137,7 @@ export const ConversationIdView = ({
   }
   return (
     <div className="flex h-full flex-col bg-gradient-to-br from-primary/5 via-background to-muted/20">
-      <header className="flex items-center justify-end border-b bg-background/80 backdrop-blur-sm p-2.5">
+      <header className="flex items-center justify-end border-b bg-background/80 backdrop-blur-sm p-3.5">
         {!!conversation && (
           <ConversationStatusButton
             status={conversation?.status}
