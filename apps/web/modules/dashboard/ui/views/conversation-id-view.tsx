@@ -36,6 +36,7 @@ import { useInfiniteScroll } from "@workspace/ui/hooks/use-infinite-scroll";
 import { InfiniteScrollTrigger } from "@workspace/ui/components/infinite-scroll-trigger";
 import { cn } from "@workspace/ui/lib/utils";
 import { Skeleton } from "@workspace/ui/components/skeleton";
+import { toast } from "sonner";
 const formSchema = z.object({
   message: z
     .string()
@@ -78,6 +79,7 @@ export const ConversationIdView = ({
       const response = await enhanceResponse({ prompt: currentValue });
       form.setValue("message", response);
     } catch (error) {
+      toast.error("Failed to enhance response. Please try again.");
       console.error("Failed to enhance response:", error);
     } finally {
       setIsEnhancing(false);
