@@ -98,7 +98,7 @@ export const WidgetChatScreen = () => {
   };
 
   return (
-    <>
+    <div className=" flex  flex-col justify-between min-h-[calc(100vh-2px)]">
       <WidgetHeader className="flex items-center justify-between">
         <div className="flex items-center gap-x-2 ">
           <Button size="icon" variant="transparent" onClick={onBack}>
@@ -129,10 +129,10 @@ export const WidgetChatScreen = () => {
                 </AIMessageContent>
                 {message.role === "assistant" && (
                   <DicebearAvatar
-                    imageUrl="/image.png"
+                    imageUrl="/logo.png"
                     seed="assistant"
                     size={32}
-                    badgeImageUrl="/image.png"
+                    badgeImageUrl="/logo.png"
                   />
                 )}
               </AIMessage>
@@ -181,6 +181,6 @@ export const WidgetChatScreen = () => {
           </AIInputToolbar>
         </AIInput>
       </Form>
-    </>
+    </div>
   );
 };

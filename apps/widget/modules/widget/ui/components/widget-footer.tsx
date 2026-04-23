@@ -8,7 +8,7 @@ export const WidgetFooter = () => {
   const screen = useAtomValue(screenAtom);
   const setScreen = useSetAtom(screenAtom);
   return (
-    <footer className="flex items-center justify-center bg-background border-t">
+    <footer className="  flex items-center justify-center bg-background border-t">
       <Button
         className="h-14 flex-1 rounded-none"
         onClick={() => setScreen("selection")}

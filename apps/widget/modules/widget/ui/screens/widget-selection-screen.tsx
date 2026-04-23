@@ -56,7 +56,7 @@ export const WidgetSelectionScreen = () => {
     }
   };
   return (
-    <>
+    <div className="flex flex-col justify-between overflow-y-auto scrollbar-none min-h-[calc(100vh-2px)] ">
       <WidgetHeader>
         <div className="flex flex-col justify-between gap-y-2 px-2 py-6 font-semibold">
           <p className="text-3xl">Hi there! Welcome to the Widget View.</p>
@@ -78,6 +78,6 @@ export const WidgetSelectionScreen = () => {
         </Button>
       </div>
       <WidgetFooter />
-    </>
+    </div>
   );
 };

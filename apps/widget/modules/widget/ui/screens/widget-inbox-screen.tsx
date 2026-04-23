@@ -41,57 +41,62 @@ export const WidgetInboxScreen = () => {
     });
 
   return (
-    <>
-      <WidgetHeader>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="transparent"
-            size="icon"
-            onClick={() => {
-              setScreen("selection");
-            }}
-          >
-            <ArrowLeftIcon />
-          </Button>
-          <p>Inbox</p>
-        </div>
-      </WidgetHeader>
-      <div className="flex flex-1 flex-col gap-y-2 overflow-y-auto p-4 ">
-        {conversations?.results.length > 0 &&
-          conversations?.results.map((conversation) => (
+    <div className=" flex  flex-col justify-between min-h-[calc(100vh-2px)]">
+      <div>
+        <WidgetHeader>
+          <div className="flex items-center gap-2">
             <Button
-              className="h-20 w-full justify-between"
-              key={conversation._id}
+              variant="transparent"
+              size="icon"
               onClick={() => {
-                setConversationId(conversation._id);
-                setScreen("chat");
+                setScreen("selection");
               }}
-              variant="outline"
             >
-              <div className="flex w-full flex-col gap-4 overflow-hidden text-start">
-                <div className="flex w-full items-center justify-between">
-                  <p className="text-muted-foreground text-xs">Chat</p>
-                  <p className="text-muted-foreground text-xs">
-                    {formatDistanceToNow(new Date(conversation._creationTime))}
-                  </p>
-                </div>
-                <div className="flex w-full items-center justify-between gap-x-2">
-                  <p className="truncate text-sm">
-                    {conversation.lastMessage?.text}
-                  </p>
-                  <ConversationStatusIcon status={conversation.status} />
-                </div>
-              </div>
+              <ArrowLeftIcon />
             </Button>
-          ))}
-        <InfiniteScrollTrigger
-          canLoadMore={canLoadMore}
-          isLoadingMore={isLoadingMore}
-          onLoadMore={handleLoadMore}
-          ref={topElementRef}
-        />
+            <p>Inbox</p>
+          </div>
+        </WidgetHeader>
+        <div className="flex flex-1 flex-col gap-y-2 overflow-y-auto p-4 ">
+          {conversations?.results.length > 0 &&
+            conversations?.results.map((conversation) => (
+              <Button
+                className="h-20 w-full justify-between"
+                key={conversation._id}
+                onClick={() => {
+                  setConversationId(conversation._id);
+                  setScreen("chat");
+                }}
+                variant="outline"
+              >
+                <div className="flex w-full flex-col gap-4 overflow-hidden text-start">
+                  <div className="flex w-full items-center justify-between">
+                    <p className="text-muted-foreground text-xs">Chat</p>
+                    <p className="text-muted-foreground text-xs">
+                      {formatDistanceToNow(
+                        new Date(conversation._creationTime)
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex w-full items-center justify-between gap-x-2">
+                    <p className="truncate text-sm">
+                      {conversation.lastMessage?.text}
+                    </p>
+                    <ConversationStatusIcon status={conversation.status} />
+                  </div>
+                </div>
+              </Button>
+            ))}
+          <InfiniteScrollTrigger
+            canLoadMore={canLoadMore}
+            isLoadingMore={isLoadingMore}
+            onLoadMore={handleLoadMore}
+            ref={topElementRef}
+          />
+        </div>
       </div>
+
       <WidgetFooter />
-    </>
+    </div>
   );
 };
