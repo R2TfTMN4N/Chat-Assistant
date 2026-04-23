@@ -1,8 +1,6 @@
 "use client";
 
-import { useVapi } from "@/modules/widget/hooks/use-vapi";
 import { WidgetView } from "@/modules/widget/ui/views/widget-view";
-import { Button } from "@workspace/ui/components/button";
 import { use } from "react";
 interface Props {
   searchParams: Promise<{ organizationId: string }>;

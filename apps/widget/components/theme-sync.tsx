@@ -25,7 +25,9 @@ export function ThemeSync() {
       widgetSettings.themeStyle &&
       widgetSettings.themeStyle !== currentTheme
     ) {
-      changeTheme(widgetSettings.themeStyle as any);
+      changeTheme(
+        widgetSettings.themeStyle as Parameters<typeof changeTheme>[0],
+      );
     }
 
     // Apply dark mode from settings

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Explicit theme imports
-const themeImports: Record<string, () => Promise<any>> = {
+const themeImports: Record<string, () => Promise<unknown>> = {
   globals: () => import("@/styles/themes/globals"),
   globals1: () => import("@/styles/themes/globals1"),
   globals2: () => import("@/styles/themes/globals2"),
