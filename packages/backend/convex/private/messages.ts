@@ -83,6 +83,14 @@ export const create = mutation({
         message: "Conversation resolved",
       });
     }
+    if (conversation.status === "unresolved") {
+      await ctx.db.patch(args.conversationId, { status: "escalated" });
+
+      throw new ConvexError({
+        code: "bad_request",
+        message: "Conversation unresolved",
+      });
+    }
     await saveMessage(ctx, components.agent, {
       threadId: conversation.threadId,
       agentName: identity.familyName,
