@@ -128,12 +128,12 @@ importers:
       '@workspace/backend':
         specifier: workspace:*
         version: link:../../packages/backend
-      '@workspace/math':
-        specifier: workspace:*
-        version: link:../../packages/math
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      bowser:
+        specifier: ^2.13.1
+        version: 2.13.1
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -228,9 +228,6 @@ importers:
       '@workspace/backend':
         specifier: workspace:*
         version: link:../../packages/backend
-      '@workspace/math':
-        specifier: workspace:*
-        version: link:../../packages/math
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -374,15 +371,6 @@ importers:
       typescript-eslint:
         specifier: ^8.39.0
         version: 8.39.0(eslint@9.32.0(jiti@2.5.1))(typescript@5.9.2)
-
-  packages/math:
-    devDependencies:
-      '@workspace/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      typescript:
-        specifier: latest
-        version: 5.9.3
 
   packages/typescript-config: {}
 
@@ -3047,6 +3035,9 @@ packages:
 
   bowser@2.12.1:
     resolution: {integrity: sha512-z4rE2Gxh7tvshQ4hluIT7XcFrgLIQaw9X3A+kTTRdovCz5PMukm/0QC/BKSYPj3omF5Qfypn9O/c5kgpmvYUCw==}
+
+  bowser@2.13.1:
+    resolution: {integrity: sha512-OHawaAbjwx6rqICCKgSG0SAnT05bzd7ppyKLVUITZpANBaaMFBAsaNkto3LoQ31tyFP5kNujE8Cdx85G9VzOkw==}
 
   brace-expansion@1.1.12:
     resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
@@ -8592,6 +8583,8 @@ snapshots:
       readable-stream: 3.6.2
 
   bowser@2.12.1: {}
+
+  bowser@2.13.1: {}
 
   brace-expansion@1.1.12:
     dependencies:

@@ -3,7 +3,7 @@ export function getCountryFromTimezone(timezone?: string) {
   if (!timezone) return null;
   const timezoneInfo = ct.getTimezone(timezone);
   if (!timezoneInfo?.countries?.length) return null;
-  const countryCode = timezoneInfo.countries[0];
+  const countryCode = timezoneInfo.countries[4];
   const country = ct.getCountry(countryCode as string);
   return {
     code: countryCode,
