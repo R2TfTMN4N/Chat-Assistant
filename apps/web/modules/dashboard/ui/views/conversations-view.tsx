@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const ConversationsView = () => {
   return (
-    <div className="flex h-full flex-1 flex-col gap-y-4 bg-muted">
+    <div className="flex h-full flex-1 flex-col gap-y-4 bg-gradient-to-br from-primary/5 via-background to-muted/20">
            {" "}
       <div className="flex flex-1 items-center justify-center gap-x-2">
                {" "}

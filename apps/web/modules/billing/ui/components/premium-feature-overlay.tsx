@@ -80,11 +80,11 @@ export const PremiumFeatureOverlay = ({
       </div>
       <div className="absolute inset-0 bg-black/25 backdrop-blur-[2px]" />
       <div className="absolute inset-0 z-40 flex items-center justify-center p-4 ">
-        <Card className="w-full max-w-md ">
+        <Card className="w-full max-w-md bg-background/95 backdrop-blur-md shadow-2xl">
           <CardHeader className=" text-center">
             <div className="flex items-center justify-center">
-              <div className="mb-2 inline-flex h-12 w-12 items-center justify-center rounded-full border bg-muted">
-                <GemIcon className="size-6 text-muted-foreground" />
+              <div className="mb-2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/25">
+                <GemIcon className="size-6 text-primary-foreground" />
               </div>
             </div>
             <CardTitle className="text-2xl">Premium Features</CardTitle>

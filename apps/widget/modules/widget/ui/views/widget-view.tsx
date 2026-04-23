@@ -26,7 +26,7 @@ export const WidgetView = ({ organizationId }: Props) => {
 
   // Apply theme from database settings only once on mount
   useEffect(() => {
-    if (hasInitialized.current) return;
+    if (hasInitialized.current || !widgetSettings) return;
 
     if (widgetSettings?.themeStyle) {
       changeTheme(widgetSettings.themeStyle as any);

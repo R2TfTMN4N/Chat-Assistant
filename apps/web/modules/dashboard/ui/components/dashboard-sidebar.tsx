@@ -1,6 +1,11 @@
 "use client";
 
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
+import {
+  OrganizationSwitcher,
+  UserButton,
+  useOrganization,
+  useUser,
+} from "@clerk/nextjs";
 import {
   Sidebar,
   SidebarContent,
@@ -22,9 +27,15 @@ import {
   LibraryIcon,
   Mic,
   PaletteIcon,
+  Moon,
+  Sun,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useDarkMode } from "@/hooks/use-dark-mode";
+import { Button } from "@workspace/ui/components/button";
+import { Separator } from "@workspace/ui/components/separator";
+import { Label } from "@workspace/ui/components/label";
 const customerSupportItems = [
   {
     title: "Dashboard",
@@ -68,12 +79,17 @@ const accountItems = [
 ];
 export const DashboardSidebar = () => {
   const pathname = usePathname();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const { user } = useUser();
+  const { organization } = useOrganization();
+
   const isActive = (url: string) => {
     if (url === "/") {
       return pathname === "/";
     }
     return pathname.startsWith(url);
   };
+
   return (
     <Sidebar className="group" collapsible="icon">
       <SidebarHeader>
@@ -115,7 +131,7 @@ export const DashboardSidebar = () => {
                     className={cn(
                       "h-10",
                       isActive(item.url) &&
-                        "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
+                        "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90",
                     )}
                     tooltip={item.title}
                   >
@@ -124,7 +140,7 @@ export const DashboardSidebar = () => {
                       <span
                         className={cn(
                           "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
-                          isActive(item.url) && "opacity-100"
+                          isActive(item.url) && "opacity-100",
                         )}
                       >
                         {item.title}
@@ -147,9 +163,9 @@ export const DashboardSidebar = () => {
                     asChild
                     isActive={isActive(item.url)}
                     className={cn(
-                      "h-10 ",
+                      "h-10",
                       isActive(item.url) &&
-                        "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
+                        "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90",
                     )}
                     tooltip={item.title}
                   >
@@ -158,7 +174,7 @@ export const DashboardSidebar = () => {
                       <span
                         className={cn(
                           "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
-                          isActive(item.url) && "opacity-100"
+                          isActive(item.url) && "opacity-100",
                         )}
                       >
                         {item.title}
@@ -181,9 +197,9 @@ export const DashboardSidebar = () => {
                     asChild
                     isActive={isActive(item.url)}
                     className={cn(
-                      "h-10 ",
+                      "h-10",
                       isActive(item.url) &&
-                        "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
+                        "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90",
                     )}
                     tooltip={item.title}
                   >
@@ -192,7 +208,7 @@ export const DashboardSidebar = () => {
                       <span
                         className={cn(
                           "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
-                          isActive(item.url) && "opacity-100"
+                          isActive(item.url) && "opacity-100",
                         )}
                       >
                         {item.title}
@@ -201,6 +217,41 @@ export const DashboardSidebar = () => {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Theme Toggle */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={toggleDarkMode}
+                  className={cn(
+                    "h-10",
+                    isDarkMode &&
+                      "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90",
+                  )}
+                  tooltip={isDarkMode ? "Dark Mode" : "Light Mode"}
+                >
+                  <div className="flex items-center gap-2 w-full">
+                    {isDarkMode ? (
+                      <Moon className="size-5 mx-1 mr-2 group-data-[collapsible=icon]:mx-auto" />
+                    ) : (
+                      <Sun className="size-5 mx-1 mr-2 group-data-[collapsible=icon]:mx-auto" />
+                    )}
+                    <span
+                      className={cn(
+                        "text-xl opacity-80 transition-opacity group-data-[collapsible=icon]:hidden",
+                        isDarkMode && "opacity-100",
+                      )}
+                    >
+                      {isDarkMode ? "Dark Mode" : "Light Mode"}
+                    </span>
+                  </div>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -216,9 +267,10 @@ export const DashboardSidebar = () => {
                   userButtonTrigger:
                     "w-full! p-2! hover:bg-sidebar-accent! hover:text-sidebar-accent-foreground! group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
                   userButtonBox:
-                    "w-full! flex-row-reverse! justify-end! gap-2! group-data-[collapsible=icon]:justify-center! text-sidebar-foreground!",
+                    "w-full! flex-row-reverse! justify-end! gap-2! group-data-[collapsible=icon]:justify-center! text-sidebar-foreground! text-xl!",
                   userButtonOuterIdentifier:
-                    "pl-0! group-data-[collapsible=icon]:hidden!",
+                    "pl-0! group-data-[collapsible=icon]:hidden! text-xl!",
+                  userButtonOuterBox: "text-xl!",
                   avatarBox: "size-6! mr-2! ml-1! rounded-sm!",
                 },
               }}

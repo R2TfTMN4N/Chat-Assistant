@@ -54,7 +54,7 @@ export const WidgetChatScreen = () => {
   const conversationId = useAtomValue(conversationIdAtom);
   const organizationId = useAtomValue(organizationIdAtom);
   const contactSessionId = useAtomValue(
-    contactSessionIdAtomFamily(organizationId || "")
+    contactSessionIdAtomFamily(organizationId || ""),
   );
   const onBack = () => {
     setConversationId(null);
@@ -73,7 +73,7 @@ export const WidgetChatScreen = () => {
     api.public.conversations.getOne,
     conversationId && contactSessionId
       ? { conversationId, contactSessionId }
-      : "skip"
+      : "skip",
   );
   const messages = useThreadMessages(
     api.public.messages.getMany,
@@ -85,7 +85,7 @@ export const WidgetChatScreen = () => {
       : "skip",
     {
       initialNumItems: 10,
-    }
+    },
   );
   const { topElementRef, handleLoadMore, canLoadMore, isLoadingMore } =
     useInfiniteScroll({
@@ -113,7 +113,7 @@ export const WidgetChatScreen = () => {
   };
 
   return (
-    <div className=" flex  flex-col justify-between min-h-[calc(100vh-2px)]">
+    <div className="flex flex-col justify-between min-h-[calc(100vh-2px)] bg-background">
       <WidgetHeader className="flex items-center justify-between">
         <div className="flex items-center gap-x-2 ">
           <Button size="icon" variant="transparent" onClick={onBack}>

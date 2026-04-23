@@ -3,9 +3,8 @@ import { SignIn } from "@clerk/nextjs";
 
 export const SignInView = () => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      {/* 💡 THÊM mx-auto để căn giữa div có giới hạn chiều rộng. */}
-      <div className="animate-float max-w-md w-full mx-auto">
+    <div className="w-full max-w-md mx-auto">
+      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <SignIn
           routing="hash"
           appearance={{
@@ -13,27 +12,22 @@ export const SignInView = () => {
               socialButtonsVariant: "blockButton",
             },
             elements: {
-              footer: { display: "none" }, // Hide footer
+              rootBox: "w-full",
+              card: "bg-background/80 backdrop-blur-xl shadow-2xl border border-border/50 rounded-2xl",
+              headerTitle: "text-2xl font-bold",
+              headerSubtitle: "text-muted-foreground",
+              socialButtonsBlockButton:
+                "bg-background hover:bg-muted border border-border/50 transition-all hover:scale-[1.02] active:scale-[0.98]",
+              formButtonPrimary:
+                "bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98]",
+              formFieldInput:
+                "bg-background/50 border-border/50 focus:border-primary focus:ring-primary/20",
+              footerAction: "text-muted-foreground",
+              footer: { display: "none" },
             },
           }}
         />
       </div>
-
-      {/* Tailwind animation (Giữ nguyên) */}
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };

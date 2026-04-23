@@ -32,7 +32,7 @@ export const WidgetAuthScreen = () => {
   const setScreen = useSetAtom(screenAtom);
   const organizationId = useAtomValue(organizationIdAtom);
   const setContactSessionId = useSetAtom(
-    contactSessionIdAtomFamily(organizationId || "")
+    contactSessionIdAtomFamily(organizationId || ""),
   );
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,7 +76,7 @@ export const WidgetAuthScreen = () => {
       </WidgetHeader>
       <Form {...form}>
         <form
-          className="flex flex-1 flex-col gap-y-4 p-4"
+          className="flex flex-1 flex-col gap-y-4 p-4 bg-muted/30"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
@@ -86,7 +86,7 @@ export const WidgetAuthScreen = () => {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="h-10 bg-background"
+                    className="h-10 bg-background border-border"
                     placeholder="John Doe"
                     type="text"
                     {...field}
@@ -104,7 +104,7 @@ export const WidgetAuthScreen = () => {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="h-10 bg-background"
+                    className="h-10 bg-background border-border"
                     placeholder="johndoe@example.com"
                     type="email"
                     {...field}
@@ -120,6 +120,7 @@ export const WidgetAuthScreen = () => {
             disabled={form.formState.isSubmitting}
             size="lg"
             type="submit"
+            className="shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/30 transition-all"
           >
             Continue
           </Button>

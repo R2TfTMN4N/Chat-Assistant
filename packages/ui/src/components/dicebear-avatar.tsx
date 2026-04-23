@@ -38,7 +38,7 @@ export const DicebearAvatar = ({
       style={{ width: size, height: size }}
     >
       <Avatar
-        className={cn("border", className)}
+        className={cn("border border-border bg-background", className)}
         style={{ width: size, height: size }}
       >
         <AvatarImage alt="Avatar" src={avatarSrc} />
@@ -47,7 +47,7 @@ export const DicebearAvatar = ({
         <div
           className={cn(
             "absolute bottom-0 right-0 flex items-center justify-center overflow-hidden rounded-full border-2 border-background bg-background",
-            badgeClassName
+            badgeClassName,
           )}
           style={{
             width: badgeSize,

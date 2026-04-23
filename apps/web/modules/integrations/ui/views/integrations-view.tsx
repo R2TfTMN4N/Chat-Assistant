@@ -63,96 +63,105 @@ export const IntegrationsView = () => {
         onOpenChange={setDialogOpen}
         snippet={selectedSnippet}
       />
-      <div className="flex min-h-screen flex-col p-6 md:p-8">
-        <div className="mx-auto w-full max-w-7xl space-y-8">
-          {/* Header Section */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                <PlugIcon className="h-6 w-6 text-primary" />
+      <div className="flex min-h-screen flex-col bg-gradient-to-br from-primary/5 via-background to-muted/20">
+        {/* Hero Header */}
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,transparent,white)]" />
+          <div className="relative mx-auto max-w-screen-lg px-6 py-10 md:py-14">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg shadow-primary/25">
+                <PlugIcon className="h-7 w-7 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
                   Setup & Integrations
                 </h1>
                 <p className="text-muted-foreground mt-1">
                   Connect third-party services and manage your integrations
-                  here.
                 </p>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Organization ID Card */}
-          <Card className="shadow-sm">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <CodeIcon className="h-5 w-5 text-primary" />
-                <CardTitle>Organization ID</CardTitle>
-              </div>
-              <CardDescription>
-                Use this unique identifier to connect your organization
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-3">
-                <div className="flex-1 relative">
-                  <Input
-                    id="organization-id"
-                    disabled
-                    readOnly
-                    value={organization?.id || ""}
-                    className="bg-muted font-mono text-sm pr-10"
-                  />
-                  <CheckCircle2Icon className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />
-                </div>
-                <Button onClick={handleCopy} size="default" variant="secondary">
-                  <CopyIcon className="mr-2 h-4 w-4" />
-                  Copy
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Integrations Section */}
-          <div className="space-y-6">
-            <Card className="shadow-sm">
+        {/* Main Content */}
+        <div className="mx-auto w-full max-w-screen-lg px-6 py-8">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8">
+            {/* Organization ID Card */}
+            <Card className="shadow-sm bg-background/80 backdrop-blur-sm">
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <SparklesIcon className="h-5 w-5 text-primary" />
-                  <CardTitle>Available Integrations</CardTitle>
+                  <CodeIcon className="h-5 w-5 text-primary" />
+                  <CardTitle>Organization ID</CardTitle>
                 </div>
                 <CardDescription>
-                  Add the following code snippet to your website to integrate
-                  the Chat Widget
+                  Use this unique identifier to connect your organization
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                  {INTERGRATIONS.map((integration) => (
-                    <button
-                      type="button"
-                      key={integration.id}
-                      onClick={() => handleIntegrationClick(integration.id)}
-                      className="group flex flex-col items-center gap-3 rounded-xl border-2 border-border bg-background p-6 transition-all hover:border-primary hover:shadow-md hover:scale-105 active:scale-100"
-                    >
-                      <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-muted group-hover:bg-primary/10 transition-colors">
-                        <Image
-                          src={integration.icon}
-                          alt={integration.title}
-                          width={40}
-                          height={40}
-                          className="transition-transform group-hover:scale-110"
-                        />
-                      </div>
-                      <span className="font-semibold text-sm group-hover:text-primary transition-colors">
-                        {integration.title}
-                      </span>
-                    </button>
-                  ))}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 relative">
+                    <Input
+                      id="organization-id"
+                      disabled
+                      readOnly
+                      value={organization?.id || ""}
+                      className="bg-muted font-mono text-sm pr-10"
+                    />
+                    <CheckCircle2Icon className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />
+                  </div>
+                  <Button
+                    onClick={handleCopy}
+                    size="default"
+                    variant="secondary"
+                  >
+                    <CopyIcon className="mr-2 h-4 w-4" />
+                    Copy
+                  </Button>
                 </div>
               </CardContent>
             </Card>
+
+            {/* Integrations Section */}
+            <div className="space-y-6">
+              <Card className="shadow-sm bg-background/80 backdrop-blur-sm">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <SparklesIcon className="h-5 w-5 text-primary" />
+                    <CardTitle>Available Integrations</CardTitle>
+                  </div>
+                  <CardDescription>
+                    Add the following code snippet to your website to integrate
+                    the Chat Widget
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                    {INTERGRATIONS.map((integration) => (
+                      <button
+                        type="button"
+                        key={integration.id}
+                        onClick={() => handleIntegrationClick(integration.id)}
+                        className="group flex flex-col items-center gap-3 rounded-xl border-2 border-border bg-background p-6 transition-all hover:border-primary hover:shadow-md hover:scale-105 active:scale-100"
+                      >
+                        <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-muted group-hover:bg-primary/10 transition-colors">
+                          <Image
+                            src={integration.icon}
+                            alt={integration.title}
+                            width={40}
+                            height={40}
+                            className="transition-transform group-hover:scale-110"
+                          />
+                        </div>
+                        <span className="font-semibold text-sm group-hover:text-primary transition-colors">
+                          {integration.title}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

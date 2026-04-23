@@ -10,8 +10,16 @@ import {
   TableHeader,
   TableRow,
 } from "@workspace/ui/components/table";
-import { CheckCircleIcon, PhoneIcon, XCircle, XCircleIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  CopyIcon,
+  Loader2Icon,
+  PhoneIcon,
+  PhoneOffIcon,
+  XCircleIcon,
+} from "lucide-react";
 import { Badge } from "@workspace/ui/components/badge";
+import { Button } from "@workspace/ui/components/button";
 
 export const VapiPhoneNumbersTab = () => {
   const { data: phoneNumbers, isLoading } = useVapiPhoneNumbers();
@@ -24,13 +32,16 @@ export const VapiPhoneNumbersTab = () => {
     }
   };
   return (
-    <div className="border-t bg-background">
+    <div className="bg-background">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="px-6 py-4">Phone Number</TableHead>
-            <TableHead className="px-6 py-4">Name</TableHead>
-            <TableHead className="px-6 py-4 ">Status</TableHead>
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
+            <TableHead className="px-6 py-4 font-semibold">
+              Phone Number
+            </TableHead>
+            <TableHead className="px-6 py-4 font-semibold">Name</TableHead>
+            <TableHead className="px-6 py-4 font-semibold">Status</TableHead>
+            <TableHead className="px-6 py-4 w-[100px]"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -40,9 +51,12 @@ export const VapiPhoneNumbersTab = () => {
                 <TableRow>
                   <TableCell
                     colSpan={4}
-                    className="px-6 py-8 text-center text-muted-foreground"
+                    className="px-6 py-16 text-center text-muted-foreground"
                   >
-                    Loading phone numbers...
+                    <div className="flex flex-col items-center gap-3">
+                      <Loader2Icon className="h-8 w-8 animate-spin text-primary/50" />
+                      <span>Loading phone numbers...</span>
+                    </div>
                   </TableCell>
                 </TableRow>
               );
@@ -51,42 +65,69 @@ export const VapiPhoneNumbersTab = () => {
               return (
                 <TableRow>
                   <TableCell
-                    colSpan={3}
-                    className="px-6 py-8 text-center text-muted-foreground"
+                    colSpan={4}
+                    className="px-6 py-16 text-center text-muted-foreground"
                   >
-                    No phone numbers found.
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+                        <PhoneOffIcon className="h-6 w-6 text-muted-foreground" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-foreground">
+                          No phone numbers found
+                        </p>
+                        <p className="text-sm">
+                          Add phone numbers in your Vapi dashboard to see them
+                          here.
+                        </p>
+                      </div>
+                    </div>
                   </TableCell>
                 </TableRow>
               );
             }
-            return phoneNumbers?.map((phone) => (
-              <TableRow className="hover:bg-muted/50" key={phone.id}>
-                <TableCell className="px-6 py-4 font-mono">
+            return phoneNumbers?.map((phone, index) => (
+              <TableRow
+                className="group transition-colors hover:bg-muted/50"
+                key={phone.id}
+              >
+                <TableCell className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <PhoneIcon className="size-4 text-muted-foreground" />
-                    <span className="font-mono">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <PhoneIcon className="h-4 w-4" />
+                    </div>
+                    <span className="font-mono text-sm font-medium">
                       {phone.number || "Not configured"}
                     </span>
                   </div>
                 </TableCell>
-                <TableCell className="px-6 py-4 ">
-                  {phone.name || "Unnamed"}
+                <TableCell className="px-6 py-4">
+                  <span className="font-medium">{phone.name || "Unnamed"}</span>
                 </TableCell>
-                <TableCell className="px-6 py-4 ">
+                <TableCell className="px-6 py-4">
                   <Badge
-                    className="capitalize py-1"
+                    className="gap-1 capitalize"
                     variant={
                       phone.status === "active" ? "default" : "destructive"
                     }
                   >
-                    {phone.status === "active" && (
-                      <CheckCircleIcon className="mr-1 size-3" />
-                    )}
-                    {phone.status !== "active" && (
-                      <XCircleIcon className="mr-1 size-3" />
+                    {phone.status === "active" ? (
+                      <CheckCircleIcon className="h-3 w-3" />
+                    ) : (
+                      <XCircleIcon className="h-3 w-3" />
                     )}
                     {phone.status || "Unknown"}
                   </Badge>
+                </TableCell>
+                <TableCell className="px-6 py-4">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => copyToClipboard(phone.number || "")}
+                  >
+                    <CopyIcon className="h-4 w-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ));

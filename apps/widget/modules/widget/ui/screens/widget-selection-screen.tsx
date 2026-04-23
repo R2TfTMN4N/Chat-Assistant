@@ -33,7 +33,7 @@ export const WidgetSelectionScreen = () => {
   const organizationId = useAtomValue(organizationIdAtom);
   const setConversationId = useSetAtom(conversationIdAtom);
   const contactSessionId = useAtomValue(
-    contactSessionIdAtomFamily(organizationId || "")
+    contactSessionIdAtomFamily(organizationId || ""),
   );
   const createConversation = useMutation(api.public.conversations.create);
   const [isPending, setIsPending] = useState(false);
@@ -64,7 +64,7 @@ export const WidgetSelectionScreen = () => {
     }
   };
   return (
-    <div className="flex flex-col justify-between overflow-y-auto scrollbar-none min-h-[calc(100vh-2px)] ">
+    <div className="flex flex-col justify-between overflow-y-auto scrollbar-none min-h-[calc(100vh-2px)] bg-background">
       <WidgetHeader>
         <div className="flex items-center justify-between w-full px-2 py-2">
           <div className="flex flex-col gap-y-2 font-semibold">
@@ -74,9 +74,9 @@ export const WidgetSelectionScreen = () => {
           <DarkModeToggle />
         </div>
       </WidgetHeader>
-      <div className="flex flex-1 flex-col gap-y-4 p-4 overflow-y-auto">
+      <div className="flex flex-1 flex-col gap-y-4 p-4 overflow-y-auto bg-muted/30">
         <Button
-          className=" h-16 w-full justify-between "
+          className="h-16 w-full justify-between shadow-sm hover:shadow-md transition-shadow"
           variant="outline"
           onClick={handleNewConversation}
           disabled={isPending}
@@ -89,7 +89,7 @@ export const WidgetSelectionScreen = () => {
         </Button>
         {hasVapiSecrets && widgetSettings?.vapiSettings?.assistantId && (
           <Button
-            className=" h-16 w-full justify-between "
+            className="h-16 w-full justify-between shadow-sm hover:shadow-md transition-shadow"
             variant="outline"
             onClick={() => {
               setScreen("voice");
@@ -105,7 +105,7 @@ export const WidgetSelectionScreen = () => {
         )}
         {hasVapiSecrets && widgetSettings?.vapiSettings?.phoneNumber && (
           <Button
-            className=" h-16 w-full justify-between "
+            className="h-16 w-full justify-between shadow-sm hover:shadow-md transition-shadow"
             variant="outline"
             onClick={() => {
               setScreen("contact");

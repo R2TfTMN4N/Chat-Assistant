@@ -42,7 +42,7 @@ export const ConversationsPanel = () => {
     },
     {
       initialNumItems: 10,
-    }
+    },
   );
 
   const {
@@ -57,18 +57,18 @@ export const ConversationsPanel = () => {
     loadSize: 10,
   });
   return (
-    <div className="flex h-full w-full flex-col bg-background text-sidebar-foreground">
-      <div className="flex flex-col gap-3.5 border-b p-2">
+    <div className="flex h-full w-full flex-col bg-gradient-to-b from-background via-background to-muted/30 text-sidebar-foreground">
+      <div className="flex flex-col gap-3.5 border-b border-border/50 bg-background/80 backdrop-blur-sm p-3">
         <Select
           defaultValue="all"
           onValueChange={(value) =>
             setStatusFilter(
-              value as "unresolved" | "resolved" | "escalated" | "all"
+              value as "unresolved" | "resolved" | "escalated" | "all",
             )
           }
           value={statusFilter}
         >
-          <SelectTrigger className="h-8 border-none px-1.5 shadow-none ring-0 hover:bg-accent hover:text-accent-foreground focus-visible:ring-0">
+          <SelectTrigger className="h-8 border border-border/50 bg-background/60 px-2.5 shadow-sm ring-0 hover:bg-accent hover:text-accent-foreground focus-visible:ring-1 focus-visible:ring-primary/20 rounded-lg transition-all">
             <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
@@ -108,7 +108,7 @@ export const ConversationsPanel = () => {
               const isLastMessageFromOperator =
                 conversation.lastMessage?.message?.role !== "user";
               const country = getCountryFromTimezone(
-                conversation.contactSession?.metadata?.timezone || ""
+                conversation.contactSession?.metadata?.timezone || "",
               );
               const countryFlagUrl = country?.code
                 ? getCountryFlagUrl(country.code)
@@ -118,16 +118,16 @@ export const ConversationsPanel = () => {
                   href={`/conversations/${conversation._id}`}
                   key={conversation._id.toString()}
                   className={cn(
-                    "relative flex cursor-pointer items-start gap-3 border-b p-4 py-5 text-sm leading-tight hover:bg-accent hover:text-accent-foreground",
+                    "relative flex cursor-pointer items-start gap-3 border-b border-border/30 p-4 py-5 text-sm leading-tight transition-all duration-200 hover:bg-accent/80 hover:text-accent-foreground",
                     pathname === `/conversations/${conversation._id}` &&
-                      "bg-accent text-accent-foreground"
+                      "bg-primary/5 text-accent-foreground border-l-2 border-l-primary",
                   )}
                 >
                   <div
                     className={cn(
-                      "-translate-y-1/2 absolute top-1/2 left-0 h-[64%] w-1 rounded-r-full bg-neutral-300 opacity-0 transition-opacity",
+                      "-translate-y-1/2 absolute top-1/2 left-0 h-[64%] w-1 rounded-r-full bg-primary opacity-0 transition-all duration-200 shadow-sm shadow-primary/30",
                       pathname === `/conversations/${conversation._id}` &&
-                        "opacity-100"
+                        "opacity-100",
                     )}
                   ></div>
                   <DicebearAvatar
@@ -154,7 +154,7 @@ export const ConversationsPanel = () => {
                           className={cn(
                             "line-clamp-1 text-muted-foreground text-xs",
                             !isLastMessageFromOperator &&
-                              "font-semibold text-black"
+                              "font-semibold text-foreground",
                           )}
                         >
                           {conversation.lastMessage?.text}

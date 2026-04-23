@@ -115,7 +115,7 @@ export function DashboardAnalytics() {
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total Conversations
@@ -132,7 +132,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Resolution Rate
@@ -147,7 +147,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Unresolved</CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
@@ -160,7 +160,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total Contacts
@@ -176,7 +176,7 @@ export function DashboardAnalytics() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {/* Response Metrics */}
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Avg Response Time
@@ -193,7 +193,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Avg Conversation Length
@@ -210,7 +210,7 @@ export function DashboardAnalytics() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Avg Resolution Time
@@ -228,7 +228,7 @@ export function DashboardAnalytics() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {/* Hourly Activity Heatmap */}
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Activity by Hour</CardTitle>
             <CardDescription>
@@ -267,7 +267,7 @@ export function DashboardAnalytics() {
         </Card>
 
         {/* Status Distribution */}
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Status Distribution</CardTitle>
             <CardDescription>Breakdown by conversation status</CardDescription>
@@ -319,7 +319,7 @@ export function DashboardAnalytics() {
         </Card>
 
         {/* Weekly Comparison */}
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Resolution Performance</CardTitle>
             <CardDescription>
@@ -374,7 +374,7 @@ export function DashboardAnalytics() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {/* Conversation Trends */}
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -458,7 +458,7 @@ export function DashboardAnalytics() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {/* Top Contacts */}
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Top Contacts</CardTitle>
             <CardDescription>
@@ -497,7 +497,7 @@ export function DashboardAnalytics() {
         </Card>
 
         {/* Platform Distribution */}
-        <Card>
+        <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Platform Distribution</CardTitle>
             <CardDescription>Users by browser/platform</CardDescription>
@@ -508,10 +508,10 @@ export function DashboardAnalytics() {
                 {browserStats.slice(0, 8).map((platform, index) => {
                   const total = browserStats.reduce(
                     (sum, p) => sum + p.count,
-                    0
+                    0,
                   );
                   const percentage = ((platform.count / total) * 100).toFixed(
-                    1
+                    1,
                   );
                   return (
                     <div
@@ -550,7 +550,7 @@ export function DashboardAnalytics() {
       </div>
 
       {/* Recent Activity */}
-      <Card>
+      <Card className="bg-background/80 backdrop-blur-sm">
         <CardHeader>
           <CardTitle>Recent Activity</CardTitle>
           <CardDescription>Latest conversations</CardDescription>

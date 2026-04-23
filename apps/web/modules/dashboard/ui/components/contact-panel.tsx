@@ -19,6 +19,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@workspace/ui/components/accordion";
+import { ScrollArea } from "@workspace/ui/components/scroll-area";
 type InfoItem = {
   label: string;
   value: string | React.ReactNode;
@@ -36,7 +37,7 @@ export const ContactPanel = () => {
   const conversationId = params.conversationId as Id<"conversations"> | null;
   const contactSession = useQuery(
     api.private.contactSessions.getOneByConversationId,
-    conversationId ? { conversationId } : "skip"
+    conversationId ? { conversationId } : "skip",
   );
 
   const parseUserAgent = useMemo(() => {
@@ -166,8 +167,8 @@ export const ContactPanel = () => {
     return null;
   }
   return (
-    <div className="flex h-full w-full flex-col bg-background text-fore-ground">
-      <div className="flex flex-col gap-y-4 p-4">
+    <div className="flex h-full w-full flex-col overflow-hidden bg-gradient-to-b from-background via-background to-muted/30 text-foreground">
+      <div className="flex-shrink-0 flex flex-col gap-y-4 p-5 bg-background/80 backdrop-blur-sm border-b border-border/50">
         <div className="flex items-center gap-x-2">
           <DicebearAvatar
             badgeImageUrl={
@@ -181,45 +182,47 @@ export const ContactPanel = () => {
           />
           <div className="flex-1 overflow-hidden">
             <div className="flex items-center gap-x-2">
-              <h4 className="line-clamp-1">
+              <h4 className="line-clamp-1 font-semibold text-lg">
                 {contactSession.name || "Unnamed Contact"}
               </h4>
             </div>
-            <p className="text-sm text-muted-foreground line-clamp-1">
+            <p className="text-sm text-muted-foreground line-clamp-1 mt-0.5">
               {contactSession.email || "No email provided"}
             </p>
           </div>
         </div>
-        <Button asChild className="w-full" size="lg">
+        <Button
+          asChild
+          className="w-full shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all"
+          size="lg"
+        >
           <Link href={`mailto:${contactSession.email}`}>
             <MailIcon className="mr-2 size-4" />
             Send Email
           </Link>
         </Button>
       </div>
-      <div>
+      <ScrollArea className="flex-1">
         {contactSession?.metadata && (
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full rounded-none border-y"
-          >
+          <Accordion type="single" collapsible className="w-full">
             {accordionSections.map((section) => (
               <AccordionItem
                 key={section.id}
                 value={section.id}
-                className="rounded-none outline-none has-focus-visible:z-10 has-focus-visible:ring-2 has-focus-visible:ring-ring has-focus-visible:ring-offset-2"
+                className="border-b border-border/30 outline-none has-focus-visible:z-10 has-focus-visible:ring-2 has-focus-visible:ring-ring has-focus-visible:ring-offset-2"
               >
                 <AccordionTrigger
                   className="flex w-full items-center gap-4 px-5 py-4 
-                text-left rounded-none outline-none transition-all hover:no-underline disabled:pointer-events-none text-sm bg-accent font-medium disabled:opacity-50"
+                text-left outline-none transition-all hover:no-underline disabled:pointer-events-none text-sm bg-background/60 hover:bg-accent/50 font-medium disabled:opacity-50"
                 >
                   <div className="flex items-center gap-3 flex-1">
-                    <section.icon className="size-5 text-muted-foreground" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                      <section.icon className="size-4 text-primary" />
+                    </div>
                     <span>{section.title}</span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="bg-secondary/50 px-4 py-4">
+                <AccordionContent className="bg-muted/30 px-5 py-4">
                   <div className="space-y-2 text-sm">
                     {section.items.map((item) => (
                       <div
@@ -238,7 +241,7 @@ export const ContactPanel = () => {
             ))}
           </Accordion>
         )}
-      </div>
+      </ScrollArea>
     </div>
   );
 };

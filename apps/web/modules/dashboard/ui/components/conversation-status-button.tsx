@@ -1,7 +1,8 @@
 import { Doc } from "@workspace/backend/_generated/dataModel";
 import { Button } from "@workspace/ui/components/button";
 import { Hint } from "@workspace/ui/components/hint";
-import { ArrowRightIcon, CheckIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowUpIcon, CheckIcon } from "lucide-react";
+
 export const ConversationStatusButton = ({
   status,
   onClick,
@@ -19,8 +20,9 @@ export const ConversationStatusButton = ({
           variant="tertiary"
           size="sm"
           disabled={disabled}
+          className="gap-1.5 shadow-sm hover:shadow-md transition-all"
         >
-          <CheckIcon></CheckIcon>
+          <CheckIcon className="size-4" />
           Resolved
         </Button>
       </Hint>
@@ -34,8 +36,9 @@ export const ConversationStatusButton = ({
           variant="warning"
           size="sm"
           disabled={disabled}
+          className="gap-1.5 shadow-sm hover:shadow-md transition-all"
         >
-          <CheckIcon></CheckIcon>
+          <ArrowUpIcon className="size-4" />
           Escalated
         </Button>
       </Hint>
@@ -48,8 +51,9 @@ export const ConversationStatusButton = ({
         variant="destructive"
         size="sm"
         disabled={disabled}
+        className="gap-1.5 shadow-md shadow-destructive/25 hover:shadow-lg hover:shadow-destructive/30 transition-all"
       >
-        <ArrowRightIcon></ArrowRightIcon>
+        <ArrowRightIcon className="size-4" />
         Unresolved
       </Button>
     </Hint>

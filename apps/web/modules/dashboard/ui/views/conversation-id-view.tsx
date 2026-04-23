@@ -55,7 +55,7 @@ export const ConversationIdView = ({
   const messages = useThreadMessages(
     api.private.messages.getMany,
     conversation?.threadId ? { threadId: conversation.threadId } : "skip",
-    { initialNumItems: 10 }
+    { initialNumItems: 10 },
   );
   const { handleLoadMore, isLoadingMore, canLoadMore, topElementRef } =
     useInfiniteScroll({
@@ -101,7 +101,7 @@ export const ConversationIdView = ({
   };
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const updateConversationStatus = useMutation(
-    api.private.conversations.updateStatus
+    api.private.conversations.updateStatus,
   );
   const handleToggleStatus = async () => {
     if (!conversation) return;
@@ -136,8 +136,8 @@ export const ConversationIdView = ({
     return <ConversationIdViewLoading />;
   }
   return (
-    <div className="flex h-full flex-col bg-muted ">
-      <header className="flex items-center justify-between border-b bg-background p-2.5 justify-end">
+    <div className="flex h-full flex-col bg-gradient-to-br from-primary/5 via-background to-muted/20">
+      <header className="flex items-center justify-end border-b bg-background/80 backdrop-blur-sm p-2.5">
         {!!conversation && (
           <ConversationStatusButton
             status={conversation?.status}
@@ -175,7 +175,7 @@ export const ConversationIdView = ({
       </AIConversation>
       <div className="p-2">
         {conversation?.status === "unresolved" && (
-          <div className="mb-2 rounded bg-yellow-50 p-2 text-sm text-yellow-900">
+          <div className="mb-2 rounded-lg border border-amber-200/50 bg-amber-50/80 dark:bg-amber-950/30 dark:border-amber-800/50 p-2 text-sm text-amber-800 dark:text-amber-200 backdrop-blur-sm shadow-sm">
             This conversation is currently <strong>unresolved</strong> — the AI
             is handling messages. Click the <em>Unresolved</em> status button to
             escalate and take over the chat.
@@ -265,7 +265,7 @@ export const ConversationIdViewLoading = () => {
               <div
                 className={cn(
                   "group flex w-full items-end justify-end gap-2 py-2 [&>div]:max-w-[80%] ",
-                  isUser ? "is-user" : "is-assistant flex-row-reverse"
+                  isUser ? "is-user" : "is-assistant flex-row-reverse",
                 )}
                 key={index}
               >
