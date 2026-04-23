@@ -140,6 +140,7 @@ export const WidgetChatScreen = () => {
           })}
         </AIConversationContent>
       </AIConversation>
+
       <Form {...form}>
         <AIInput
           className="rounded-none border-x-0 border-b-0"
