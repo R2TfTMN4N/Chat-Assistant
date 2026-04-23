@@ -1,8 +1,19 @@
-import { time } from "console";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  plugins: defineTable({
+    organizationId: v.string(),
+    service: v.union(v.literal("vapi")),
+    secretName: v.string(),
+  })
+    .index("by_organizationId", ["organizationId"])
+    .index("by_organizationId_and_service", ["organizationId", "service"])
+    .index("by_organizationId_and_service_and_secretName", [
+      "organizationId",
+      "service",
+      "secretName",
+    ]),
   conversations: defineTable({
     threadId: v.string(),
     organizationId: v.string(),
