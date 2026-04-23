@@ -108,14 +108,22 @@ export const DashboardSidebar = () => {
                     asChild
                     isActive={isActive(item.url)}
                     className={cn(
+                      "h-10",
                       isActive(item.url) &&
                         "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
                     )}
                     tooltip={item.title}
                   >
                     <Link href={item.url}>
-                      <item.icon className="size-5" />
-                      <span>{item.title}</span>
+                      <item.icon className="size-5 mx-2" />
+                      <span
+                        className={cn(
+                          "text-xl opacity-80 transition-opacity",
+                          isActive(item.url) && "opacity-100"
+                        )}
+                      >
+                        {item.title}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -129,19 +137,27 @@ export const DashboardSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               {configurationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className="h-10">
                   <SidebarMenuButton
                     asChild
                     isActive={isActive(item.url)}
                     className={cn(
+                      "h-10 ",
                       isActive(item.url) &&
                         "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
                     )}
                     tooltip={item.title}
                   >
                     <Link href={item.url}>
-                      <item.icon className="size-5" />
-                      <span>{item.title}</span>
+                      <item.icon className="size-5 mx-2" />
+                      <span
+                        className={cn(
+                          "text-xl opacity-80 transition-opacity",
+                          isActive(item.url) && "opacity-100"
+                        )}
+                      >
+                        {item.title}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -160,14 +176,22 @@ export const DashboardSidebar = () => {
                     asChild
                     isActive={isActive(item.url)}
                     className={cn(
+                      "h-10",
                       isActive(item.url) &&
                         "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
                     )}
                     tooltip={item.title}
                   >
                     <Link href={item.url}>
-                      <item.icon className="size-5" />
-                      <span>{item.title}</span>
+                      <item.icon className="size-5 mx-2" />
+                      <span
+                        className={cn(
+                          "text-xl opacity-80 transition-opacity",
+                          isActive(item.url) && "opacity-100"
+                        )}
+                      >
+                        {item.title}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

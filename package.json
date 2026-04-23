@@ -11,6 +11,10 @@
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "html-docx-js": "^0.3.1",
+    "html-to-docx": "^1.8.0",
+    "marked": "^17.0.1",
+    "plantuml-encoder": "^1.4.0",
     "prettier": "^3.6.2",
     "turbo": "^2.5.5",
     "typescript": "5.7.3"

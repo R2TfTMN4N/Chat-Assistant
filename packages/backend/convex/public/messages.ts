@@ -46,7 +46,7 @@ export const create = action({
       });
     }
     const shouldTriggerAgent = conversation.status === "unresolved";
-    if (!shouldTriggerAgent) {
+    if (shouldTriggerAgent) {
       await supportAgent.generateText(
         ctx,
         {

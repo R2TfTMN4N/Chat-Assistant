@@ -33,7 +33,7 @@ export const WidgetInboxScreen = () => {
       : "skip",
     { initialNumItems: 10 }
   );
-  const { topElementRef, handleLoadmore, canLoadMore, isLoadingMore } =
+  const { topElementRef, handleLoadMore, canLoadMore, isLoadingMore } =
     useInfiniteScroll({
       status: conversations.status,
       loadMore: conversations.loadMore,
@@ -87,7 +87,7 @@ export const WidgetInboxScreen = () => {
         <InfiniteScrollTrigger
           canLoadMore={canLoadMore}
           isLoadingMore={isLoadingMore}
-          onLoadMore={handleLoadmore}
+          onLoadMore={handleLoadMore}
           ref={topElementRef}
         />
       </div>

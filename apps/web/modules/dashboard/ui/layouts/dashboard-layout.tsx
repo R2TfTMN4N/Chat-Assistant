@@ -18,10 +18,20 @@ export const DashboardLayout = async ({
     <AuthGuard>
       <OrganizationGuard>
         <Provider>
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <DashboardSidebar />
-            <main className="flex flex-1 flex-col">{children}</main>
-          </SidebarProvider>
+          {(() => {
+            const sidebarStyle = { ["--sidebar-width" as any]: "19rem" } as
+              | React.CSSProperties
+              | undefined;
+
+            return (
+              <SidebarProvider defaultOpen={defaultOpen} style={sidebarStyle}>
+                <DashboardSidebar />
+                <main className="flex flex-1 flex-col overflow-auto">
+                  {children}
+                </main>
+              </SidebarProvider>
+            );
+          })()}
         </Provider>
       </OrganizationGuard>
     </AuthGuard>
