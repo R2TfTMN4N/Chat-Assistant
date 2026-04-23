@@ -5,14 +5,21 @@ import { useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { useThemeSwitcher } from "@/hooks/use-theme-switcher";
 import { useDarkMode } from "@/hooks/use-dark-mode";
+import { useAuth } from "@clerk/nextjs";
 
 /**
  * ThemeSync component loads widget settings from the database
  * and syncs the theme and dark mode on initial app load.
  * This ensures the user's saved preferences are applied immediately.
+ * Only runs when user is authenticated.
  */
 export function ThemeSync() {
-  const widgetSettings = useQuery(api.private.widgetSettings.getOne);
+  const { isSignedIn, isLoaded } = useAuth();
+  // Only query when user is authenticated
+  const widgetSettings = useQuery(
+    api.private.widgetSettings.getOne,
+    isLoaded && isSignedIn ? {} : "skip",
+  );
   const { changeTheme, currentTheme } = useThemeSwitcher();
   const { setDarkMode, isDarkMode } = useDarkMode();
   const hasInitialized = useRef(false);
