@@ -29,6 +29,9 @@ import {
 } from "@workspace/ui/components/ai/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DicebearAvatar } from "@workspace/ui/components/dicebear-avatar";
+import { ConversationStatusButton } from "../components/conversation-status-button";
+import { useState } from "react";
+import { set } from "date-fns";
 const formSchema = z.object({
   message: z
     .string()
@@ -68,13 +71,52 @@ export const ConversationIdView = ({
       console.error("Failed to send message:", error);
     }
   };
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const updateConversationStatus = useMutation(
+    api.private.conversations.updateStatus
+  );
+  const handleToggleStatus = async () => {
+    if (!conversation) return;
+    setIsUpdatingStatus(true);
+    let newStatus: "resolved" | "unresolved" | "escalated";
+    switch (conversation.status) {
+      case "resolved":
+        newStatus = "unresolved";
+        break;
+      case "unresolved":
+        newStatus = "escalated";
+        break;
+      case "escalated":
+        newStatus = "resolved";
+        break;
+      default:
+        return; // bảo vệ TypeScript
+    }
 
+    try {
+      await updateConversationStatus({
+        conversationId: conversationId,
+        status: newStatus,
+      });
+    } catch (error) {
+      console.error("Failed to update conversation status:", error);
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
   return (
     <div className="flex h-full flex-col bg-muted ">
       <header className="flex items-center justify-between border-b bg-background p-2.5">
         <Button size="sm" variant="ghost">
           <MoreHorizontalIcon></MoreHorizontalIcon>
         </Button>
+        {!!conversation && (
+          <ConversationStatusButton
+            status={conversation?.status}
+            onClick={handleToggleStatus}
+            disabled={isUpdatingStatus}
+          />
+        )}
       </header>
       <AIConversation className="max-h-[calc(100vh-180px)]">
         <AIConversationContent>
