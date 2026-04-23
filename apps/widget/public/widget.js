@@ -1,7 +1,21 @@
 (function () {
   "use strict";
+
+  // Resolve widget base URL from the script origin when possible (supports preview/custom domains).
+  const currentScript = document.currentScript;
+  const resolvedWidgetOrigin = (() => {
+    try {
+      if (currentScript?.src) {
+        return new URL(currentScript.src).origin;
+      }
+    } catch (err) {
+      console.warn("Echo Widget: failed to read script origin", err);
+    }
+    return "https://chat-assistant-widget.vercel.app";
+  })();
+
   const o = {
-      WIDGET_URL: "https://chat-assistant-widget.vercel.app",
+      WIDGET_URL: resolvedWidgetOrigin,
       DEFAULT_POSITION: "bottom-right",
     },
     u = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18,21 +32,78 @@
       d = !1,
       r = null,
       a = o.DEFAULT_POSITION;
-    const c = document.currentScript;
-    if (c)
-      ((r = c.getAttribute("data-organization-id")),
-        (a = c.getAttribute("data-position") || o.DEFAULT_POSITION));
-    else {
-      const i = document.querySelectorAll('script[src*="embed"]'),
-        s = Array.from(i).find((l) => l.hasAttribute("data-organization-id"));
-      s &&
-        ((r = s.getAttribute("data-organization-id")),
-        (a = s.getAttribute("data-position") || o.DEFAULT_POSITION));
-    }
+
+    // Robust config detection: script attributes, other widget scripts, global config, or script query params.
+    const detectConfig = () => {
+      const candidates = [];
+      if (currentScript) candidates.push(currentScript);
+      document
+        .querySelectorAll('script[src*="widget.js"],script[src*="embed"]')
+        .forEach((el) => candidates.push(el));
+
+      const globalConfig =
+        (window.ChatWidgetConfig || window.EchoWidgetConfig) ?? {};
+
+      for (const el of candidates) {
+        const orgId =
+          el.getAttribute("data-organization-id") || el.dataset?.organizationId;
+        const pos = el.getAttribute("data-position") || el.dataset?.position;
+        if (orgId) {
+          return {
+            organizationId: orgId,
+            position: pos || o.DEFAULT_POSITION,
+            source: "script-attr",
+          };
+        }
+      }
+
+      if (globalConfig.organizationId) {
+        return {
+          organizationId: globalConfig.organizationId,
+          position: globalConfig.position || o.DEFAULT_POSITION,
+          source: "global-config",
+        };
+      }
+
+      for (const el of candidates) {
+        try {
+          const params = new URL(el.src, window.location.origin).searchParams;
+          const orgId = params.get("organizationId") || params.get("orgId");
+          const pos = params.get("position");
+          if (orgId) {
+            return {
+              organizationId: orgId,
+              position: pos || o.DEFAULT_POSITION,
+              source: "script-query",
+            };
+          }
+        } catch (_) {
+          // ignore parse errors
+        }
+      }
+
+      return {
+        organizationId: null,
+        position: o.DEFAULT_POSITION,
+        source: "not-found",
+      };
+    };
+
+    const detected = detectConfig();
+    r = detected.organizationId;
+    a = detected.position;
+
     if (!r) {
       console.error("Echo Widget: data-organization-id attribute is required");
       return;
     }
+
+    console.info("Echo Widget: using organizationId", {
+      organizationId: r,
+      position: a,
+      source: detected.source,
+      widgetUrl: o.WIDGET_URL,
+    });
     function h() {
       document.readyState === "loading"
         ? document.addEventListener("DOMContentLoaded", g)
@@ -152,6 +223,9 @@
         i.position && (a = i.position),
         h());
     }
-    ((window.EchoWidget = { init: v, show: m, hide: p, destroy: x }), h());
+    const api = { init: v, show: m, hide: p, destroy: x };
+    window.EchoWidget = api;
+    window.ChatWidget = api; // alias to match embed snippets
+    h();
   })();
 })();
